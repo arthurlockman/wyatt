@@ -3,10 +3,12 @@
 #include <string>
 #include <cstdint>
 
-class message {
+using namespace std;
+
+class Message {
 
 public:
-    message(string msg);
+    Message(string msg);
     string write();
 
 private:

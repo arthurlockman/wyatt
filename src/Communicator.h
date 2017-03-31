@@ -5,18 +5,19 @@
 #include "Message.h"
 #include <iostream>
 
+using namespace std;
+
 class Communicator {
 
 public:
     Communicator(ISensorManager* sensorManager);
     bool attachArduino(string comPort);
-    void queueMsg(Message* msg);
-
-
-private:
+    void queueMsg(Message* msg);    
     void sendNextMsg();
     void readData();
 
-    std::queue<Message*>* outBuffer;
+private:
+    queue<Message*>* outBuffer;
     ISensorManager* sensorManager;
+
 }

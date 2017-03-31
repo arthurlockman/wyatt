@@ -1,6 +1,6 @@
 #include "Message.h"
 
-Message::message(string msg) {
+Message::Message(string msg) {
     this->msg = msg;
 }
 
