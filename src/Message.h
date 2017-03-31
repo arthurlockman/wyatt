@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <cstdint.h>
+#include <cstdint>
 
 class message {
 
