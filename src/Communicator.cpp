@@ -14,6 +14,7 @@ void Communicator::sendNextMsg() {
     // to access .front or .pop
     cout << this->outBuffer->front()->write() << endl;
     // this->outBuffer->pop(); 
+    
 }
 
 void Communicator::readData() {
