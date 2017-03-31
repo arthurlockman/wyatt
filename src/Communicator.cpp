@@ -6,7 +6,7 @@ Communicator::Communicator(ISensorManager* sensorManager) {
 }
 
 bool Communicator::attachArduino (string comPort) {
-
+    return false;
 }
 
 void Communicator::sendNextMsg() {
