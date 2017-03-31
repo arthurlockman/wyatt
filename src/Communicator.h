@@ -20,4 +20,4 @@ private:
     queue<Message*>* outBuffer;
     ISensorManager* sensorManager;
 
-}
+};

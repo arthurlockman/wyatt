@@ -14,4 +14,4 @@ public:
 private:
     string msg;
 
-}
+};

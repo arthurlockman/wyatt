@@ -13,7 +13,9 @@ int main (void)
     Message* msg1 = new Message("test1");
     Message* msg2 = new Message("test2");
 
-    Communicator* comm = new Communicator(NULL);
+    ISensorManager* fakeManager = new ISensorManager();
+
+    Communicator* comm = new Communicator(fakeManager);
 
     comm->queueMsg(msg1);
     comm->queueMsg(msg2);
