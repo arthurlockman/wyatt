@@ -20,6 +20,6 @@ void Communicator::readData() {
 
 }
 
-void queueMsg(Message* msg) {
+void Communicator::queueMsg(Message* msg) {
     this->outBuffer->push(msg);
 }
