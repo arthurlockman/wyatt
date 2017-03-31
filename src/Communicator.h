@@ -3,16 +3,20 @@
 #include <string>
 #include <queue>
 #include "Message.h"
+#include <iostream>
 
 class Communicator {
 
 public:
     Communicator(ISensorManager* sensorManager);
     bool attachArduino(string comPort);
-    void sendData();
-    void readData();
+    void queueMsg(Message* msg);
+
 
 private:
-    std::queue<Message>* outBuffer;
+    void sendNextMsg();
+    void readData();
+
+    std::queue<Message*>* outBuffer;
     ISensorManager* sensorManager;
 }
