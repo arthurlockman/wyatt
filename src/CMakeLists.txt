@@ -1,12 +1,7 @@
+FILE(GLOB CXXSOURCES *.cpp)
+
 add_executable(wyatt
-	main.cpp
-	main.h
-	Communicator.h
-	Communicator.cpp
-	Message.h
-	Message.cpp
-	ISensorManager.h
-	ISensorManager.cpp
+	${CXXSOURCES}
 	)
 
 # Locate wiringPi libraries
