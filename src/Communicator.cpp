@@ -13,8 +13,7 @@ void Communicator::sendNextMsg() {
     // @TODO: We need to check for .empty() before we ever try
     // to access .front or .pop
     cout << this->outBuffer->front()->write() << endl;
-    // this->outBuffer->pop(); 
-    
+    this->outBuffer->pop(); 
 }
 
 void Communicator::readData() {
