@@ -7,6 +7,8 @@ int pwmPin4 = 9;
 int irPin = 10;
 int incomingByte = 0;
 
+int statusPin1 = 2;
+int statusPin2 = 4;
 
 void setup() {
   
@@ -19,6 +21,9 @@ void setup() {
   pinMode(pwmPin3, OUTPUT);
   pinMode(pwmPin4, OUTPUT);
   
+  pinMode(statusPin1, INPUT);
+  pinMode(statusPin2, INPUT);
+  
   /* Configure IR range finders */
   pinMode(irPin, INPUT);
 
@@ -26,7 +31,19 @@ void setup() {
 
 void loop() {
     
+    setMotor(1, 90);
+    setMotor(2, 90);
     
+    /*digitalWrite(pwmPin1, LOW);
+    digitalWrite(pwmPin2, HIGH);
+    digitalWrite(pwmPin3, LOW);
+    digitalWrite(pwmPin4, HIGH);*/
+    
+    int stat = digitalRead(statusPin1);
+    Serial.println(stat);
+    
+    stat = digitalRead(statusPin2);
+    Serial.println(stat);
 
 }
 
@@ -58,8 +75,33 @@ void recvSerial() {
 }
 
 /* Function to drive given PWM pin given value */
-void writePWM(int pin, float value) {
+void setMotor(int motor, int value) {
   
-  analogWrite(pin, value);
+  /* Map the value to 0 - 255 */
+  value = map(value,-100,100,0,255);
+  
+  Serial.println(value);
+  
+  int forwardPin;
+  int reversePin;
+  
+  /* Motor 1 is left */
+  if(motor == 1) {
+    forwardPin = pwmPin1;
+    reversePin = pwmPin2;
+  }
+  else if (motor == 2) {
+    forwardPin = pwmPin3;
+    reversePin = pwmPin4;
+  }
+  
+  if(value < 0) {
+    analogWrite(forwardPin, 0);
+    analogWrite(reversePin, value);
+  }
+  else {
+    analogWrite(reversePin, 0);
+    analogWrite(forwardPin, value);
+  }
 }
 
