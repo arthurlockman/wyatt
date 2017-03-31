@@ -1,5 +1,12 @@
 add_executable(wyatt
 	main.cpp
+	main.h
+	Communicator.h
+	Communicator.cpp
+	Message.h
+	Message.cpp
+	ISensorManager.h
+	ISensorManager.cpp
 	)
 
 # Locate wiringPi libraries
