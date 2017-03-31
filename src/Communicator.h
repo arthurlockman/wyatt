@@ -3,6 +3,7 @@
 #include <string>
 #include <queue>
 #include "Message.h"
+#include "ISensorManager.h"
 #include <iostream>
 
 using namespace std;
