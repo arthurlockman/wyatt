@@ -23,7 +23,7 @@ private:
     queue<Message*>* outBuffer;
     ISensorManager* sensorManager;
 
-    std::map<std::Hardware, string> hardware_map; 
-    std::map<std::Hardware, queue<Message*>> msg_queue_map; 
+    map<Hardware, string> *hardware_map; 
+    map<Hardware, queue<Message*>*> *msg_queue_map; 
 
 };

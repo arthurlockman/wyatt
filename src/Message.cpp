@@ -1,6 +1,6 @@
 #include "Message.h"
 
-Message::Message(Hardward hardware, string msg) {
+Message::Message(Hardware hardware, string msg) {
     this->hardware = hardware;
     this->msg = msg;
 }
