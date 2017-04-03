@@ -10,8 +10,8 @@ int main (void)
     //   digitalWrite (0,  LOW) ; delay (500) ;
     // }
 
-    Message* msg1 = new Message("test1");
-    Message* msg2 = new Message("test2");
+    Message* msg1 = new Message(rightMotor, "test1");
+    Message* msg2 = new Message(leftMotor, "test2");
 
     ISensorManager* fakeManager = new ISensorManager();
 
