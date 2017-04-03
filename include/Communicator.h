@@ -2,8 +2,10 @@
 
 #include <string>
 #include <queue>
+#include <map>
 #include "Message.h"
 #include "ISensorManager.h"
+#include "Hardware.h"
 #include <iostream>
 
 using namespace std;
@@ -12,7 +14,7 @@ class Communicator {
 
 public:
     Communicator(ISensorManager* sensorManager);
-    bool attachArduino(string comPort);
+    bool attachArduino(string comPort, Hardware hardware_target);
     void queueMsg(Message* msg);    
     void sendNextMsg();
     void readData();
@@ -20,5 +22,8 @@ public:
 private:
     queue<Message*>* outBuffer;
     ISensorManager* sensorManager;
+
+    std::map<std::Hardware, string> hardware_map; 
+    std::map<std::Hardware, queue<Message*>> msg_queue_map; 
 
 };
