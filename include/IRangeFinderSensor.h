@@ -1,3 +1,5 @@
+#include "ISensor.h"
+
 class RangeFinderSensor : public ISensor {
 
     public:
