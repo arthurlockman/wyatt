@@ -33,10 +33,20 @@ bool Communicator::attachArduino (string comPort, Hardware hardware_target) {
     return true;
 }
 
-void Communicator::sendNextMsg() {
+void Communicator::sendNextMsg(Hardware hardware_target) {
     // @TODO: We need to check for .empty() before we ever try
     // to access .front or .pop
-    cout << "Hello Tucker" << endl ;
+    
+    // Open up the associated hardware to send a message
+    std::ofstream arduino;
+	arduino.open(this->hardware_map->at(hardware_target));  //ex "/dev/ttyXXXX" 
+
+    
+    // Send a message to the arduino from the queue associated with it's hardware name
+    arduino << this->msg_queue_map->at(hardware_target)->front()->write();
+    this->msg_queue_map->at(hardware_target)->pop();
+
+
     return;
 }
 
@@ -45,6 +55,9 @@ void Communicator::readData() {
 }
 
 void Communicator::queueMsg(Message* msg) {
+    // TODO: Error checking for if the msg hardware isnt attached
+    // Do we then attach it, or throw up an error to be handled at a higher level?
+    this->msg_queue_map->at(msg->getHardware())->push(msg);
     return;
 }
 

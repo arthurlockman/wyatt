@@ -7,6 +7,8 @@
 #include "ISensorManager.h"
 #include "Hardware.h"
 #include <iostream>
+#include <fstream>
+
 
 /*
 This class manages data communication between the raspberry pi and the various arduinos on the robot. Upon creation an ISensorManager object must be injected into the class. Then, arduinos must be attached to the various serial communication ports on the raspberry pi. Each arduino manages various hardware components. These components must be specified when attaching an arduino.
@@ -22,7 +24,7 @@ public:
     Communicator(ISensorManager* sensorManager);
     bool attachArduino(string comPort, Hardware hardware_target);
     void queueMsg(Message* msg);    
-    void sendNextMsg();
+    void sendNextMsg(Hardware hardware_target);
     void readData();
 
 private:

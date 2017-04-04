@@ -17,11 +17,11 @@ int main (void)
 
     Communicator* comm = new Communicator(fakeManager);
 
-    comm->queueMsg(msg1);
-    comm->queueMsg(msg2);
+    //comm->queueMsg(msg1);
+    //comm->queueMsg(msg2);
 
-    comm->sendNextMsg();
-    comm->sendNextMsg();
+    //comm->sendNextMsg();
+    //comm->sendNextMsg();
 
     return 0;
 }
