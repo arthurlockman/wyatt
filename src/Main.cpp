@@ -23,6 +23,5 @@ int main (void)
     comm->sendNextMsg();
     comm->sendNextMsg();
 
-    return 0 ;
-
+    return 0;
 }
