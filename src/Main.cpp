@@ -17,11 +17,15 @@ int main (void)
 
     Communicator* comm = new Communicator(fakeManager);
 
-    //comm->queueMsg(msg1);
-    //comm->queueMsg(msg2);
+    
+    comm->attachArduino("fake_comm_port_1", leftMotor);
+    comm->attachArduino("fake_comm_port_2", rightMotor);
 
-    //comm->sendNextMsg();
-    //comm->sendNextMsg();
+    comm->queueMsg(msg1);
+    comm->queueMsg(msg2);
+
+    comm->sendNextMsg(leftMotor);
+    comm->sendNextMsg(rightMotor);
 
     return 0;
 }

@@ -3,18 +3,29 @@
 Communicator::Communicator(ISensorManager* sensorManager) {
     this->sensorManager = sensorManager;
 
-    this->hardware_map = new map<Hardware, string>; // Map for all hardware attachments to their associated com port. 
-    this->msg_queue_map = new map<Hardware, queue<Message*>*>; // Map of Hardware attachments to their message queues.
+    //Map for all hardware attachments to their communication ports.
+    this->hardware_map = new map<Hardware, string>;  
+
+    //Map of Hardware attachments to their message queue. 
+    this->msg_queue_map = new map<Hardware, queue<Message*>*>;
 }
 
-bool Communicator::attachArduino (string comPort, Hardware hardware_target) {
 
-	// Check if key is present. If it is, fail.
+class CommunicationException: public exception
+{
+  virtual const char* what() const throw()
+  {
+    return "An exception has occurred in our communication thread.";
+  }
+} commException;
+
+
+bool Communicator::attachArduino (string comPort, Hardware hardware_target) {
+	// Check if hardware key already exists within our map of hardware->communication port
     if (this->hardware_map->find(hardware_target) != this->hardware_map->end())
     {
     	// You can't reattach this, and this comPort is already attached to a piece of hardware!
-    	// Are you attaching the same component twice?
-    	// @ TODO: Learn how to throw errors reasonably in c++ - Odell
+        throw commException;
         return false;
     }
 
@@ -27,16 +38,19 @@ bool Communicator::attachArduino (string comPort, Hardware hardware_target) {
     	// Thus, we have a mashmap that goes from Hardware to a queue associated with messages to that hardware.
     	queue<Message*> *msg_queue = new queue<Message*>;
     	this->msg_queue_map->insert(make_pair(hardware_target, msg_queue));
-
     }
-
     return true;
 }
+ 
 
 void Communicator::sendNextMsg(Hardware hardware_target) {
-    // @TODO: We need to check for .empty() before we ever try
-    // to access .front or .pop
     
+    if(this->msg_queue_map->at(hardware_target)->empty())
+    {
+        throw commException;
+        return;
+    }
+
     // Open up the associated hardware to send a message
     std::ofstream arduino;
 	arduino.open(this->hardware_map->at(hardware_target));  //ex "/dev/ttyXXXX" 
@@ -46,7 +60,6 @@ void Communicator::sendNextMsg(Hardware hardware_target) {
     arduino << this->msg_queue_map->at(hardware_target)->front()->write();
     this->msg_queue_map->at(hardware_target)->pop();
 
-
     return;
 }
 
@@ -55,9 +68,13 @@ void Communicator::readData() {
 }
 
 void Communicator::queueMsg(Message* msg) {
-    // TODO: Error checking for if the msg hardware isnt attached
-    // Do we then attach it, or throw up an error to be handled at a higher level?
-    this->msg_queue_map->at(msg->getHardware())->push(msg);
-    return;
+    //Attempt to enqueue the message. If we can't, then throw an error because there's not a queue for that message's associated hardware. 
+    try {
+        this->msg_queue_map->at(msg->getHardware())->push(msg);// Push message into queue specified by hardware
+        return;
+    }
+    catch (const out_of_range oor_map) {
+        throw commException;
+    }
 }
 
