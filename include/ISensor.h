@@ -1,8 +1,9 @@
 #pragma once
+#include "RawSensorData.h"
 
 class ISensor {
 
 public:
-    virtual void updateSensor() = 0;
+    virtual void updateSensor(RawSensorData* data) = 0;
     virtual ~ISensor() {};
 };

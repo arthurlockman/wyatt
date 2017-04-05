@@ -9,4 +9,5 @@
 #include "ISensorManager.h"
 #include "Communicator.h"
 #include "Message.h"
-#include "IRRangeFinderSensor.h"
+#include "RawSensorData.h"
+#include "MockIRRangeFinderSensor.h"
