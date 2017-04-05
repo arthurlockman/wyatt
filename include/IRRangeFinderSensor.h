@@ -3,7 +3,7 @@
 class IRRangeFinderSensor : public IRangeFinderSensor {
 
     public:
-        virtual void updateSensor();
-        virtual double getDistanceMM();
-        virtual double getDistanceCM();
+        void updateSensor() override;
+        double getDistanceMM() override;
+        double getDistanceCM() override;
 };

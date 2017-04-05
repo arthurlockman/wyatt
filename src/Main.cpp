@@ -23,5 +23,9 @@ int main (void)
     comm->sendNextMsg();
     comm->sendNextMsg();
 
+    IRRangeFinderSensor* IRSensor = new IRRangeFinderSensor();
+    ISensor* sensor = &(*IRSensor);
+    sensor->updateSensor();
+
     return 0 ;
 }
