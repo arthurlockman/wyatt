@@ -57,7 +57,7 @@ void Communicator::sendNextMsg(Hardware hardware_target) {
 
     
     // Send a message to the arduino from the queue associated with it's hardware name
-    arduino << this->msg_queue_map->at(hardware_target)->front()->write();
+    arduino << this->msg_queue_map->at(hardware_target)->front()->getMessage();
     this->msg_queue_map->at(hardware_target)->pop();
 
     return;

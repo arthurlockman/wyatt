@@ -38,3 +38,6 @@ build/*
 fake_comm*
 .idea
 cmake-build-debug
+
+# Swap files
+*.swp
