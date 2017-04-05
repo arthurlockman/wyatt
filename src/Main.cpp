@@ -1,5 +1,6 @@
 #include "Main.h"
 
+using namespace std;
 int main (void)
 {
     // wiringPiSetup () ;
@@ -10,12 +11,31 @@ int main (void)
     //   digitalWrite (0,  LOW) ; delay (500) ;
     // }
 
-    Message* msg1 = new Message(rightMotor, "test1");
-    Message* msg2 = new Message(leftMotor, "test2");
+    /* Mocking out and Testing an IR Sensor */
+    IRangeFinderSensor* mockIRSensor = new MockIRRangeFinderSensor();
+    RawSensorData* mockRawSensorData = new RawSensorData("12.2");
+    mockIRSensor->updateSensor(mockRawSensorData);
+    cout << "Expect: 12.2    Received: " << mockIRSensor->getDistanceCM() << endl;
+    cout << "Expect: 122     Received: " << mockIRSensor->getDistanceMM() << endl;
 
-    ISensorManager* fakeManager = NULL;
+    /* Creating a sensor manager and testing it */
+    map<Hardware, ISensor*>* sensorMap = new map<Hardware, ISensor*>;
+    (*sensorMap)[Hardware::mockIRSensor] = mockIRSensor;
 
-    Communicator* comm = new Communicator(fakeManager);
+    list<Message*>* updates = new list<Message*>;
+    Message* updateIRMessage = new Message(Hardware::mockIRSensor, "1.5");
+    updates->push_back(updateIRMessage);
+
+    ISensorManager* sensorManager = new SensorManager(sensorMap);
+    sensorManager->updateSensors(updates);
+    cout << "Expect: 1.5    Received: " << mockIRSensor->getDistanceCM() << endl;
+    cout << "Expect: 15     Received: " << mockIRSensor->getDistanceMM() << endl;
+
+    /* Creating a communicator and testing it */
+    Communicator* comm = new Communicator(sensorManager);
+
+    Message* msg1 = new Message(Hardware::rightMotor, "test1");
+    Message* msg2 = new Message(Hardware::leftMotor, "test2");
 
     
     comm->attachArduino("fake_comm_port_1", leftMotor);
@@ -26,13 +46,6 @@ int main (void)
 
     comm->sendNextMsg(leftMotor);
     comm->sendNextMsg(rightMotor);
-
-    /* Mocking out and Testing an IR Sensor */
-    IRangeFinderSensor* mockIRSensor = new MockIRRangeFinderSensor();
-    RawSensorData* mockRawSensorData = new RawSensorData("12.2");
-    mockIRSensor->updateSensor(mockRawSensorData);
-    cout << mockIRSensor->getDistanceCM() << endl;
-    cout << mockIRSensor->getDistanceMM() << endl;
 
     return 0 ;
 }

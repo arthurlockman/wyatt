@@ -9,6 +9,6 @@ Hardware Message::getHardware() {
     return this->hardware;
 }
 
-string Message::write() {
+string Message::getMessage() {
     return this->msg;
 }
