@@ -7,7 +7,7 @@ compiler: clang
 env: COMPILER='clang++'
 
 install:
-  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then which cmake || brew install cmake fi
+  - which cmake || brew install cmake
 
 before_script:
   - export CXX=${COMPILER}
