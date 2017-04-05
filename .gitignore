@@ -33,3 +33,8 @@ build/*
 
 # DS Store
 .DS_Store
+
+# Fake COMM
+fake_comm*
+.idea
+cmake-build-debug
