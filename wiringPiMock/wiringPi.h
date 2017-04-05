@@ -5,6 +5,8 @@
 #ifndef WYATT_WIRINGPI_H
 #define WYATT_WIRINGPI_H
 
+#include <sys/time.h>
+
 #define HIGH 1
 #define LOW 0
 

@@ -42,13 +42,13 @@ void digitalWriteByte(int value) {
 }
 
 unsigned int millis(void) {
-    return 0;
+    return (unsigned int) (time(0) * 1000);
 }
 
 void delay(unsigned int howLong) {
-
+    std::cout << "Delaying " << howLong << " ms" << std::endl;
 }
 
 void delayMicroseconds(unsigned int howLong) {
-
+    std::cout << "Delaying " << howLong << " us" << std::endl;
 }
