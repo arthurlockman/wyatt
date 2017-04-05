@@ -33,3 +33,6 @@ build/*
 
 # DS Store
 .DS_Store
+
+# Fake COMM
+fake_comm*
