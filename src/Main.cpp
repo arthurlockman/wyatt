@@ -23,9 +23,12 @@ int main (void)
     comm->sendNextMsg();
     comm->sendNextMsg();
 
-    IRRangeFinderSensor* IRSensor = new IRRangeFinderSensor();
-    ISensor* sensor = &(*IRSensor);
-    sensor->updateSensor();
+    /* Mocking out and Testing an IR Sensor */
+    IRangeFinderSensor* mockIRSensor = new MockIRRangeFinderSensor();
+    RawSensorData* mockRawSensorData = new RawSensorData("12.2");
+    mockIRSensor->updateSensor(mockRawSensorData);
+    cout << mockIRSensor->getDistanceCM() << endl;
+    cout << mockIRSensor->getDistanceMM() << endl;
 
     return 0 ;
 }
