@@ -1,18 +1,21 @@
 #pragma once
 #include <list>
+#include <map>
+#include "Hardware.h"
 #include "ISensor.h"
+#include "Message.h"
 
 using namespace std;
 class ISensorManager{
 
 public:
 
-    ISensorManager(list<ISensor*>* sensors) {
-        this->sensors = sensors;
+    ISensorManager(map<Hardware, ISensor*>* sensorMap) {
+        this->sensorMap = sensorMap;
     };
     virtual ~ISensorManager() {};
-    virtual void updateSensors() = 0;
+    virtual void updateSensors(list<Message*>* messages) = 0;
 
 protected:
-    list<ISensor*>* sensors;
+    map<Hardware, ISensor*>* sensorMap;
 };

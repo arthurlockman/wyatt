@@ -12,7 +12,7 @@ class Message {
 
 public:
     Message(Hardware hardware, string msg);
-    string write();
+    string getMessage();
     Hardware getHardware();
 
 private:
