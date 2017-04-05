@@ -1,0 +1,19 @@
+language: cpp
+sudo: false
+
+os: osx
+osx_image: xcode8
+compiler: clang
+env: COMPILER='clang++'
+
+install:
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then which cmake || brew install cmake fi
+
+before_script:
+  - export CXX=${COMPILER}
+  - cd ${TRAVIS_BUILD_DIR}
+  - cmake -H. -BBuild
+  - cd Build
+
+script:
+  - make -j 2
