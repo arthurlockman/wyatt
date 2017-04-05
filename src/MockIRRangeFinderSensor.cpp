@@ -5,6 +5,7 @@ MockIRRangeFinderSensor::~MockIRRangeFinderSensor() {
 
 void MockIRRangeFinderSensor::updateSensor(RawSensorData* data) {
     this->distanceInCm = std::stod(data->getData());
+    delete data;
 }
 
 double MockIRRangeFinderSensor::getDistanceMM() {
