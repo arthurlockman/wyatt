@@ -36,3 +36,5 @@ build/*
 
 # Fake COMM
 fake_comm*
+.idea
+cmake-build-debug

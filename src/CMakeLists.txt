@@ -1,14 +1,12 @@
 FILE(GLOB CXXSOURCES *.cpp)
 
-add_executable(wyatt
-	${CXXSOURCES}
-	)
-
 if(UNIX AND NOT APPLE)
     set(LINUX TRUE)
 endif()
 
 if(LINUX)
+    add_executable(wyatt
+            ${CXXSOURCES})
     message(STATUS ">>> Linux, assuming Raspberry Pi")
     # Use real WiringPi
     # Locate wiringPi libraries
@@ -20,6 +18,10 @@ if(LINUX)
     # Link against libraries
     target_link_libraries(wyatt ${WIRINGPI_LIBRARIES}) 
 else()
+    add_executable(wyatt
+            ${CXXSOURCES}
+            ../wiringPiMock/wiringPi.h
+            ../wiringPiMock/wiringPi.cpp)
     message(STATUS ">>> Not linux, assuming Mac/PC")
     # Use mocked WiringPi
 endif()

@@ -1,6 +1,12 @@
 #pragma once
 
-#include <wiringPi.h>
+#if __linux__
+    #include <wiringPi.h>
+#elif __unix__
+    #include <wiringPi.h>
+#else
+    #include "../wiringPiMock/wiringPi.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
