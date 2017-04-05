@@ -1,5 +1,8 @@
 #include "IRRangeFinderSensor.h"
 
+IRRangeFinderSensor::~IRRangeFinderSensor() {
+}
+
 void IRRangeFinderSensor::updateSensor() {
     return;
 }

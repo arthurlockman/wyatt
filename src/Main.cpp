@@ -13,7 +13,7 @@ int main (void)
     Message* msg1 = new Message(rightMotor, "test1");
     Message* msg2 = new Message(leftMotor, "test2");
 
-    ISensorManager* fakeManager = new ISensorManager();
+    ISensorManager* fakeManager = NULL;
 
     Communicator* comm = new Communicator(fakeManager);
 
