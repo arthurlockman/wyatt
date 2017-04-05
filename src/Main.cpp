@@ -13,7 +13,7 @@ int main (void)
     Message* msg1 = new Message(rightMotor, "test1");
     Message* msg2 = new Message(leftMotor, "test2");
 
-    ISensorManager* fakeManager = new ISensorManager();
+    ISensorManager* fakeManager = NULL;
 
     Communicator* comm = new Communicator(fakeManager);
 
@@ -26,6 +26,13 @@ int main (void)
 
     comm->sendNextMsg(leftMotor);
     comm->sendNextMsg(rightMotor);
+
+    /* Mocking out and Testing an IR Sensor */
+    IRangeFinderSensor* mockIRSensor = new MockIRRangeFinderSensor();
+    RawSensorData* mockRawSensorData = new RawSensorData("12.2");
+    mockIRSensor->updateSensor(mockRawSensorData);
+    cout << mockIRSensor->getDistanceCM() << endl;
+    cout << mockIRSensor->getDistanceMM() << endl;
 
     return 0 ;
 }
