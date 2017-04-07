@@ -15,7 +15,7 @@ if(HAS_MODULE_WiringPi)
 
     # Link against libraries
     target_link_libraries(wyatt ${WIRINGPI_LIBRARIES})
-    target_compile_definitions(wyatt IS_RASPI)
+    target_compile_definitions(wyatt PRIVATE IS_RASPI=1)
 else()
     add_executable(wyatt
             ${CXXSOURCES}
