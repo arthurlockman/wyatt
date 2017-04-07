@@ -5,10 +5,11 @@ int pwmPin3 = 6;
 int pwmPin4 = 9;
 
 int irPin = 10;
-int incomingByte = 0;
 
-int statusPin1 = 2;
-int statusPin2 = 4;
+
+int HARDWARE_MAP[] = {1,1,1,1,1};
+byte LEFT_MOTOR = 1;
+byte RIGHT_MOTOR = 2;
 
 void setup() {
   
@@ -21,9 +22,6 @@ void setup() {
   pinMode(pwmPin3, OUTPUT);
   pinMode(pwmPin4, OUTPUT);
   
-  pinMode(statusPin1, INPUT);
-  pinMode(statusPin2, INPUT);
-  
   /* Configure IR range finders */
   pinMode(irPin, INPUT);
 
@@ -31,25 +29,39 @@ void setup() {
 
 void loop() {
     
-    setMotor(1, 90);
-    setMotor(2, 90);
-    
-    /*digitalWrite(pwmPin1, LOW);
-    digitalWrite(pwmPin2, HIGH);
-    digitalWrite(pwmPin3, LOW);
-    digitalWrite(pwmPin4, HIGH);*/
-    
-    int stat = digitalRead(statusPin1);
-    Serial.println(stat);
-    
-    stat = digitalRead(statusPin2);
-    Serial.println(stat);
-
-}
+    /* Check if serial data is available */
+    if (Serial.available() > 0) {       
+        byte packet_type = Serial.read();
+        
+        /* Determine the length of the incoming packet */
+        byte packet_length = HARDWARE_MAP[packet_type];
+   
+        /* Create a array to store the incoming message */
+        byte packet[packet_length];
+        
+        /* Receive the rest of the packet */
+        for(int i = 0; i < packet_length; i++) {
+          packet[i] = Serial.read();
+        }
+        
+        /* Handle the packet appropriately */
+        switch(packet_type) {
+          /* Left Motor */
+          case 1:
+            setMotor(1,packet[0]);
+            break;
+          /* Right Motor */
+          case 2:
+            setMotor(2,packet[0]);
+            break;
+          default:
+            break;
+        } /* End handle packet type */
+    } /* End Receive Serial Data */
+} /* End while loop */
 
 /* Read IR value of specified pin */
 void readIR(int pin) {
-  
   int val = analogRead(pin);
   getDistance(val);
 }
@@ -64,23 +76,9 @@ float getDistance(int val) {
   return dist;
 }
 
-/* Handles receiving serial communication */
-void recvSerial() {
-  
-    if (Serial.available() > 0) {       
-        incomingByte = Serial.read();
-        Serial.print("received: ");
-        Serial.println(incomingByte, DEC);
-    }
-}
-
 /* Function to drive given PWM pin given value */
-void setMotor(int motor, int value) {
-  
-  /* Map the value to 0 - 255 */
-  value = map(value,-100,100,0,255);
-  
-  Serial.println(value);
+/* 0 - 127 is negative, 127-255 is positive */
+void setMotor(int motor, byte value) {
   
   int forwardPin;
   int reversePin;
@@ -95,11 +93,17 @@ void setMotor(int motor, int value) {
     reversePin = pwmPin4;
   }
   
-  if(value < 0) {
+  /* Drive Backwards */
+  if(value < 127) {
+    /* Map the value to 0 - 255 */
+    value = map(value,127,0,0,255);
     analogWrite(forwardPin, 0);
     analogWrite(reversePin, value);
   }
+  /* Drive Forwards */
   else {
+    /* Map the value to 0 - 255 */
+    value = map(value,128,255,0,255);
     analogWrite(reversePin, 0);
     analogWrite(forwardPin, value);
   }
