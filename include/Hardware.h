@@ -1,13 +1,13 @@
 #pragma once
-#include <cstdint>
+
 /*
 This enumerates the various pieces of hardware on the robot. Messages sent to the robot must be destined for one of the pieces of hardware.
 */
 
 struct Hardware
 {
-    uint8_t address;
-    uint8_t messageLength;
+    unsigned char address;
+    unsigned char messageLength;
 };
 
 bool operator < (const Hardware &a, const Hardware &b);

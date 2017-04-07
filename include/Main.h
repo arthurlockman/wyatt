@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include <list>
 #include <map>
-#include <cstdint>
 
 #include "Thread.h"
 #include "ISensorManager.h"
