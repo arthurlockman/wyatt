@@ -13,7 +13,7 @@
 #include <list>
 #include <map>
 
-#include "thread.h"
+#include "Thread.h"
 #include "ISensorManager.h"
 #include "SensorManager.h"
 #include "Communicator.h"

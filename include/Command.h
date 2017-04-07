@@ -1,9 +1,12 @@
 #ifndef WYATT_COMMAND_H
 #define WYATT_COMMAND_H
 
-class Command: public Thread {
+#include <string>
+
+class Command {
 public:
     Command(const std::string& name);
+    Command();
     virtual ~Command();
 
     void init();

@@ -9,3 +9,7 @@ Command::Command(const std::string& name):
 {
 
 }
+
+Command::~Command() {
+
+}
