@@ -20,10 +20,10 @@ int main (void)
 
     /* Creating a sensor manager and testing it */
     map<Hardware, ISensor*>* sensorMap = new map<Hardware, ISensor*>;
-    (*sensorMap)[Hardware::mockIRSensor] = mockIRSensor;
+    (*sensorMap)[H_MOCK_IR_SENSOR] = mockIRSensor;
 
     list<Message*>* updates = new list<Message*>;
-    Message* updateIRMessage = new Message(Hardware::mockIRSensor, "1.5");
+    Message* updateIRMessage = new Message(H_MOCK_IR_SENSOR, "1.5");
     updates->push_back(updateIRMessage);
 
     ISensorManager* sensorManager = new SensorManager(sensorMap);
@@ -34,18 +34,23 @@ int main (void)
     /* Creating a communicator and testing it */
     Communicator* comm = new Communicator(sensorManager);
 
-    Message* msg1 = new Message(Hardware::rightMotor, "test1");
-    Message* msg2 = new Message(Hardware::leftMotor, "test2");
+    Message* msg1 = new Message(H_RIGHT_MOTOR, "test1");
+    Message* msg2 = new Message(H_LEFT_MOTOR, "test2");
 
     
-    comm->attachArduino("fake_comm_port_1", leftMotor);
-    comm->attachArduino("fake_comm_port_2", rightMotor);
+    comm->attachArduino("fake_comm_port_1", H_LEFT_MOTOR);
+    comm->attachArduino("fake_comm_port_2", H_RIGHT_MOTOR);
 
     comm->queueMsg(msg1);
     comm->queueMsg(msg2);
 
-    comm->sendNextMsg(leftMotor);
-    comm->sendNextMsg(rightMotor);
+    comm->sendNextMsg(H_LEFT_MOTOR);
+    comm->sendNextMsg(H_RIGHT_MOTOR);
+
+    cout << (int)H_RIGHT_MOTOR.address << endl;
+    cout << (int)H_LEFT_MOTOR.messageLength << endl;
+
+    cout << (int)HARDWARE_MAP[1].messageLength << endl;
 
     CommandManager* commandManager = new CommandManager();
     commandManager->join();

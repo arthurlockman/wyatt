@@ -19,3 +19,4 @@
 #include "RawSensorData.h"
 #include "CommandManager.h"
 #include "MockIRRangeFinderSensor.h"
+#include "Hardware.h"
