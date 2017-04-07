@@ -47,5 +47,8 @@ int main (void)
     comm->sendNextMsg(leftMotor);
     comm->sendNextMsg(rightMotor);
 
+    CommandManager* commandManager = new CommandManager();
+    commandManager->join();
+    
     return 0 ;
 }

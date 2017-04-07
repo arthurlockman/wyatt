@@ -6,8 +6,8 @@
 
 CommandManager::CommandManager()
 {
-
-    std::cout << "Initialized command manager." << std::endl;
+    std::cout << "Initialized command manager. Starting..." << std::endl;
+    this->start();
 }
 
 CommandManager::~CommandManager()
@@ -54,10 +54,13 @@ void* CommandManager::run()
             }
         }
     }
+    std::cout << "Received stop signal." << std::endl;
     return NULL;
 }
 
-void CommandManager::periodic()
+int CommandManager::join()
 {
-
+    std::cout << "Stopping command manager." << std::endl;
+    m_signal = 1;
+    return Thread::join();
 }

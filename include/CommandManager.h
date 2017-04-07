@@ -19,10 +19,10 @@ public:
     bool cancel(Command* command);
     bool cancelAll();
     void* run();
+    int join();
 private:
     std::vector<Command*> m_commands;
     std::map<Command*, int> m_command_flags;
-    void periodic();
 };
 
 #endif //WYATT_COMMANDMANAGER_H
