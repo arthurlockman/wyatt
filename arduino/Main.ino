@@ -1,26 +1,11 @@
 
-int pwmPin1 = 3; 
-int pwmPin2 = 5;
-int pwmPin3 = 6;
-int pwmPin4 = 9;
-
-int irPin = 10;
-
-
-int HARDWARE_MAP[] = {1,1,1,1,1};
-byte LEFT_MOTOR = 1;
-byte RIGHT_MOTOR = 2;
+const Motor* leftMotor = new Motor(PWM_PIN_3, PWM_PIN_5);
+const Motor* rightMotor = new Motor(PWM_PIN_6, PWM_PIN_9);
 
 void setup() {
   
-  /* Initialize Serial at a 9600 baud rate */
-  Serial.begin(9600);
-  
-  /* Configure PWM pins */
-  pinMode(pwmPin1, OUTPUT);
-  pinMode(pwmPin2, OUTPUT);
-  pinMode(pwmPin3, OUTPUT);
-  pinMode(pwmPin4, OUTPUT);
+  /* Initialize Serial at a 115200 baud rate */
+  Serial.begin(11500);
   
   /* Configure IR range finders */
   pinMode(irPin, INPUT);
@@ -48,11 +33,11 @@ void loop() {
         switch(packet_type) {
           /* Left Motor */
           case 1:
-            setMotor(1,packet[0]);
+            setMotor(1 ,packet[0]);
             break;
           /* Right Motor */
           case 2:
-            setMotor(2,packet[0]);
+            setMotor(2 ,packet[0]);
             break;
           default:
             break;
