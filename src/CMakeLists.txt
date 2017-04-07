@@ -5,7 +5,7 @@ CheckHasModule(WiringPi)
 if(HAS_MODULE_WiringPi)
     add_executable(wyatt
             ${CXXSOURCES})
-    message(STATUS ">>> Linux, assuming Raspberry Pi")
+    message(STATUS ">>> Building on Raspberry Pi")
     # Use real WiringPi
     # Locate wiringPi libraries
     find_package(WiringPi REQUIRED)
@@ -21,7 +21,7 @@ else()
             ${CXXSOURCES}
             ../wiringPiMock/wiringPi.h
             ../wiringPiMock/wiringPi.cpp)
-    message(STATUS ">>> Not linux, assuming Mac/PC")
+    message(STATUS ">>> Building on Mac/PC/Linux")
     # Use mocked WiringPi
 endif()
 find_package(Threads REQUIRED)
