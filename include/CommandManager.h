@@ -6,5 +6,23 @@
 #define WYATT_COMMANDMANAGER_H
 
 #include "Command.h"
+#include "Thread.h"
+#include <vector>
+#include <iostream>
+#include <map>
+
+class CommandManager: public Thread {
+public:
+    CommandManager();
+    ~CommandManager();
+    bool run(Command* command);
+    bool cancel(Command* command);
+    bool cancelAll();
+    void* run();
+private:
+    std::vector<Command*> m_commands;
+    std::map<Command*, int> m_command_flags;
+    void periodic();
+};
 
 #endif //WYATT_COMMANDMANAGER_H

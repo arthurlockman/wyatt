@@ -37,14 +37,14 @@ class Thread
     int detach();
     void signal(int signal);
     pthread_t self();
-    
+
     virtual void* run() = 0;
-    
+  protected:
+    std::atomic<int> m_signal;
   private:
     pthread_t  m_tid;
     int        m_running;
     int        m_detached;
-    std::atomic<int> m_signal;
 };
 
 #endif
