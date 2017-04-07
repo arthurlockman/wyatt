@@ -27,7 +27,10 @@ static void* runThread(void* arg)
     return ((Thread*)arg)->run();
 }
 
-Thread::Thread() : m_tid(0), m_running(0), m_detached(0) {}
+Thread::Thread() : m_tid(0), m_running(0), m_detached(0) 
+{
+    m_signal = 0;
+}
 
 Thread::~Thread()
 {
@@ -70,6 +73,11 @@ int Thread::detach()
         }
     }
     return result;
+}
+
+void Thread::signal(int signal)
+{
+    m_signal = signal;
 }
 
 pthread_t Thread::self() {
