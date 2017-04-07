@@ -5,5 +5,6 @@ This enumerates the various pieces of hardware on the robot. Messages sent to th
 
 enum Hardware {
     leftMotor,
-    rightMotor
+    rightMotor,
+    mockIRSensor
 };
