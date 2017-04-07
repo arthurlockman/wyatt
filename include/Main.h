@@ -12,11 +12,13 @@
 #include <unistd.h>
 #include <list>
 #include <map>
+#include <cstdint>
 
-#include "thread.h"
+#include "Thread.h"
 #include "ISensorManager.h"
 #include "SensorManager.h"
 #include "Communicator.h"
 #include "Message.h"
 #include "RawSensorData.h"
 #include "MockIRRangeFinderSensor.h"
+#include "Hardware.h"
