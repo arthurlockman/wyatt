@@ -1,6 +1,6 @@
 #include "Message.h"
 
-Message::Message(Hardware hardware, string msg) {
+Message::Message(Hardware hardware, char* msg) {
     this->hardware = hardware;
     this->msg = msg;
 }
@@ -9,6 +9,6 @@ Hardware Message::getHardware() {
     return this->hardware;
 }
 
-string Message::getMessage() {
+char* Message::getMessage() {
     return this->msg;
 }

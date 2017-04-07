@@ -11,11 +11,11 @@ using namespace std;
 class Message {
 
 public:
-    Message(Hardware hardware, string msg);
-    string getMessage();
+    Message(Hardware hardware);
+    char* getMessage();
     Hardware getHardware();
 
 private:
-    string msg;
+    char* msg;
     Hardware hardware;
 };
