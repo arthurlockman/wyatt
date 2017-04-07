@@ -72,7 +72,6 @@ float getDistance(int val) {
   float dist;
   //dist = 4 + 5 * 1023.0/(float)val; 
   dist = 12343.85 * pow(val, -1.15);
-  Serial.println(dist);
   return dist;
 }
 
