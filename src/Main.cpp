@@ -50,5 +50,7 @@ int main (void)
     cout << (int)H_RIGHT_MOTOR.address << endl;
     cout << (int)H_LEFT_MOTOR.messageLength << endl;
 
+    cout << (int)HARDWARE_MAP[1].messageLength << endl;
+
     return 0 ;
 }

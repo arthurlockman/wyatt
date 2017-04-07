@@ -12,8 +12,10 @@ struct Hardware
 
 bool operator < (const Hardware &a, const Hardware &b);
 
+/* ENSURE HARDWARE IS APPENDED */
+extern const Hardware HARDWARE_MAP[];
+
+/* DECLARE ALL HARDWARE HERE */
 extern const Hardware H_RIGHT_MOTOR;
 extern const Hardware H_LEFT_MOTOR;
 extern const Hardware H_MOCK_IR_SENSOR;
-
-extern const Hardware HARDWARE_MAP[];
