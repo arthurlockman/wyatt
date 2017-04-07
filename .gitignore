@@ -1,4 +1,5 @@
 Testing/*
+.ycm_extra_conf.py
 
 # Compiled Object files
 *.slo
