@@ -1,8 +1,6 @@
 #pragma once
 
-#if __linux__
-    #include <wiringPi.h>
-#elif __unix__
+#ifdef IS_RASPI
     #include <wiringPi.h>
 #else
     #include "../wiringPiMock/wiringPi.h"

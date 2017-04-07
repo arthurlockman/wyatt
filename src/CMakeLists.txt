@@ -1,10 +1,8 @@
 FILE(GLOB CXXSOURCES *.cpp)
 
-if(UNIX AND NOT APPLE)
-    set(LINUX TRUE)
-endif()
+CheckHasModule(WiringPi)
 
-if(LINUX)
+if(HAS_MODULE_WiringPi)
     add_executable(wyatt
             ${CXXSOURCES})
     message(STATUS ">>> Linux, assuming Raspberry Pi")
@@ -16,7 +14,8 @@ if(LINUX)
     include_directories(${WIRINGPI_INCLUDE_DIRS})
 
     # Link against libraries
-    target_link_libraries(wyatt ${WIRINGPI_LIBRARIES}) 
+    target_link_libraries(wyatt ${WIRINGPI_LIBRARIES})
+    target_compile_definitions(wyatt IS_RASPI)
 else()
     add_executable(wyatt
             ${CXXSOURCES}
