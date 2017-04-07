@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-#include "thread.h"
+#include "Thread.h"
 
 static void* runThread(void* arg)
 {
