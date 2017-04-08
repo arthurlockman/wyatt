@@ -1,18 +1,20 @@
 #pragma once
-
-#include <string>
-#include <cstdint>
 #include "Hardware.h"
 
 /*
-This class encapsulates information needed to communicate with various pieces of hardware on a robot. Each message must have an identifier for the piece of hardware the message is destined and a string representing the data to be sent to the hardware.
+* This class encapsulates information needed to communicate with various pieces of hardware on a robot. 
+* Each message identifies the hardware it is destined for and contains a char array representing the message
 */
-using namespace std;
 class Message {
 
 public:
-    Message(Hardware hardware);
+    /* Constructor */
+    Message(Hardware hardware, char* msg);
+
+    /* Returns the char array representing the message */
     char* getMessage();
+
+    /* Returns the hardware the message is destined for */
     Hardware getHardware();
 
 private:

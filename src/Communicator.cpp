@@ -1,90 +1,85 @@
 #include "Communicator.h"
+using namespace std;
 
-Communicator::Communicator(ISensorManager* sensorManager) {
-    this->sensorManager = sensorManager;
-
-    //Map for all hardware attachments to their communication ports.
-    this->hardware_map = new map<Hardware, string>;  
-
-    //Map of Hardware attachments to their message queue. 
-    this->msg_queue_map = new map<Hardware, queue<Message*>*>;
+Communicator::~Communicator() {
+    // TODO close serial lines
 }
 
+Communicator::Communicator(ISensorManager* sensorManager, int baudRate) {
+    this->sensorManager = sensorManager;
+    this->baudRate = baudRate;
 
-class CommunicationException: public exception
-{
-  virtual const char* what() const throw()
-  {
-    return "An exception has occurred in our communication thread.";
-  }
-} commException;
+    // Map for all hardware attachments to their communication port paths.
+    this->hardwareToSerialPortPathMap = new map<Hardware, string>;  
 
+    // Map hardware to serial port objects
+    this->hardwareToSerialPortMap = new map<Hardware, SerialPort*>;
 
-bool Communicator::attachArduino (string comPort, Hardware hardware_target) {
+    // Map of Hardware attachments to their message queue. 
+    this->hardwareToMessageQueueMap = new map<Hardware, queue<Message*>*>;
+}
+
+bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
 	// Check if hardware key already exists within our map of hardware->communication port
-    if (this->hardware_map->find(hardware_target) != this->hardware_map->end())
-    {
+    if (this->hardwareToSerialPortPathMap->find(hardwareTarget) != this->hardwareToSerialPortPathMap->end()) {
     	// You can't reattach this, and this comPort is already attached to a piece of hardware!
+        cout << "Error at 1" << endl;
         throw commException;
         return false;
-    }
-
-    else
-    {
+    } 
+    else {
     	// Add the mapping from hardware target enum to the specified com port.
-    	this->hardware_map->insert(make_pair(hardware_target, comPort));
+    	this->hardwareToSerialPortPathMap->insert(make_pair(hardwareTarget, comPort));
+
+        // Create a SerialPort and open it
+        SerialPort* port = new SerialPort(comPort.c_str(), this->baudRate);
+        port->open();
+        this->hardwareToSerialPortMap->insert(make_pair(hardwareTarget, port));
 
     	// When we attach hardware, we want to be able to enqueue messages to that piece of hardware.
     	// Thus, we have a mashmap that goes from Hardware to a queue associated with messages to that hardware.
-    	queue<Message*> *msg_queue = new queue<Message*>;
-    	this->msg_queue_map->insert(make_pair(hardware_target, msg_queue));
+    	queue<Message*>* msg_queue = new queue<Message*>;
+    	this->hardwareToMessageQueueMap->insert(make_pair(hardwareTarget, msg_queue));
     }
     return true;
 }
  
 
-void Communicator::sendNextMsg(Hardware hardware_target) {
-    
-    if(this->msg_queue_map->at(hardware_target)->empty())
-    {
+void Communicator::sendNextMsg(Hardware hardwareTarget) {
+    if(this->hardwareToMessageQueueMap->at(hardwareTarget)->empty()) {
+        cout << "Error at 2" << endl;
         throw commException;
         return;
     }
 
-    // Open up the associated hardware to send a message
-    std::ofstream arduino;
-	arduino.open(this->hardware_map->at(hardware_target));  //ex "/dev/ttyXXXX" 
-
-    
-    // Send a message to the arduino from the queue associated with it's hardware name
-
     // Get pointer to start of message from queue
-    char* message = this->msg_queue_map->at(hardware_target)->front()->getMessage();
+    Message* msg = this->hardwareToMessageQueueMap->at(hardwareTarget)->front();
+    char* message = msg->getMessage();
+    int messageLength = HARDWARE_MAP[hardwareTarget.address].messageLength;
 
-    // iterate through complete message
-    for(int i = 0; i < HARDWARE_MAP; i++) {
-	arduino << *message;
-	message++;
-    }
+    // Send the message
+    hardwareToSerialPortMap->at(hardwareTarget)->write(message, messageLength);
 
-    // arduino << this->msg_queue_map->at(hardware_target)->front()->getMessage();
-    this->msg_queue_map->at(hardware_target)->pop();
-
-    return;
+    // Remove the message from the queue
+    this->hardwareToMessageQueueMap->at(hardwareTarget)->pop();
+    delete msg;
 }
 
 void Communicator::readData() {
+    // TODO
     return;
 }
 
 void Communicator::queueMsg(Message* msg) {
     //Attempt to enqueue the message. If we can't, then throw an error because there's not a queue for that message's associated hardware. 
-    try {
-        this->msg_queue_map->at(msg->getHardware())->push(msg);// Push message into queue specified by hardware
+    //try {
+    Hardware h = msg->getHardware();
+        this->hardwareToMessageQueueMap->at(msg->getHardware())->push(msg);// Push message into queue specified by hardware
         return;
-    }
-    catch (const out_of_range oor_map) {
-        throw commException;
-    }
+    //}
+    //catch (const out_of_range oor_map) {
+    //    cout << "Error at 3" << endl;
+    //    throw commException;
+    //}
 }
 

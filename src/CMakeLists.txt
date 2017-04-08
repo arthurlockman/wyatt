@@ -1,13 +1,13 @@
 FILE(GLOB CXXSOURCES *.cpp)
+FILE(GLOB CXXCOMMANDS ./commands/*.cpp)
 
-if(UNIX AND NOT APPLE)
-    set(LINUX TRUE)
-endif()
+CheckHasModule(WiringPi)
 
-if(LINUX)
+if(HAS_MODULE_WiringPi)
     add_executable(wyatt
-            ${CXXSOURCES})
-    message(STATUS ">>> Linux, assuming Raspberry Pi")
+            ${CXXSOURCES}
+            ${CXXCOMMANDS})
+    message(STATUS ">>> Building on Raspberry Pi")
     # Use real WiringPi
     # Locate wiringPi libraries
     find_package(WiringPi REQUIRED)
@@ -16,13 +16,15 @@ if(LINUX)
     include_directories(${WIRINGPI_INCLUDE_DIRS})
 
     # Link against libraries
-    target_link_libraries(wyatt ${WIRINGPI_LIBRARIES}) 
+    target_link_libraries(wyatt ${WIRINGPI_LIBRARIES})
+    target_compile_definitions(wyatt PRIVATE IS_RASPI=1)
 else()
     add_executable(wyatt
             ${CXXSOURCES}
             ../wiringPiMock/wiringPi.h
-            ../wiringPiMock/wiringPi.cpp)
-    message(STATUS ">>> Not linux, assuming Mac/PC")
+            ../wiringPiMock/wiringPi.cpp
+            ${CXXCOMMANDS})
+    message(STATUS ">>> Building on Mac/PC/Linux")
     # Use mocked WiringPi
 endif()
 find_package(Threads REQUIRED)
