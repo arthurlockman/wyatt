@@ -23,7 +23,8 @@ To read data from the hardware, the readData() function is exposed. Data read fr
 class Communicator {
 
 public:
-    Communicator(ISensorManager* sensorManager);
+    Communicator(ISensorManager* sensorManager, int baudRate);
+    ~Communicator();
     bool attachArduino(std::string comPort, Hardware hardwareTarget);
     void queueMsg(Message* msg);    
     void sendNextMsg(Hardware hardwareTarget);

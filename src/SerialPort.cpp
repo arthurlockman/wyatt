@@ -1,7 +1,7 @@
 #include "SerialPort.h"
 using namespace std;
 
-SerialPort::SerialPort(char* path, int baudRate) {
+SerialPort::SerialPort(const char* path, int baudRate) {
     this->path=path;
     this->baudRate = baudRate;
 };
@@ -24,7 +24,7 @@ string SerialPort::read(int numBytes) {
     // while(serialDataAvail(this->fileDescriptor) != -1) {
     //     char next = (char)serialGetchar(this->fileDescriptor);
     // }
-    return "";
+    return string("");
 };
 
 void SerialPort::close() {

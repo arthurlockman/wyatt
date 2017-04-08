@@ -13,7 +13,7 @@ Communicator::Communicator(ISensorManager* sensorManager, int baudRate) {
     this->hardwareToSerialPortPathMap = new map<Hardware, string>;  
 
     // Map hardware to serial port objects
-    this->hardwareToSerialPortMap = new map<Hardware, SerialPort>;
+    this->hardwareToSerialPortMap = new map<Hardware, SerialPort*>;
 
     // Map of Hardware attachments to their message queue. 
     this->hardwareToMessageQueueMap = new map<Hardware, queue<Message*>*>;
@@ -23,6 +23,7 @@ bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
 	// Check if hardware key already exists within our map of hardware->communication port
     if (this->hardwareToSerialPortPathMap->find(hardwareTarget) != this->hardwareToSerialPortPathMap->end()) {
     	// You can't reattach this, and this comPort is already attached to a piece of hardware!
+        cout << "Error at 1" << endl;
         throw commException;
         return false;
     } 
@@ -46,6 +47,7 @@ bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
 
 void Communicator::sendNextMsg(Hardware hardwareTarget) {
     if(this->hardwareToMessageQueueMap->at(hardwareTarget)->empty()) {
+        cout << "Error at 2" << endl;
         throw commException;
         return;
     }
@@ -70,12 +72,14 @@ void Communicator::readData() {
 
 void Communicator::queueMsg(Message* msg) {
     //Attempt to enqueue the message. If we can't, then throw an error because there's not a queue for that message's associated hardware. 
-    try {
+    //try {
+    Hardware h = msg->getHardware();
         this->hardwareToMessageQueueMap->at(msg->getHardware())->push(msg);// Push message into queue specified by hardware
         return;
-    }
-    catch (const out_of_range oor_map) {
-        throw commException;
-    }
+    //}
+    //catch (const out_of_range oor_map) {
+    //    cout << "Error at 3" << endl;
+    //    throw commException;
+    //}
 }
 

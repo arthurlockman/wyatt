@@ -4,7 +4,7 @@
 using namespace std;
 int main (void)
 {
-    // wiringPiSetup () ;
+    wiringPiSetup();
 
     /* Mocking out and Testing an IR Sensor */
     // IRangeFinderSensor* mockIRSensor = new MockIRRangeFinderSensor();
@@ -27,13 +27,13 @@ int main (void)
     // cout << "Expect: 15     Received: " << mockIRSensor->getDistanceMM() << endl;
 
     /* Creating a communicator and testing it */
-    Communicator* comm = new Communicator(sensorManager);
+    Communicator* comm = new Communicator(sensorManager, 9600);
 
     char commands[] = {0b00000000, 0b00000000};
-    Message* msg1 = new Message(H_RIGHT_MOTOR, commands);
+    Message* msg1 = new Message(H_LEFT_MOTOR, commands);
     // Message* msg2 = new Message(H_LEFT_MOTOR, "test2");
     
-    comm->attachArduino("/dev/cu.wchusbserial1420", H_LEFT_MOTOR);
+    comm->attachArduino("/dev/ttyUSB0", H_LEFT_MOTOR);
     // comm->attachArduino("fake_comm_port_2", H_RIGHT_MOTOR);
 
     comm->queueMsg(msg1);
