@@ -1,3 +1,4 @@
+#include <commands/SimpleIteratorCommand.h>
 #include "Main.h"
 
 using namespace std;
@@ -52,8 +53,8 @@ int main (void)
 
     cout << (int)HARDWARE_MAP[1].messageLength << endl;
 
-    CommandManager* commandManager = new CommandManager();
-    commandManager->join();
-    
+    CommandManager *commandManager = new CommandManager();
+    commandManager->kill();
+
     return 0 ;
 }

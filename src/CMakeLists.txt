@@ -1,10 +1,12 @@
 FILE(GLOB CXXSOURCES *.cpp)
+FILE(GLOB CXXCOMMANDS ./commands/*.cpp)
 
 CheckHasModule(WiringPi)
 
 if(HAS_MODULE_WiringPi)
     add_executable(wyatt
-            ${CXXSOURCES})
+            ${CXXSOURCES}
+            ${CXXCOMMANDS})
     message(STATUS ">>> Building on Raspberry Pi")
     # Use real WiringPi
     # Locate wiringPi libraries
@@ -20,7 +22,8 @@ else()
     add_executable(wyatt
             ${CXXSOURCES}
             ../wiringPiMock/wiringPi.h
-            ../wiringPiMock/wiringPi.cpp)
+            ../wiringPiMock/wiringPi.cpp
+            ${CXXCOMMANDS})
     message(STATUS ">>> Building on Mac/PC/Linux")
     # Use mocked WiringPi
 endif()

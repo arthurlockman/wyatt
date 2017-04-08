@@ -7,9 +7,8 @@ class Command {
 public:
     /**
      * Create a new command.
-     * @param name The command name.
      */
-    Command(const std::string& name);
+    Command();
     /**
      * Destroy the command object.
      */
@@ -56,22 +55,22 @@ public:
      */
     bool isInitialized();
     /**
-     * Get the name of the command.
-     * @return A string, the command name.
-     */
-    std::string getName();
-    /**
      * Set the running state of this command.
      * @param value bool, running or not
      */
     void setIsRunning(bool value);
+    /**
+     * Returns if a command is finished or not.
+     * @return true if finished, false otherwise
+     */
+    bool isFinished();
 private:
-    //! The name of this command.
-    std::string m_command_name;
     //! The running state of this command.
     bool m_is_running = false;
     //! The initialization state of this command.
     bool m_is_initialized = false;
+    //! Completion state of this command.
+    bool m_is_finished = false;
 };
 
 
