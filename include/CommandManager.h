@@ -57,6 +57,11 @@ public:
      * @return result of join
      */
     int kill();
+    /**
+     * Get how many commands are in flight in the command manager.
+     * @return a long, the number of commands.
+     */
+    unsigned long inFlight();
 private:
     //! List of commands
     std::list<Command*> m_commands;

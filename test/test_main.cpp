@@ -31,9 +31,31 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         SimpleIteratorCommand *sc2 = new SimpleIteratorCommand(20);
         commandManager1->runCommand(sc1);
         commandManager1->runCommand(sc2);
+        REQUIRE(commandManager1->inFlight() == 2);
         while (!sc1->isFinished() && !sc2->isFinished()) {}
         REQUIRE(sc1->getCount() == 10);
         REQUIRE(sc2->getCount() == 20);
+        REQUIRE(commandManager1->inFlight() == 0);
         commandManager1->kill();
+    }
+    SECTION("Commands can be canceled.") {
+        CommandManager *commandManager2 = new CommandManager();
+        SimpleIteratorCommand *sc3 = new SimpleIteratorCommand(1000);
+        commandManager2->runCommand(sc3);
+        commandManager2->cancel(sc3);
+        while (!sc3->isFinished()) {}
+        REQUIRE(sc3->getCount() != 1000);
+        SimpleIteratorCommand *sc4 = new SimpleIteratorCommand(1000);
+        SimpleIteratorCommand *sc5 = new SimpleIteratorCommand(2000);
+        SimpleIteratorCommand *sc6 = new SimpleIteratorCommand(3000);
+        commandManager2->runCommand(sc4);
+        commandManager2->runCommand(sc5);
+        commandManager2->runCommand(sc6);
+        commandManager2->cancelAll();
+        while (!sc4->isFinished() && !sc5->isFinished() && !sc6->isFinished()) {}
+        REQUIRE(sc4->getCount() != 1000);
+        REQUIRE(sc5->getCount() != 2000);
+        REQUIRE(sc6->getCount() != 3000);
+        commandManager2->kill();
     }
 }
