@@ -1,4 +1,10 @@
 #!/bin/bash
-STR="\x$1\x$2"
-echo $STR
-echo -en $STR > /dev/cu.wchusbserial1420
+# Use:  Command     SerialFile  Address Messages
+# Use:  ./writeData /dev/tty    00      01 7f FF
+
+STR=""
+for i in ${@:2}
+do
+        STR="$STR\x$i"
+done
+echo -en $STR > $1

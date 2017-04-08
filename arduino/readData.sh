@@ -1,4 +1,4 @@
 #!/bin/bash
-xxd -p /dev/cu.wchusbserial1420
+xxd -p $1
 
 
