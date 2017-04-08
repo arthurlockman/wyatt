@@ -1,3 +1,4 @@
+#include "Motor.h"
 
 Motor::Motor(int forwardPin, int backwardPin) {
     this->forwardPin = forwardPin;
@@ -7,14 +8,12 @@ Motor::Motor(int forwardPin, int backwardPin) {
     pinMode(backwardPin, OUTPUT);
 };
 
-void Motor::drive(double speed, int direction) {
-    int pwm = mapDoubleToInt(speed, 0.0, 1.0, 0, 255);
-
+void Motor::drive(int speed, int direction) {
     if(direction == FORWARDS) {
-        analogWrite(this->forwardPin, pwm);
+        analogWrite(this->forwardPin, speed);
         analogWrite(this->backwardPin, 0);
     } else if(direction == BACKWARDS) {
-        analogWrite(this->backwardPin, pwm);
+        analogWrite(this->backwardPin, speed);
         analogWrite(this->forwardPin, 0);
     }
 };
