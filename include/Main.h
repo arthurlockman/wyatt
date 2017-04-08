@@ -20,3 +20,4 @@
 #include "CommandManager.h"
 #include "MockIRRangeFinderSensor.h"
 #include "Hardware.h"
+#include "SerialPort.h"
