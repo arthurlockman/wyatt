@@ -1,7 +1,15 @@
-if [! -d "./build" ]; then
+while test $# != 0
+do
+    case "$1" in
+        -c|--clean) rm -rf build ;;
+    esac
+    shift
+done
+
+
+if [ ! -d "./build" ]; then
     mkdir build
 fi
-
 cd build
 cmake ..
 make

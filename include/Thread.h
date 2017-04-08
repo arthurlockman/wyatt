@@ -24,6 +24,7 @@
 #define __thread_h__
 
 #include <pthread.h>
+#include <atomic>
 
 class Thread
 {
@@ -34,10 +35,12 @@ class Thread
     int start();
     int join();
     int detach();
+    void signal(int signal);
     pthread_t self();
-    
+
     virtual void* run() = 0;
-    
+  protected:
+    std::atomic<int> m_signal;
   private:
     pthread_t  m_tid;
     int        m_running;

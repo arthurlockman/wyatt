@@ -7,8 +7,20 @@ set(CMAKE_CXX_EXTENSIONS OFF) #...without compiler extensions like gnu++11
 project(Wyatt)
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
+function(CheckHasModule Module)
+  find_package(${Module} QUIET)
+  if(NOT DEFINED ${Module}_DIR)
+    set(HAS_MODULE_${Module} TRUE PARENT_SCOPE)
+  elseif(${Module}_DIR)
+    set(HAS_MODULE_${Module} TRUE PARENT_SCOPE)
+  else()
+    set(HAS_MODULE_${Module} FALSE PARENT_SCOPE)
+  endif()
+endfunction()
+
 include_directories(
 	${CMAKE_CURRENT_LIST_DIR}/include
+    ${CMAKE_CURRENT_LIST_DIR}/include/commands
 	)
 
 add_subdirectory(src)
