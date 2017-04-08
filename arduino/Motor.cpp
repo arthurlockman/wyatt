@@ -8,7 +8,7 @@ Motor::Motor(int forwardPin, int backwardPin) {
     pinMode(backwardPin, OUTPUT);
 };
 
-void Motor::drive(int speed, int direction) {
+void Motor::drive(unsigned char speed, int direction) {
     if(direction == FORWARDS) {
         analogWrite(this->forwardPin, speed);
         analogWrite(this->backwardPin, 0);

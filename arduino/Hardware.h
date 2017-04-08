@@ -1,15 +1,18 @@
 #pragma once
 
 /*
-This enumerates the various pieces of hardware on the robot. Messages sent to the robot must be destined for one of the pieces of hardware.
+* A struct containing information relevant to the hardware on the robot.
 */
-
 struct Hardware
 {
+    /* An address from 0-255. Must be unique */
     unsigned char address;
+
+    /* The length of messages in bytes required to communicate to/from the hardware */
     unsigned char messageLength;
 };
 
+/* Required to use the hardware in an std::map */
 bool operator < (const Hardware &a, const Hardware &b);
 
 /* ENSURE HARDWARE IS APPENDED */
