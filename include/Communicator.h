@@ -10,6 +10,7 @@
 #include "ISensorManager.h"
 #include "Hardware.h"
 #include "SerialPort.h"
+#include "CommunicationException.h"
 
 /* Variables for serial communication */
 
@@ -37,11 +38,3 @@ private:
     std::map<Hardware, SerialPort*>* hardwareToSerialPortMap;
     int baudRate;
 };
-
-inline class CommunicationException: public exception
-{
-    virtual const char* what() const throw()
-    {
-        return "An exception has occurred in our communication thread.";
-    }
-} commException;

@@ -24,7 +24,7 @@ bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
     if (this->hardwareToSerialPortPathMap->find(hardwareTarget) != this->hardwareToSerialPortPathMap->end()) {
     	// You can't reattach this, and this comPort is already attached to a piece of hardware!
         cout << "Error at 1" << endl;
-        throw commException;
+        throw new CommunicationException();
         return false;
     } 
     else {
@@ -48,7 +48,7 @@ bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
 void Communicator::sendNextMsg(Hardware hardwareTarget) {
     if(this->hardwareToMessageQueueMap->at(hardwareTarget)->empty()) {
         cout << "Error at 2" << endl;
-        throw commException;
+        throw new CommunicationException();
         return;
     }
 
@@ -81,7 +81,7 @@ void Communicator::queueMsg(Message* msg) {
     }
     catch (const out_of_range oor_map) {
         cout << "Error at 3" << endl;
-        throw commException;
+        throw new CommunicationException();
     }
 }
 
