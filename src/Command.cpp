@@ -15,7 +15,9 @@ Command::~Command() {
 
 void Command::init()
 {
+    m_lock.lock();
     m_is_initialized = true;
+    m_lock.unlock();
 }
 
 void Command::cancel()
@@ -25,26 +27,39 @@ void Command::cancel()
 
 void Command::stop()
 {
+    m_lock.lock();
     m_is_running = false;
     m_is_finished = true;
+    m_lock.unlock();
 }
 
 bool Command::isRunning()
 {
-    return m_is_running;
+    m_lock.lock();
+    bool tmp = m_is_running;
+    m_lock.unlock();
+    return tmp;
 }
 
 bool Command::isInitialized()
 {
-    return m_is_initialized;
+    m_lock.lock();
+    bool tmp = m_is_initialized;
+    m_lock.unlock();
+    return tmp;
 }
 
 void Command::setIsRunning(bool value)
 {
+    m_lock.lock();
     m_is_running = value;
+    m_lock.unlock();
 }
 
 bool Command::isFinished()
 {
-    return m_is_finished;
+    m_lock.lock();
+    bool tmp = m_is_finished;
+    m_lock.unlock();
+    return tmp;
 }
