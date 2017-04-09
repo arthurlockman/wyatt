@@ -145,8 +145,8 @@ TEST_CASE() {
 
     SECTION("Integration test: Attach arduino and turn both motors") {
         /* Attach motors to the arduino */
-        comm->attachArduino(comPort, H_LEFT_MOTOR);
-        comm->attachArduino(comPort, H_RIGHT_MOTOR);
+        comm->attachHardware(comPort, H_LEFT_MOTOR);
+        comm->attachHardware(comPort, H_RIGHT_MOTOR);
 
         /* Command for driving right motor forwards */
         char commandLeftMotor[] = {H_LEFT_MOTOR.address, 0};

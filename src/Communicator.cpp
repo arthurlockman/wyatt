@@ -19,7 +19,7 @@ Communicator::Communicator(ISensorManager* sensorManager, int baudRate) {
     this->hardwareToMessageQueueMap = new map<Hardware, queue<Message*>*>;
 }
 
-void Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
+void Communicator::attachHardware(string comPort, Hardware hardwareTarget) {
 	// Check if hardware key already exists within our map of hardware->communication port
     if (this->hardwareToSerialPortPathMap->find(hardwareTarget) != this->hardwareToSerialPortPathMap->end()) {
     	// You can't reattach this, and this comPort is already attached to a piece of hardware!
@@ -65,7 +65,7 @@ void Communicator::readData() {
     return;
 }
 
-void Communicator::queueMsg(Message* msg) {
+void Communicator::queueMessage(Message *msg) {
     //Attempt to enqueue the message. If we can't, then throw an error because there's not a queue for that message's associated hardware. 
     try {
         Hardware h = msg->getHardware();
