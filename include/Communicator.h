@@ -26,7 +26,7 @@ class Communicator {
 public:
     Communicator(ISensorManager* sensorManager, int baudRate);
     ~Communicator();
-    bool attachArduino(std::string comPort, Hardware hardwareTarget);
+    void attachArduino(std::string comPort, Hardware hardwareTarget);
     void queueMsg(Message* msg);    
     void sendNextMsg(Hardware hardwareTarget);
     void readData();

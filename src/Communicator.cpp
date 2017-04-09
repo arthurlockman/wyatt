@@ -19,13 +19,12 @@ Communicator::Communicator(ISensorManager* sensorManager, int baudRate) {
     this->hardwareToMessageQueueMap = new map<Hardware, queue<Message*>*>;
 }
 
-bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
+void Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
 	// Check if hardware key already exists within our map of hardware->communication port
     if (this->hardwareToSerialPortPathMap->find(hardwareTarget) != this->hardwareToSerialPortPathMap->end()) {
     	// You can't reattach this, and this comPort is already attached to a piece of hardware!
         throw new ArduinoMappingException();
-        return false;
-    } 
+    }
     else {
     	// Add the mapping from hardware target enum to the specified com port.
     	this->hardwareToSerialPortPathMap->insert(make_pair(hardwareTarget, comPort));
@@ -40,14 +39,12 @@ bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
     	queue<Message*>* msg_queue = new queue<Message*>;
     	this->hardwareToMessageQueueMap->insert(make_pair(hardwareTarget, msg_queue));
     }
-    return true;
 }
  
 
 void Communicator::sendNextMsg(Hardware hardwareTarget) {
     if(this->hardwareToMessageQueueMap->at(hardwareTarget)->empty()) {
         throw new EmptyMessageQueueException();
-        return;
     }
 
     // Get pointer to start of message from queue

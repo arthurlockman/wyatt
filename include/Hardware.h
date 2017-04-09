@@ -6,8 +6,8 @@ This enumerates the various pieces of hardware on the robot. Messages sent to th
 
 struct Hardware
 {
-    unsigned char address;
-    unsigned char messageLength;
+    char address;
+    char messageLength;
 };
 
 bool operator < (const Hardware &a, const Hardware &b);

@@ -14,7 +14,7 @@ int main (void)
     comm->attachArduino("/dev/ttyUSB0", H_LEFT_MOTOR);
 
     /* Create test command */
-    char commands[] = {0b00000001, 0b00000000};
+    char commands[] = {H_LEFT_MOTOR.address, 0};
     Message* msg1 = new Message(H_LEFT_MOTOR, commands);
 
     /* Queue and send command */
