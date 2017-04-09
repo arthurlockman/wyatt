@@ -3,7 +3,6 @@ FILE(GLOB CXXSOURCES ../src/*.cpp)
 list(REMOVE_ITEM CXXSOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../src/Main.cpp)
 FILE(GLOB CXXCOMMANDS ../src/commands/*.cpp)
 
-
 CheckHasModule(WiringPi)
 if(HAS_MODULE_WiringPi)
     add_executable(wyatt_test ${TESTSOURCES} ${CXXSOURCES} ${CXXCOMMANDS})

@@ -7,6 +7,12 @@
 #include <commands/SimpleIteratorCommand.h>
 #include "../include/CommandManager.h"
 #include "../catch/catch.hpp"
+#include "../include/ISensor.h"
+#include "../include/IRangeFinderSensor.h"
+#include "../include/RawSensorData.h"
+
+/* MOCKS */
+#include "MockIRRangeFinderSensor.h"
 
 unsigned int Factorial( unsigned int number ) {
     return number <= 1 ? number : Factorial(number-1)*number;
@@ -36,4 +42,18 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         REQUIRE(sc2->getCount() == 20);
         commandManager1->kill();
     }
+}
+
+TEST_CASE("Sensor interface tests", "[ISensor]") {
+
+    RawSensorData* mockRawSensorData_IR = new RawSensorData("12.2");
+
+    SECTION("ISensor polymorphically updates") {
+        ISensor* sensor = new MockIRRangeFinderSensor();
+        sensor->updateSensor(mockRawSensorData_IR);
+        MockIRRangeFinderSensor* IRSensor = (MockIRRangeFinderSensor*) sensor;
+         
+        REQUIRE( IRSensor->getDistanceCM() == 12.2 );
+    }
+
 }

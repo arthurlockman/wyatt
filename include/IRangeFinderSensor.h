@@ -1,3 +1,4 @@
+#pragma once
 #include "ISensor.h"
 
 class IRangeFinderSensor : public ISensor {

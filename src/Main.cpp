@@ -6,13 +6,6 @@ int main (void)
 {
     wiringPiSetup();
 
-    /* Mocking out and Testing an IR Sensor */
-    // IRangeFinderSensor* mockIRSensor = new MockIRRangeFinderSensor();
-    // RawSensorData* mockRawSensorData = new RawSensorData("12.2");
-    // mockIRSensor->updateSensor(mockRawSensorData);
-    // cout << "Expect: 12.2    Received: " << mockIRSensor->getDistanceCM() << endl;
-    // cout << "Expect: 122     Received: " << mockIRSensor->getDistanceMM() << endl;
-
     /* Creating a sensor manager and testing it */
     map<Hardware, ISensor*>* sensorMap = new map<Hardware, ISensor*>;
     // (*sensorMap)[H_MOCK_IR_SENSOR] = mockIRSensor;

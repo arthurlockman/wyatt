@@ -1,6 +1,11 @@
 #include "MockIRRangeFinderSensor.h"
 
+MockIRRangeFinderSensor::MockIRRangeFinderSensor() {
+    // Constructor
+}
+
 MockIRRangeFinderSensor::~MockIRRangeFinderSensor() {
+    // Destructor
 }
 
 void MockIRRangeFinderSensor::updateSensor(RawSensorData* data) {

@@ -6,17 +6,17 @@ bool operator < (const Hardware &a, const Hardware &b)
 };
 
 const Hardware H_RIGHT_MOTOR = { 
-        .address = '0',
+        .address = 0,
         .messageLength = 1,
 };
 
 const Hardware H_LEFT_MOTOR = { 
-        .address = '1',
+        .address = 1,
         .messageLength = 1,
 };
 
 const Hardware H_MOCK_IR_SENSOR = { 
-        .address = '2',
+        .address = 2,
         .messageLength = 1,
 };
 
