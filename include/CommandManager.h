@@ -7,7 +7,7 @@
 
 #include "Command.h"
 #include "Thread.h"
-#include <vector>
+#include <list>
 #include <iostream>
 #include <map>
 #include <mutex>
@@ -57,9 +57,14 @@ public:
      * @return result of join
      */
     int kill();
+    /**
+     * Get how many commands are in flight in the command manager.
+     * @return a long, the number of commands.
+     */
+    unsigned long inFlight();
 private:
     //! List of commands
-    std::vector<Command*> m_commands;
+    std::list<Command*> m_commands;
     //! Map of commands to command flags
     std::map<Command*, int> m_command_flags;
     //! Mutex to keep data safe.
