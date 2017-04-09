@@ -57,3 +57,14 @@ TEST_CASE("Sensor interface tests", "[ISensor]") {
     }
 
 }
+
+TEST_CASE("RawSensorData tests", "[RawSensorData]") {
+
+    std::string testString = "Hello World!";
+
+    SECTION("Data is correctly encapsulated and returned") {
+        RawSensorData* data = new RawSensorData(testString);
+
+        REQUIRE(data->getData() == testString);
+    }
+}
