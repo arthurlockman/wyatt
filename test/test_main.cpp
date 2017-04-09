@@ -4,6 +4,7 @@
 
 #include <commands/SimpleIteratorCommand.h>
 #include <Communicator.h>
+#include <iostream>
 #include "../include/CommandManager.h"
 #include "../catch/catch.hpp"
 #include "../include/ISensor.h"
@@ -136,11 +137,11 @@ TEST_CASE("Message tests", "[Message]") {
 
 #if IS_RASPI
 TEST_CASE() {
+
     ISensorManager* mockSensorManager = new MockSensorManager();
     std::string comPort = "/dev/ttyUSB0";
     int baudRate = 9600;
     Communicator* comm = new Communicator(mockSensorManager, baudRate);
-
 
     SECTION("Integration test: Attach arduino and turn both motors") {
         /* Attach motors to the arduino */
@@ -151,8 +152,7 @@ TEST_CASE() {
         char commandLeftMotor[] = {H_LEFT_MOTOR.address, 0};
         char commandRightMotor[] = {H_RIGHT_MOTOR.address, 0};
         Message* msgRight = new Message(H_RIGHT_MOTOR, commandRightMotor);
-        Message* msgLeft = new Message(H_RIGHT_MOTOR, commandLeftMotor);
-
+        Message* msgLeft = new Message(H_LEFT_MOTOR, commandLeftMotor);
 
         /* Queue messages */
         comm->queueMsg(msgRight);
