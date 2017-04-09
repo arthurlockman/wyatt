@@ -6,15 +6,13 @@ int main (void)
 {
     wiringPiSetup();
 
-    /* Creating a sensor manager and testing it */
-    map<Hardware, ISensor*>* sensorMap = new map<Hardware, ISensor*>;
     // (*sensorMap)[H_MOCK_IR_SENSOR] = mockIRSensor;
 
     // list<Message*>* updates = new list<Message*>;
     // Message* updateIRMessage = new Message(H_MOCK_IR_SENSOR, "1.5");
     // updates->push_back(updateIRMessage);
 
-    ISensorManager* sensorManager = new SensorManager(sensorMap);
+    ISensorManager* sensorManager = new SensorManager();
     // sensorManager->updateSensors(updates);
     // cout << "Expect: 1.5    Received: " << mockIRSensor->getDistanceCM() << endl;
     // cout << "Expect: 15     Received: " << mockIRSensor->getDistanceMM() << endl;
