@@ -59,7 +59,6 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
     }
 }
 
-
 TEST_CASE("Sensor interface tests", "[ISensor]") {
 
     RawSensorData* mockRawSensorData_IR = new RawSensorData("12.2");
@@ -132,4 +131,9 @@ TEST_CASE("Message tests", "[Message]") {
     REQUIRE((msg->getHardware()).address == hardware.address);
     REQUIRE(msg->getMessage() == data);
 }
+
+//TEST_CASE() {
+//
+//}
+
 
