@@ -23,8 +23,7 @@ bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
 	// Check if hardware key already exists within our map of hardware->communication port
     if (this->hardwareToSerialPortPathMap->find(hardwareTarget) != this->hardwareToSerialPortPathMap->end()) {
     	// You can't reattach this, and this comPort is already attached to a piece of hardware!
-        cout << "Error at 1" << endl;
-        throw new CommunicationException();
+        throw new ArduinoMappingException();
         return false;
     } 
     else {
@@ -47,8 +46,7 @@ bool Communicator::attachArduino (string comPort, Hardware hardwareTarget) {
 
 void Communicator::sendNextMsg(Hardware hardwareTarget) {
     if(this->hardwareToMessageQueueMap->at(hardwareTarget)->empty()) {
-        cout << "Error at 2" << endl;
-        throw new CommunicationException();
+        throw new EmptyMessageQueueException();
         return;
     }
 
@@ -80,8 +78,7 @@ void Communicator::queueMsg(Message* msg) {
         return;
     }
     catch (const out_of_range oor_map) {
-        cout << "Error at 3" << endl;
-        throw new CommunicationException();
+        throw new MessageHasNoQueueException();
     }
 }
 
