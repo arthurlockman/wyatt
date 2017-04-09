@@ -18,18 +18,6 @@
 /* MOCKS */
 #include "MockIRRangeFinderSensor.h"
 
-unsigned int Factorial( unsigned int number ) {
-    return number <= 1 ? number : Factorial(number-1)*number;
-}
-
-TEST_CASE( "Factorials are computed", "[factorial]" ) {
-    REQUIRE( Factorial(1) == 1 );
-    REQUIRE( Factorial(2) == 2 );
-    REQUIRE( Factorial(3) == 6 );
-    REQUIRE( Factorial(10) == 3628800 );
-}
-
-
 TEST_CASE("Command subsystem tests", "[CommandManager]") {
     SECTION("Command manager can be killed.") {
         CommandManager *commandManager = new CommandManager();
@@ -83,17 +71,32 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
         ISensor* mockSensor = new MockIRRangeFinderSensor();
         
         sensorManager->addSensor(mockHardware, mockSensor);
-        REQUIRE_THROWS( 
+        REQUIRE_THROWS(
                 sensorManager->addSensor(mockHardware, mockSensor)
         );
     }
 
-    SECTION("Updating nonexistant hardware results in exception") {
-        // REQUIRE_THROWS_AS( <type>, <expr> );
+    SECTION("Updating non-existent hardware results in exception") {
+        Message* msg = new Message(H_LEFT_MOTOR, (char *) "");
+        std::list<Message*>* messages = new std::list<Message*>;
+        messages->push_back(msg);
+        REQUIRE_THROWS(
+                sensorManager->updateSensors(messages)
+        );
     }
 
     SECTION("Updates sensors correctly") {
+        Hardware mockHardware = H_LEFT_MOTOR;
+        MockIRRangeFinderSensor* mockSensor = new MockIRRangeFinderSensor();
+        sensorManager->addSensor(mockHardware, mockSensor);
 
+        Message* msg = new Message(H_LEFT_MOTOR, (char *) "12.2");
+        std::list<Message*>* messages = new std::list<Message*>;
+        messages->push_back(msg);
+
+        sensorManager->updateSensors(messages);
+
+        REQUIRE(mockSensor->getDistanceCM() == 12.2);
     }
 
 
