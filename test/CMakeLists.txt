@@ -22,7 +22,9 @@ else()
         ${CXXSOURCES} 
         ${CXXCOMMANDS} 
         ../wiringPiMock/wiringPi.h 
-        ../wiringPiMock/wiringPi.cpp)
+        ../wiringPiMock/wiringPi.cpp
+        ../wiringPiMock/wiringSerial.h
+        ../wiringPiMock/wiringSerial.cpp)
     message(STATUS ">>> Building on Mac/PC/Linux")
 endif()
 

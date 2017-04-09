@@ -20,10 +20,13 @@ if(HAS_MODULE_WiringPi)
     target_compile_definitions(wyatt PRIVATE IS_RASPI=1)
 else()
     add_executable(wyatt
+            ${TESTSOURCES}
             ${CXXSOURCES}
+            ${CXXCOMMANDS}
             ../wiringPiMock/wiringPi.h
             ../wiringPiMock/wiringPi.cpp
-            ${CXXCOMMANDS})
+            ../wiringPiMock/wiringSerial.h
+            ../wiringPiMock/wiringSerial.cpp)
     message(STATUS ">>> Building on Mac/PC/Linux")
     # Use mocked WiringPi
 endif()

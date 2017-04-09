@@ -3,8 +3,14 @@
 #include <iostream>
 
 /* Headers for pi serial communication */
-#include <wiringPi.h>
-#include <wiringSerial.h>
+#ifdef IS_RASPI
+    #include <wiringPi.h>
+    #include <wiringSerial.h>
+#else
+    #include "../wiringPiMock/wiringPi.h"
+    #include "../wiringPiMock/wiringSerial.h"
+#endif
+
 
 class SerialPort {
 public:
