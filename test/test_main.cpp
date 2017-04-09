@@ -10,6 +10,10 @@
 #include "../include/ISensor.h"
 #include "../include/IRangeFinderSensor.h"
 #include "../include/RawSensorData.h"
+#include "../include/Hardware.h"
+#include "../include/ISensorManager.h"
+#include "../include/SensorManager.h"
+#include "../include/ISensorManagerExceptions.h"
 
 /* MOCKS */
 #include "MockIRRangeFinderSensor.h"
@@ -70,14 +74,28 @@ TEST_CASE("RawSensorData tests", "[RawSensorData]") {
 }
 
 
-TEST_CASE("ISensor Manager tests", "[ISensorManager]") {
+TEST_CASE("ISensorManager tests", "[ISensorManager]") {
 
+    ISensorManager* sensorManager = new SensorManager();
 
+    SECTION("Adding hardware twice results in exception.") {
+        Hardware mockHardware = H_LEFT_MOTOR;
+        ISensor* mockSensor = new MockIRRangeFinderSensor();
+        
+        sensorManager->addSensor(mockHardware, mockSensor);
+        REQUIRE_THROWS( 
+                sensorManager->addSensor(mockHardware, mockSensor)
+        );
+    }
+
+    SECTION("Updating nonexistant hardware results in exception") {
+        // REQUIRE_THROWS_AS( <type>, <expr> );
+    }
+
+    SECTION("Updates sensors correctly") {
+
+    }
 
 
 }
 
-TEST_CASE() {
-
-
-}
