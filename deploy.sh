@@ -16,7 +16,7 @@ make
 cd ..
 if [ -e /dev/ttyUSB0 ]; then
     echo "Deploying to Arduino..."
-    arduino --board arduino:avr:nano:cpu=atmega328 --port /dev/ttyUSB0 --upload ./arduino/serialTest/serialTest.ino
+    /usr/local/arduino-1.8.2/arduino --board arduino:avr:nano:cpu=atmega328 --port /dev/ttyUSB0 --upload ./arduino/serialTest/serialTest.ino
 else
     echo "No Arduino connected."
 fi
