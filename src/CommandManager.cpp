@@ -27,7 +27,7 @@ bool CommandManager::runCommand(Command *command)
 bool CommandManager::cancel(Command *command)
 {
     mtx.lock();
-    m_command_flags.at(command) = -1;
+    m_command_flags[command] = -1;
     mtx.unlock();
     return true;
 }
@@ -36,7 +36,7 @@ bool CommandManager::cancelAll()
 {
     mtx.lock();
     for (auto &command : m_commands) {
-        this->cancel(command);
+        m_command_flags[command] = -1;
     }
     mtx.unlock();
     return true;
@@ -47,19 +47,23 @@ void* CommandManager::run()
     while (m_signal == 0) {
         mtx.lock();
         for (auto &command : m_commands) {
-            int flag = m_command_flags.at(command);
-            if (!command->isInitialized()) {
-                command->init();
-                command->setIsRunning(true);
-            } else if (flag == -1) // Cancel
-            {
-                command->cancel();
-            } else if (command->isRunning()) {
-                command->setIsRunning(command->execute());
-            } else {
-                command->stop();
+            int flag = m_command_flags[command];
+            if (!command->isFinished()) {
+                if (!command->isInitialized()) {
+                    command->init();
+                    command->setIsRunning(true);
+                } else if (flag == -1) // Cancel
+                {
+                    command->cancel();
+                    m_command_flags[command] = 0;
+                } else if (command->isRunning()) {
+                    command->setIsRunning(command->execute());
+                } else {
+                    command->stop();
+                }
             }
         }
+        m_commands.remove_if([](Command* c){ return c->isFinished(); });
         mtx.unlock();
     }
     std::cout << "Received stop signal." << std::endl;
@@ -76,4 +80,12 @@ int CommandManager::join()
 int CommandManager::kill()
 {
     return this->join();
+}
+
+unsigned long CommandManager::inFlight()
+{
+    mtx.lock();
+    unsigned long sz = m_commands.size();
+    mtx.unlock();
+    return sz;
 }
