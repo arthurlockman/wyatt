@@ -129,7 +129,7 @@ TEST_CASE("Message tests", "[Message]") {
     char* data = (char *) "testData";
     Hardware hardware = H_LEFT_MOTOR;
     Message* msg = new Message(hardware, data);
-    REQUIRE(msg->getHardware() == hardware);
+    REQUIRE((msg->getHardware()).address == hardware.address);
     REQUIRE(msg->getMessage() == data);
 }
 
