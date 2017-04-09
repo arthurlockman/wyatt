@@ -21,6 +21,7 @@ endfunction()
 include_directories(
 	${CMAKE_CURRENT_LIST_DIR}/include
     ${CMAKE_CURRENT_LIST_DIR}/include/commands
+    ${CMAKE_CURRENT_LIST_DIR}/test/mocks/include
 	)
 
 add_subdirectory(src)

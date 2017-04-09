@@ -2,8 +2,6 @@
 // Created by Arthur Lockman on 4/5/17.
 //
 
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-
 #include <commands/SimpleIteratorCommand.h>
 #include "../include/CommandManager.h"
 #include "../catch/catch.hpp"
@@ -87,7 +85,6 @@ TEST_CASE("RawSensorData tests", "[RawSensorData]") {
     }
 }
 
-
 TEST_CASE("ISensorManager tests", "[ISensorManager]") {
 
     ISensorManager* sensorManager = new SensorManager();
@@ -126,5 +123,13 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
 
+}
+
+TEST_CASE("Message tests", "[Message]") {
+    char* data = (char *) "testData";
+    Hardware hardware = H_LEFT_MOTOR;
+    Message* msg = new Message(hardware, data);
+    REQUIRE(msg->getHardware() == hardware);
+    REQUIRE(msg->getMessage() == data);
 }
 

@@ -19,11 +19,16 @@ SimpleIteratorCommand::~SimpleIteratorCommand()
 
 bool SimpleIteratorCommand::execute()
 {
+    lck.lock();
     m_counter++;
+    lck.unlock();
     return m_counter != m_goal;
 }
 
 int SimpleIteratorCommand::getCount()
 {
-    return m_counter;
+    lck.lock();
+    int count = m_counter;
+    lck.unlock();
+    return count;
 }
