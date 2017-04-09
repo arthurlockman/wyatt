@@ -1,4 +1,5 @@
 #include "SerialPort.h"
+#include <iostream>
 using namespace std;
 
 SerialPort::SerialPort(const char* path, int baudRate) {

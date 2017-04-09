@@ -55,7 +55,7 @@ void Communicator::sendNextMsg(Hardware hardwareTarget) {
     // Get pointer to start of message from queue
     Message* msg = this->hardwareToMessageQueueMap->at(hardwareTarget)->front();
     char* message = msg->getMessage();
-    int messageLength = HARDWARE_MAP[hardwareTarget.address].messageLength;
+    int messageLength = HARDWARE_MAP[hardwareTarget.address].messageLength + 1;
 
     // Send the message
     hardwareToSerialPortMap->at(hardwareTarget)->write(message, messageLength);
@@ -72,14 +72,16 @@ void Communicator::readData() {
 
 void Communicator::queueMsg(Message* msg) {
     //Attempt to enqueue the message. If we can't, then throw an error because there's not a queue for that message's associated hardware. 
-    //try {
-    Hardware h = msg->getHardware();
-        this->hardwareToMessageQueueMap->at(msg->getHardware())->push(msg);// Push message into queue specified by hardware
+    try {
+        Hardware h = msg->getHardware();
+
+        // Push message into queue specified by hardware
+        this->hardwareToMessageQueueMap->at(msg->getHardware())->push(msg);
         return;
-    //}
-    //catch (const out_of_range oor_map) {
-    //    cout << "Error at 3" << endl;
-    //    throw commException;
-    //}
+    }
+    catch (const out_of_range oor_map) {
+        cout << "Error at 3" << endl;
+        throw commException;
+    }
 }
 

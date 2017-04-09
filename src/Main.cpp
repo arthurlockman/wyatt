@@ -29,7 +29,7 @@ int main (void)
     /* Creating a communicator and testing it */
     Communicator* comm = new Communicator(sensorManager, 9600);
 
-    char commands[] = {0b00000000, 0b00000000};
+    char commands[] = {0b00000001, 0b00000000};
     Message* msg1 = new Message(H_LEFT_MOTOR, commands);
     // Message* msg2 = new Message(H_LEFT_MOTOR, "test2");
     
@@ -40,6 +40,7 @@ int main (void)
     // comm->queueMsg(msg2);
 
     comm->sendNextMsg(H_LEFT_MOTOR);
+    cout << "End" << endl;
     // comm->sendNextMsg(H_RIGHT_MOTOR);
 
     // cout << (int)H_RIGHT_MOTOR.address << endl;

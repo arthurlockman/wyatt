@@ -22,6 +22,7 @@ void serialEvent() {
 
   /* First byte indicates the packet type */
   unsigned char packetType = Serial.read();
+  Serial.write(packetType);
               
   /* Check how many more bytes to read */
   unsigned char packetLength = HARDWARE_MAP[packetType].messageLength;
@@ -34,6 +35,7 @@ void serialEvent() {
     while(!Serial.available());
     packet[i] = Serial.read();
   }
+  Serial.write(packet[0]);
 
   /* Dispatch the message based on packet type */
   switch(packetType) {
