@@ -5,6 +5,7 @@
 #include <map>
 #include "Hardware.h"
 #include "Message.h"
+#include <iostream>
 
 class SensorManager : public ISensorManager {
 

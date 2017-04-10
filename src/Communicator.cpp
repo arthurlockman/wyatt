@@ -5,7 +5,7 @@ Communicator::~Communicator() {
     // TODO close serial lines
 }
 
-Communicator::Communicator(ISensorManager* sensorManager, int baudRate) {
+Communicator::Communicator(ISensorManager* sensorManager, int baudRate) : Thread() {
     this->sensorManager = sensorManager;
     this->baudRate = baudRate;
 
@@ -35,7 +35,7 @@ void Communicator::attachHardware(string comPort, Hardware hardwareTarget) {
         this->hardwareToSerialPortMap->insert(make_pair(hardwareTarget, port));
 
     	// When we attach hardware, we want to be able to enqueue messages to that piece of hardware.
-    	// Thus, we have a mashmap that goes from Hardware to a queue associated with messages to that hardware.
+    	// Thus, we have a map that goes from Hardware to a queue associated with messages to that hardware.
     	queue<Message*>* msg_queue = new queue<Message*>;
     	this->hardwareToMessageQueueMap->insert(make_pair(hardwareTarget, msg_queue));
     }
@@ -61,8 +61,17 @@ void Communicator::sendNextMsg(Hardware hardwareTarget) {
 }
 
 void Communicator::readData() {
-    // TODO
-    return;
+
+    list<Message*>* messages = new list<Message*>;
+    for(map<Hardware, SerialPort*>::iterator iter = hardwareToSerialPortMap->begin(); iter != hardwareToSerialPortMap->end(); ++iter)
+    {
+        SerialPort* port = iter->second;
+        if(port->canRead()) {
+            messages->push_back(port->read());
+        }
+    }
+
+    this->sensorManager->updateSensors(messages);
 }
 
 void Communicator::queueMessage(Message *msg) {
@@ -77,5 +86,26 @@ void Communicator::queueMessage(Message *msg) {
     catch (const out_of_range oor_map) {
         throw new MessageHasNoQueueException();
     }
+}
+
+void Communicator::writeData() {
+    // Write any data
+    for(map<Hardware, queue<Message*>*>::iterator iter = hardwareToMessageQueueMap->begin(); iter != hardwareToMessageQueueMap->end(); ++iter)
+    {
+        this->sendNextMsg(iter->first);
+    }
+}
+
+
+void* Communicator::run() {
+    while(!m_signal) {
+
+        // Read any data
+        this->readData();
+
+        // Write any data
+        this->writeData();
+    }
+    return NULL;
 }
 

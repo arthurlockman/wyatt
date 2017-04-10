@@ -15,6 +15,7 @@
 #include "../include/SensorManager.h"
 #include "../include/ISensorManagerExceptions.h"
 #include "mocks/include/MockSensorManager.h"
+#include <fstream>
 
 /* MOCKS */
 #include "MockIRRangeFinderSensor.h"
@@ -135,8 +136,42 @@ TEST_CASE("Message tests", "[Message]") {
     REQUIRE(msg->getMessage() == data);
 }
 
+TEST_CASE("Communicator Tests", "[Communicator]") {
+
+    /* Initialize object */
+    ISensorManager* mockSensorManager = new MockSensorManager();
+    std::string comPort = "mocks/mock_serial_port";
+    Hardware hardwareTarget = H_LEFT_MOTOR;
+    int baudRate = 9600;
+    Communicator* comm = new Communicator(mockSensorManager, baudRate);
+    comm->attachHardware(comPort, hardwareTarget);
+
+    /* Clear data from mock port */
+    std::ofstream ofs;
+    ofs.open("test.txt", std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
+
+    SECTION("Testing writing to serial port") {
+        char* mockData = (char*)"mockData";
+        Message* mockMessage = new Message(hardwareTarget, mockData);
+        comm->queueMessage(mockMessage);
+        comm->sendNextMsg(hardwareTarget);
+
+
+    }
+
+    SECTION("Testing reading from serial port") {
+
+    }
+
+
+
+
+}
+
+
 #if IS_RASPI
-TEST_CASE() {
+TEST_CASE("Integration Tests", "[Integration]") {
 
     ISensorManager* mockSensorManager = new MockSensorManager();
     std::string comPort = "/dev/ttyUSB0";

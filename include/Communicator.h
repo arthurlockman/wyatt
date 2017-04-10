@@ -11,6 +11,7 @@
 #include "Hardware.h"
 #include "SerialPort.h"
 #include "CommunicationException.h"
+#include "Thread.h"
 
 /* Variables for serial communication */
 
@@ -21,7 +22,7 @@ To communicate with the hardware, the queueMsg() function is exposed.
 
 To read data from the hardware, the readData() function is exposed. Data read from the sensors should be immedietly passed to the ISensorManager.
 */
-class Communicator {
+class Communicator : public Thread {
 
 public:
     Communicator(ISensorManager* sensorManager, int baudRate);
@@ -31,8 +32,10 @@ public:
     void queueMessage(Message* message);
 //    void queueMessages(std::list<Message*>* messages);
     void sendNextMsg(Hardware hardwareTarget);
-//    void sendAllMessages(Hardware hardwareTarget);
+    void writeData();
     void readData();
+
+    void* run() override;
 
 private:
     ISensorManager* sensorManager;

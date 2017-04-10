@@ -1,6 +1,7 @@
 #pragma once
 
-#include <iostream>
+#include "Hardware.h"
+#include "Message.h"
 
 /* Headers for pi serial communication */
 #ifdef IS_RASPI
@@ -17,7 +18,8 @@ public:
     SerialPort(const char* path, int baudRate);
     void open();
     void write(char* bytes, int numBytes);
-    std::string read(int numBytes);
+    bool canRead();
+    Message* read();
     void close();
 
 
