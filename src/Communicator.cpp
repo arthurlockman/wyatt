@@ -23,7 +23,7 @@ void Communicator::attachHardware(string comPort, Hardware hardwareTarget) {
 	// Check if hardware key already exists within our map of hardware->communication port
     if (this->hardwareToSerialPortPathMap->find(hardwareTarget) != this->hardwareToSerialPortPathMap->end()) {
     	// You can't reattach this, and this comPort is already attached to a piece of hardware!
-        throw new ArduinoMappingException();
+        throw ArduinoMappingException();
     }
     else {
     	// Add the mapping from hardware target enum to the specified com port.
@@ -44,7 +44,7 @@ void Communicator::attachHardware(string comPort, Hardware hardwareTarget) {
 
 void Communicator::sendNextMsg(Hardware hardwareTarget) {
     if(this->hardwareToMessageQueueMap->at(hardwareTarget)->empty()) {
-        throw new EmptyMessageQueueException();
+        throw EmptyMessageQueueException();
     }
 
     // Get pointer to start of message from queue
@@ -92,7 +92,11 @@ void Communicator::writeData() {
     // Write any data
     for(map<Hardware, queue<Message*>*>::iterator iter = hardwareToMessageQueueMap->begin(); iter != hardwareToMessageQueueMap->end(); ++iter)
     {
-        this->sendNextMsg(iter->first);
+        try{
+            this->sendNextMsg(iter->first);
+        } catch(const EmptyMessageQueueException& e){
+            // Do nothing
+        }
     }
 }
 
@@ -105,6 +109,7 @@ void* Communicator::run() {
 
         // Write any data
         this->writeData();
+
     }
     return NULL;
 }

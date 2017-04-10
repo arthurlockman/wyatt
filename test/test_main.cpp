@@ -190,8 +190,8 @@ TEST_CASE("Integration Tests", "[Integration]") {
         Message* msgLeft = new Message(H_LEFT_MOTOR, commandLeftMotor);
 
         /* Queue messages */
-        comm->queueMsg(msgRight);
-        comm->queueMsg(msgLeft);
+        comm->queueMessage(msgRight);
+        comm->queueMessage(msgLeft);
 
         /* Send messages */
         comm->sendNextMsg(H_LEFT_MOTOR);

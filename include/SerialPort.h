@@ -2,6 +2,7 @@
 
 #include "Hardware.h"
 #include "Message.h"
+#include <iostream>
 
 /* Headers for pi serial communication */
 #ifdef IS_RASPI

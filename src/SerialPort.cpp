@@ -1,6 +1,4 @@
 #include "SerialPort.h"
-#include <iostream>
-using namespace std;
 
 SerialPort::SerialPort(const char* path, int baudRate) {
     this->path=path;
@@ -9,6 +7,7 @@ SerialPort::SerialPort(const char* path, int baudRate) {
 
 void SerialPort::open() {
     this->fileDescriptor=serialOpen(this->path, this->baudRate);
+    serialFlush(this->fileDescriptor);
 };
 
 void SerialPort::write(char* bytes, int numBytes) {
@@ -18,7 +17,11 @@ void SerialPort::write(char* bytes, int numBytes) {
 };
 
 bool SerialPort::canRead() {
-    return serialDataAvail(this->fileDescriptor);
+    int avail = serialDataAvail(this->fileDescriptor);
+    if(avail != 0) {
+        std::cout << "Data!" << std::endl;
+    }
+    return avail;
 };
 
 Message* SerialPort::read() {
@@ -30,6 +33,7 @@ Message* SerialPort::read() {
     char buffer[messageLength];
 
     for(int i = 0; i < messageLength; i++) {
+        while(!canRead());
         buffer[i] = (char)serialGetchar(this->fileDescriptor);
     }
 
