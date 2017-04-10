@@ -17,15 +17,23 @@ void SerialPort::write(char* bytes, int numBytes) {
     }
 };
 
-string SerialPort::read(int numBytes) {
+bool SerialPort::canRead() {
+    return serialDataAvail(this->fileDescriptor);
+};
 
-    // TODO
+Message* SerialPort::read() {
 
-    // char* inBuffer;
-    // while(serialDataAvail(this->fileDescriptor) != -1) {
-    //     char next = (char)serialGetchar(this->fileDescriptor);
-    // }
-    return string("");
+    char packetType = (char)serialGetchar(this->fileDescriptor);
+    Hardware hardwareType = HARDWARE_MAP[packetType];
+    char messageLength = hardwareType.messageLength;
+
+    char buffer[messageLength];
+
+    for(int i = 0; i < messageLength; i++) {
+        buffer[i] = (char)serialGetchar(this->fileDescriptor);
+    }
+
+    return new Message(hardwareType, buffer);
 };
 
 void SerialPort::close() {

@@ -2,6 +2,7 @@
 #define WYATT_COMMAND_H
 
 #include <string>
+#include <mutex>
 
 class Command {
 public:
@@ -64,6 +65,9 @@ public:
      * @return true if finished, false otherwise
      */
     bool isFinished();
+protected:
+    //! Lock for managing access to member variables in a thread-safe manner.
+    std::mutex m_lock;
 private:
     //! The running state of this command.
     bool m_is_running = false;

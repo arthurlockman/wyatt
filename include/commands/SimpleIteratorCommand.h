@@ -17,7 +17,6 @@ public:
 private:
     int m_counter;
     int m_goal;
-    std::mutex lck;
 };
 
 #endif //WYATT_SIMPLEITERATORCOMMAND_H
