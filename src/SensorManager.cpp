@@ -39,7 +39,7 @@ void SensorManager::updateSensors(list<Message*>* messages) {
 
 
 
-    for(Message* msg: *messages) {
-        std::cout << msg->getMessage() << std::endl;
-    }
+//    for(Message* msg: *messages) {
+//        std::cout << msg->getMessage() << std::endl;
+//    }
 };

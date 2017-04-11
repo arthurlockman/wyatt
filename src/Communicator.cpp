@@ -104,11 +104,11 @@ void Communicator::writeData() {
 void* Communicator::run() {
     while(!m_signal) {
 
-        // Read any data
-        this->readData();
-
         // Write any data
         this->writeData();
+
+        // Read any data
+        this->readData();
 
     }
     return NULL;

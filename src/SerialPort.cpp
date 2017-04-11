@@ -66,7 +66,7 @@ int SerialPort::begin() {
     // usleep(10000);    // 10mS
     //
 
-    fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY); 
+    fd = open(path, O_RDWR | O_NOCTTY | O_NDELAY);
             
     struct termios options;
     tcgetattr(fd, &options);
@@ -90,7 +90,6 @@ bool SerialPort::canRead() {
 
     if (ioctl(fd, FIONREAD, &result) == -1)
         return -1;
-
     return result;
 };
 
@@ -107,6 +106,7 @@ Message *SerialPort::readData() {
         buffer[i] = getChar();
     }
 
+    std::cout << "Packet Type: " << (int)packetType << std::endl;
     return new Message(hardwareType, buffer);
 };
 
@@ -117,9 +117,6 @@ char SerialPort::getChar() {
         return -1;
 
     return ((int) x) & 0xFF;
-}
-
-void SerialPort::putChar(const char c) {
 }
 
 void SerialPort::end() {

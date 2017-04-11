@@ -44,5 +44,4 @@ private:
     const char* path;
 
     char getChar();
-    void putChar(const char c);
 };
