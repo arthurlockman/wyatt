@@ -6,10 +6,10 @@ SerialPort::SerialPort(const char *path, int baudRate) {
 };
 
 int SerialPort::begin() {
-    struct termios options;
-    speed_t myBaud;
-    int status;
-
+  //  struct termios options;
+  //  speed_t myBaud;
+  //  int status;
+/*
     switch (baudRate) {
         case 9600:
             myBaud = B9600;
@@ -21,49 +21,68 @@ int SerialPort::begin() {
         default:
             return -2;
     }
+*/
+    // if ((fd = open(path, O_RDWR | O_NOCTTY | O_NDELAY)) == -1)
+    //    return -1;
 
-    if ((fd = open(path, O_RDWR | O_NOCTTY | O_NDELAY | O_NONBLOCK)) == -1)
-        return -1;
-
-    fcntl(fd, F_SETFL, O_RDWR);
+    //fcntl(fd, F_SETFL, O_RDWR);
 
 // Get and modify current options:
 
+    // tcgetattr(fd, &options);
+
+    // options.c_cflag = B9600 | CS8 | CLOCAL | CREAD;     //<Set baud rate
+    // options.c_iflag = IGNPAR;
+    // options.c_oflag = 0;
+    // options.c_lflag = 0;
+    // tcflush(fd, TCIFLUSH);
+    // tcsetattr(fd, TCSANOW, &options);
+
+    // cfmakeraw(&options);
+    // cfsetispeed(&options, myBaud);
+    // cfsetospeed(&options, myBaud);
+
+    // options.c_cflag |= (CLOCAL | CREAD);
+    // options.c_cflag |= (CLOCAL | CREAD);
+    // options.c_cflag &= ~PARENB;
+    // options.c_cflag &= ~CSTOPB;
+    // options.c_cflag &= ~CSIZE;
+    // options.c_cflag |= CS8;
+    // options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+    // options.c_oflag &= ~OPOST;
+
+    // options.c_cc[VMIN] = 0;
+    // options.c_cc[VTIME] = 1;    // 0.1 second
+
+    // tcsetattr(fd, TCSANOW, &options);
+
+    // ioctl(fd, TIOCMGET, &status);
+
+    // status |= TIOCM_DTR;
+    // status |= TIOCM_RTS;
+
+    // ioctl(fd, TIOCMSET, &status);
+
+    // usleep(10000);    // 10mS
+    //
+
+    fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY); 
+            
+    struct termios options;
     tcgetattr(fd, &options);
-
-    cfmakeraw(&options);
-    cfsetispeed(&options, myBaud);
-    cfsetospeed(&options, myBaud);
-
-    options.c_cflag |= (CLOCAL | CREAD);
-    options.c_cflag &= ~PARENB;
-    options.c_cflag &= ~CSTOPB;
-    options.c_cflag &= ~CSIZE;
-    options.c_cflag |= CS8;
-    options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-    options.c_oflag &= ~OPOST;
-
-    options.c_cc[VMIN] = 0;
-    options.c_cc[VTIME] = 100;    // Ten seconds (100 deciseconds)
-
+    options.c_cflag = B9600 | CS8 | CLOCAL | CREAD;
+    options.c_iflag = IGNPAR;
+    options.c_oflag = 0;
+    options.c_lflag = 0;
+    tcflush(fd, TCIFLUSH);
     tcsetattr(fd, TCSANOW, &options);
-
-    ioctl(fd, TIOCMGET, &status);
-
-    status |= TIOCM_DTR;
-    status |= TIOCM_RTS;
-
-    ioctl(fd, TIOCMSET, &status);
-
-    usleep(10000);    // 10mS
 
     return fd;
 };
 
 void SerialPort::writeData(const char *bytes, int numBytes) {
-    for (int i = 0; i < numBytes; i++) {
-        this->putChar(bytes[i]);
-    }
+    int count = write(fd, bytes, numBytes);
+    std::cout << "Bytes written: " << count << std::endl;
 };
 
 bool SerialPort::canRead() {
@@ -101,7 +120,6 @@ char SerialPort::getChar() {
 }
 
 void SerialPort::putChar(const char c) {
-    write(fd, &c, 1);
 }
 
 void SerialPort::end() {
