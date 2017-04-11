@@ -3,6 +3,17 @@
 #include "Hardware.h"
 #include "Message.h"
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdarg.h>
+#include <string.h>
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /* Headers for pi serial communication */
 #ifdef IS_RASPI
@@ -17,15 +28,21 @@
 class SerialPort {
 public:
     SerialPort(const char* path, int baudRate);
-    void open();
-    void write(char* bytes, int numBytes);
+
+    int begin();
+    void end();
+
+    void writeData(const char* bytes, int numBytes);
+    Message* readData();
     bool canRead();
-    Message* read();
-    void close();
+
 
 
 private:
-    int fileDescriptor;
+    int fd;
     int baudRate;
     const char* path;
+
+    char getChar();
+    void putChar(const char c);
 };

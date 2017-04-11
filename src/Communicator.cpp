@@ -31,7 +31,7 @@ void Communicator::attachHardware(string comPort, Hardware hardwareTarget) {
 
         // Create a SerialPort and open it
         SerialPort* port = new SerialPort(comPort.c_str(), this->baudRate);
-        port->open();
+        port->begin();
         this->hardwareToSerialPortMap->insert(make_pair(hardwareTarget, port));
 
     	// When we attach hardware, we want to be able to enqueue messages to that piece of hardware.
@@ -53,7 +53,7 @@ void Communicator::sendNextMsg(Hardware hardwareTarget) {
     int messageLength = HARDWARE_MAP[hardwareTarget.address].messageLength + 1;
 
     // Send the message
-    hardwareToSerialPortMap->at(hardwareTarget)->write(message, messageLength);
+    hardwareToSerialPortMap->at(hardwareTarget)->writeData(message, messageLength);
 
     // Remove the message from the queue
     this->hardwareToMessageQueueMap->at(hardwareTarget)->pop();
@@ -67,7 +67,7 @@ void Communicator::readData() {
     {
         SerialPort* port = iter->second;
         if(port->canRead()) {
-            messages->push_back(port->read());
+            messages->push_back(port->readData());
         }
     }
 
