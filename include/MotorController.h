@@ -10,7 +10,7 @@ public:
     /**
      * Destroy this motor controller object.
      */
-    virtual ~MotorController() = 0;
+    virtual ~MotorController();
     /**
      * Set a certain motor on the motor controller to a given 
      * speed. This needs to be overridden in subclasses to

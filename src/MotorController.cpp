@@ -4,6 +4,10 @@ MotorController::MotorController()
 {
 }
 
+MotorController::~MotorController()
+{
+}
+
 bool MotorController::setMotor(int motorID, int speed)
 {
     return true;
