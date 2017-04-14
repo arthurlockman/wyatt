@@ -34,14 +34,23 @@
 #define INVRT               0x10
 #define OUTDRV              0x04
 
+/**
+ * This class controls an Adafruit PWM/Servo Raspberry
+ * Pi Hat.
+ *
+ * I2C specific functions adapted from:
+ * https://github.com/adafruit/Adafruit_Python_PCA9685/blob/master/Adafruit_PCA9685/PCA9685.py
+ */
 class AdafruitPWMServoHat: public MotorController {
 public:
     /**
      * Constructs an Adafruit PWM/Servo Driver Hat controller.
-     * This will also configure the proper I2C communication 
+     * This will also configure the proper I2C communication
      * channels for the device.
+     *
+     * @param pwmFrequency PWM frequency to set (default is 60)
      */
-    AdafruitPWMServoHat();
+    AdafruitPWMServoHat(int pwmFrequency = 60);
     /**
      * Destruct the driver object.
      */
@@ -72,6 +81,8 @@ public:
 private:
     //! I2C device file descriptor
     int m_i2c;
+    //! PWM Frequency setting (default is 60)
+    int m_hz;
     /**
      * Sends a software reset to all servo drivers on the bus.
      */
@@ -81,7 +92,7 @@ private:
      *
      * @param freqHz Frequency (Hz)
      */
-    void setPwmFrequency(float freqHz);
+    void setPwmFrequency(double freqHz);
     /**
      * Set a PWM channel to a specific on/off time.
      *
