@@ -1,5 +1,7 @@
 FILE(GLOB CXXSOURCES *.cpp)
 FILE(GLOB CXXCOMMANDS ./commands/*.cpp)
+FILE(GLOB MOCKSRC ../wiringPiMock/*.cpp)
+FILE(GLOB MOCKH ../wiringPiMock/*.h)
 
 CheckHasModule(WiringPi)
 
@@ -21,8 +23,8 @@ if(HAS_MODULE_WiringPi)
 else()
     add_executable(wyatt
             ${CXXSOURCES}
-            ../wiringPiMock/wiringPi.h
-            ../wiringPiMock/wiringPi.cpp
+            ${MOCKSRC}
+            ${MOCKH}
             ${CXXCOMMANDS})
     message(STATUS ">>> Building on Mac/PC/Linux")
     # Use mocked WiringPi
