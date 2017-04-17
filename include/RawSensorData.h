@@ -1,15 +1,28 @@
 #pragma once
 #include <string>
 
-/*
- * Wrapper class for data transmitted from the arduino/sensors to the sensor objects on the raspi.
+/**
+ * Wrapper class for data between the ISensorManager and an ISensor.
  */
-using namespace std;
 class RawSensorData {
 public:
-    RawSensorData(string data);   
-    string getData();
+    /**
+     * Constructor.
+     * @param data String measurement data
+     */
+    RawSensorData(std::string data);
+
+    /**
+     * Deconstructor. Deletes all pointers.
+     */
+    ~RawSensorData();
+
+    /**
+     * Returns the String measurement data
+     * @return String measurement data.
+     */
+    std::string getData();
 
 private:
-    string data;
+    std::string data;
 };

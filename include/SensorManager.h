@@ -7,15 +7,34 @@
 #include "Message.h"
 #include <iostream>
 
+/**
+ * Implementation header of ISensorManager.
+ */
 class SensorManager : public ISensorManager {
+public:
+    /**
+     * Constructor.
+     */
+    SensorManager();
 
-    public:
-        SensorManager();
-        ~SensorManager() override;
+    /**
+     * Destructor. Must override. Deletes all pointers.
+     */
+    ~SensorManager() override;
 
-        void addSensor(Hardware hardware, ISensor* sensor) override;
-        void updateSensors(std::list<Message*>* messages) override;
+    /**
+     * Adds a sensor to be managed
+     * @param hardware The hardware struct associated with the sensor object
+     * @param sensor An ISensor object to manage
+     */
+    void addSensor(Hardware hardware, ISensor* sensor) override;
 
-    private:
-        std::map<Hardware, ISensor*>* sensorMap;
+    /**
+     * Updates sensors with new measurement data
+     * @param messages A list of messages containing new measurement data
+     */
+    void updateSensors(std::list<Message*>* messages) override;
+
+private:
+    std::map<Hardware, ISensor*>* sensorMap;
 };

@@ -1,23 +1,37 @@
 #pragma once
 #include "Hardware.h"
 
-/*
-* This class encapsulates information needed to communicate with various pieces of hardware on a robot. 
-* Each message identifies the hardware it is destined for and contains a char array representing the message
-*/
+/**
+ * This class encapsulates information transmitted between the Raspi and a peripheral.
+ */
 class Message {
 
 public:
-    /* Constructor */
-    Message(Hardware hardware, char* msg);
+    /**
+     * Constructor.
+     * @param hardware The hardware this came from/goes to.
+     * @param msg An byte array of data
+     */
+    Message(Hardware hardware, unsigned char* msg);
 
-    /* Returns the char array representing the message */
-    char* getMessage();
+    /**
+     * Deconstructor. Deletes all object references.
+     */
+    ~Message();
 
-    /* Returns the hardware the message is destined for */
+    /**
+     * Returns a pointer to the byte array. The length of this array is maintained in the Hardware class.
+     * @return
+     */
+    unsigned char* getMessage();
+
+    /**
+     * Returns the hardware that this message came from/goes to.
+     * @return The hardware that this message came from/goes to.
+     */
     Hardware getHardware();
 
 private:
-    char* msg;
+    unsigned char* msg;
     Hardware hardware;
 };

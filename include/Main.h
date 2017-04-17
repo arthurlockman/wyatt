@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <list>
 #include <map>
+#include <iostream>
 
 #include "Thread.h"
 #include "ISensorManager.h"
@@ -19,4 +20,3 @@
 #include "RawSensorData.h"
 #include "CommandManager.h"
 #include "Hardware.h"
-#include "SerialPort.h"

@@ -1,114 +1,49 @@
 #include "Communicator.h"
 using namespace std;
 
-Communicator::~Communicator() {
-    // TODO close serial lines
-}
-
-Communicator::Communicator(ISensorManager* sensorManager, int baudRate) : Thread() {
+Communicator::Communicator(ISensorManager* sensorManager, IHardwareInterface* hardwareInterface) : Thread() {
     this->sensorManager = sensorManager;
-    this->baudRate = baudRate;
+    this->hardwareInterface = hardwareInterface;
 
-    // Map for all hardware attachments to their communication port paths.
-    this->hardwareToSerialPortPathMap = new map<Hardware, string>;  
-
-    // Map hardware to serial port objects
-    this->hardwareToSerialPortMap = new map<Hardware, SerialPort*>;
-
-    // Map of Hardware attachments to their message queue. 
-    this->hardwareToMessageQueueMap = new map<Hardware, queue<Message*>*>;
+    this->messageQueue = new list<Message*>;
 }
 
-void Communicator::attachHardware(string comPort, Hardware hardwareTarget) {
-	// Check if hardware key already exists within our map of hardware->communication port
-    if (this->hardwareToSerialPortPathMap->find(hardwareTarget) != this->hardwareToSerialPortPathMap->end()) {
-    	// You can't reattach this, and this comPort is already attached to a piece of hardware!
-        throw ArduinoMappingException();
-    }
-    else {
-    	// Add the mapping from hardware target enum to the specified com port.
-    	this->hardwareToSerialPortPathMap->insert(make_pair(hardwareTarget, comPort));
-
-        // Create a SerialPort and open it
-        SerialPort* port = new SerialPort(comPort.c_str(), this->baudRate);
-        port->begin();
-        this->hardwareToSerialPortMap->insert(make_pair(hardwareTarget, port));
-
-    	// When we attach hardware, we want to be able to enqueue messages to that piece of hardware.
-    	// Thus, we have a map that goes from Hardware to a queue associated with messages to that hardware.
-    	queue<Message*>* msg_queue = new queue<Message*>;
-    	this->hardwareToMessageQueueMap->insert(make_pair(hardwareTarget, msg_queue));
-    }
-}
- 
-
-void Communicator::sendNextMsg(Hardware hardwareTarget) {
-    if(this->hardwareToMessageQueueMap->at(hardwareTarget)->empty()) {
-        throw EmptyMessageQueueException();
-    }
-
-    // Get pointer to start of message from queue
-    Message* msg = this->hardwareToMessageQueueMap->at(hardwareTarget)->front();
-    char* message = msg->getMessage();
-    int messageLength = HARDWARE_MAP[hardwareTarget.address].messageLength + 1;
-
-    // Send the message
-    hardwareToSerialPortMap->at(hardwareTarget)->writeData(message, messageLength);
-
-    // Remove the message from the queue
-    this->hardwareToMessageQueueMap->at(hardwareTarget)->pop();
-    delete msg;
-}
-
-void Communicator::readData() {
-
-    list<Message*>* messages = new list<Message*>;
-    for(map<Hardware, SerialPort*>::iterator iter = hardwareToSerialPortMap->begin(); iter != hardwareToSerialPortMap->end(); ++iter)
-    {
-        SerialPort* port = iter->second;
-        if(port->canRead()) {
-            messages->push_back(port->readData());
-        }
-    }
-
-    this->sensorManager->updateSensors(messages);
+Communicator::~Communicator() {
+    delete this->sensorManager;
+    delete this->hardwareInterface;
+    delete this->messageQueue;
 }
 
 void Communicator::queueMessage(Message *msg) {
-    //Attempt to enqueue the message. If we can't, then throw an error because there's not a queue for that message's associated hardware. 
-    try {
-        Hardware h = msg->getHardware();
+    this->messageQueue->push_back(msg);
+}
 
-        // Push message into queue specified by hardware
-        this->hardwareToMessageQueueMap->at(msg->getHardware())->push(msg);
-        return;
-    }
-    catch (const out_of_range oor_map) {
-        throw new MessageHasNoQueueException();
+void Communicator::queueMessage(list<Message*>* messages) {
+    for(Message* msg: *messages) {
+        this->queueMessage(msg);
     }
 }
 
-void Communicator::writeData() {
-    // Write any data
-    for(map<Hardware, queue<Message*>*>::iterator iter = hardwareToMessageQueueMap->begin(); iter != hardwareToMessageQueueMap->end(); ++iter)
+void Communicator::write() {
+    while (!this->messageQueue->empty())
     {
-        try{
-            this->sendNextMsg(iter->first);
-        } catch(const EmptyMessageQueueException& e){
-            // Do nothing
-        }
+        this->hardwareInterface->write(this->messageQueue->front());
+        this->messageQueue->pop_front();
     }
 }
 
+void Communicator::read() {
+    this->sensorManager->updateSensors(this->hardwareInterface->read());
+}
 
 void* Communicator::run() {
     while(!m_signal) {
 
         // Write any data
-        this->writeData();
+        this->write();
 
         // Read any data
-        this->readData();
+        this->read();
 
     }
     return NULL;

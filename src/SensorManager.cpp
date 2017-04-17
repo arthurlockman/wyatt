@@ -1,4 +1,5 @@
 #include "SensorManager.h"
+using namespace std;
 
 SensorManager::SensorManager() : ISensorManager() {
     this->sensorMap = new std::map<Hardware, ISensor*>;
@@ -12,7 +13,7 @@ void SensorManager::addSensor(Hardware hardware, ISensor* sensor) {
 
     // Ensure that the sensor has not already been added
     if( this->sensorMap->find(hardware) != this->sensorMap->end() ) {
-        throw new DuplicateHardwareException(hardware);
+        throw DuplicateHardwareException(hardware);
     }
     this->sensorMap->insert(std::make_pair(hardware, sensor));
 };

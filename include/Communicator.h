@@ -9,38 +9,60 @@
 #include "Message.h"
 #include "ISensorManager.h"
 #include "Hardware.h"
-#include "SerialPort.h"
-#include "CommunicationException.h"
 #include "Thread.h"
+#include "IHardwareInterface.h"
 
-/* Variables for serial communication */
-
-/*
-This class manages data communication between the raspberry pi and the various arduinos on the robot. Upon creation an ISensorManager object must be injected into the class. Then, arduinos must be attached to the various serial communication ports on the raspberry pi. Each arduino manages various hardware components. These components must be specified when attaching an arduino.
-
-To communicate with the hardware, the queueMsg() function is exposed.
-
-To read data from the hardware, the readData() function is exposed. Data read from the sensors should be immedietly passed to the ISensorManager.
-*/
+/**
+ * Class that oversees communication between the Raspberry pi and a single peripheral. Data that is read/written to/from a peripheral must pass through this class. This class runs on its own thread and exposes functions to queue messages.
+ *
+ * Data read from the peripheral is immediately passed to the ISensorManager object for handing.
+ */
 class Communicator : public Thread {
 
 public:
-    Communicator(ISensorManager* sensorManager, int baudRate);
-    ~Communicator();
-    void attachHardware(std::string comPort, Hardware hardwareTarget);
-//    void attachHardware(std::string comPort, std::list<Hardware>* hardwareTargets);
-    void queueMessage(Message* message);
-//    void queueMessages(std::list<Message*>* messages);
-    void sendNextMsg(Hardware hardwareTarget);
-    void writeData();
-    void readData();
+    /**
+    * Constructor.
+    * @param sensorManager The ISensorManager object to pass data to.
+    * @param hardwareInterface The IHardwareInterface object to read/write from.
+    */
+    Communicator(ISensorManager* sensorManager, IHardwareInterface* hardwareInterface);
 
+    /**
+    * Deconstructor. Deletes all pointer references.
+    */
+    ~Communicator();
+
+    /**
+    * Add a message to a queue to be written to the peripheral
+    * @param msg A Message object to be written
+    */
+    void queueMessage(Message* message);
+
+    /**
+    * Add a list of messages to a queue to be written to the peripheral
+    * @param messages An std::list of Messages to be written
+    */
+    void queueMessage(std::list<Message*>* messages);
+
+    /**
+    * Overwritten Thread run function. Continuously reads and writes data to the peripheral
+    * @return NULL
+    */
     void* run() override;
 
 private:
     ISensorManager* sensorManager;
-    std::map<Hardware, std::string>* hardwareToSerialPortPathMap; 
-    std::map<Hardware, std::queue<Message*>*>* hardwareToMessageQueueMap; 
-    std::map<Hardware, SerialPort*>* hardwareToSerialPortMap;
-    int baudRate;
+    IHardwareInterface* hardwareInterface;
+    std::list<Message*>* messageQueue;
+
+    /**
+    * Write all messages in the queue to the peripheral
+    */
+    void write();
+
+    /**
+    * Read all data from the peripheral and pass it to the sensor manager
+    */
+    void read();
+
 };

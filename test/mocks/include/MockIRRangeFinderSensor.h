@@ -6,7 +6,6 @@ class MockIRRangeFinderSensor : public IRangeFinderSensor {
         MockIRRangeFinderSensor();
         ~MockIRRangeFinderSensor() override;
         void updateSensor(RawSensorData* data) override;
-        double getDistanceMM() override;
         double getDistanceCM() override;
 
     private:

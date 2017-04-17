@@ -13,10 +13,6 @@ void MockIRRangeFinderSensor::updateSensor(RawSensorData* data) {
     delete data;
 }
 
-double MockIRRangeFinderSensor::getDistanceMM() {
-    return this->distanceInCm * 10;
-}
-
 double MockIRRangeFinderSensor::getDistanceCM() {
     return this->distanceInCm;
 }
