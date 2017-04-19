@@ -1,5 +1,7 @@
 FILE(GLOB TESTSOURCES ./*.cpp)
 FILE(GLOB CXXSOURCES ../src/*.cpp)
+FILE(GLOB MOCKSRC ../wiringPiMock/*.cpp)
+FILE(GLOB MOCKH ../wiringPiMock/*.h)
 list(REMOVE_ITEM CXXSOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../src/Main.cpp)
 FILE(GLOB CXXCOMMANDS ../src/commands/*.cpp)
 FILE(GLOB CXXMOCKS ./mocks/*.cpp)
@@ -28,10 +30,8 @@ else()
         ${CXXSOURCES} 
         ${CXXCOMMANDS}
         ${CXXMOCKS}
-        ../wiringPiMock/wiringPi.h 
-        ../wiringPiMock/wiringPi.cpp
-        ../wiringPiMock/wiringSerial.h
-        ../wiringPiMock/wiringSerial.cpp)
+        ${MOCKSRC}
+        ${MOCKH})
     message(STATUS ">>> Building on Mac/PC/Linux")
 endif()
 
