@@ -1,8 +1,6 @@
 #include "RawSensorData.h"
 
-using namespace std;
-
-RawSensorData::RawSensorData(string data) {
+RawSensorData::RawSensorData(std::string data) {
     this->data = data;
 };
 
@@ -11,6 +9,6 @@ RawSensorData::~RawSensorData() {
     // Delete/free string?
 };
 
-string RawSensorData::getData() {
+std::string RawSensorData::getData() {
     return this->data;
 };

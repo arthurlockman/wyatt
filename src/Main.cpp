@@ -17,8 +17,11 @@ int main (void)
     comm->start();
 
     /* Create test command */
-    unsigned char commands[] = {H_LEFT_MOTOR.address, 0};
-    Message* msg1 = new Message(H_LEFT_MOTOR, commands);
+    std::string* command = new std::string("");
+    command->append(1, H_LEFT_MOTOR.address);
+    command->append(1, (unsigned char)0);
+
+    Message* msg1 = new Message(H_LEFT_MOTOR, command);
 
     /* Queue and send command */
     comm->queueMessage(msg1);

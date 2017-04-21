@@ -1,5 +1,4 @@
 #include "SensorManager.h"
-using namespace std;
 
 SensorManager::SensorManager() : ISensorManager() {
     this->sensorMap = new std::map<Hardware, ISensor*>;
@@ -18,7 +17,7 @@ void SensorManager::addSensor(Hardware hardware, ISensor* sensor) {
     this->sensorMap->insert(std::make_pair(hardware, sensor));
 };
 
-void SensorManager::updateSensors(list<Message*>* messages) {
+void SensorManager::updateSensors(std::list<Message*>* messages) {
 
     // For each message, extract the message data and send it to the appropriate sensor.
 //    for(Message* msg: *messages) {

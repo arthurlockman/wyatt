@@ -1,19 +1,18 @@
 #include "Message.h"
 
-Message::Message(Hardware hardware, unsigned char* msg) {
+Message::Message(Hardware hardware, std::string *msg) {
     this->hardware = hardware;
     this->msg = msg;
 }
 
 Message::~Message() {
-    // TODO
-    // Free/Delete msg
+    delete this->msg;
 }
 
 Hardware Message::getHardware() {
     return this->hardware;
 }
 
-unsigned char* Message::getMessage() {
+std::string* Message::getMessage() {
     return this->msg;
 }

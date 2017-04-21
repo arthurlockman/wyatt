@@ -1,11 +1,10 @@
 #include "Communicator.h"
-using namespace std;
 
 Communicator::Communicator(ISensorManager* sensorManager, IHardwareInterface* hardwareInterface) : Thread() {
     this->sensorManager = sensorManager;
     this->hardwareInterface = hardwareInterface;
 
-    this->messageQueue = new list<Message*>;
+    this->messageQueue = new std::list<Message*>;
 }
 
 Communicator::~Communicator() {
@@ -18,7 +17,7 @@ void Communicator::queueMessage(Message *msg) {
     this->messageQueue->push_back(msg);
 }
 
-void Communicator::queueMessage(list<Message*>* messages) {
+void Communicator::queueMessage(std::list<Message*>* messages) {
     for(Message* msg: *messages) {
         this->queueMessage(msg);
     }

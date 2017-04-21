@@ -13,6 +13,7 @@
 #include <list>
 #include <map>
 #include <iostream>
+#include <string>
 
 #include "Thread.h"
 #include "ISensorManager.h"
