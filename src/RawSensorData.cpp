@@ -5,8 +5,7 @@ RawSensorData::RawSensorData(std::string data) {
 };
 
 RawSensorData::~RawSensorData() {
-    // TODO
-    // Delete/free string?
+    // No-Op
 };
 
 std::string RawSensorData::getData() {

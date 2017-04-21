@@ -13,7 +13,7 @@ public:
      * @param hardware The hardware this came from/goes to.
      * @param msg An byte array of data
      */
-    Message(Hardware hardware, std::string* msg);
+    Message(Hardware hardware, std::string msg);
 
     /**
      * Deconstructor. Deletes all object references.
@@ -24,7 +24,7 @@ public:
      * Returns a pointer to the byte array. The length of this array is maintained in the Hardware class.
      * @return
      */
-    std::string* getMessage();
+    std::string getMessage();
 
     /**
      * Returns the hardware that this message came from/goes to.
@@ -33,6 +33,6 @@ public:
     Hardware getHardware();
 
 private:
-    std::string* msg;
+    std::string msg;
     Hardware hardware;
 };

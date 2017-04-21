@@ -1,18 +1,18 @@
 #include "Message.h"
 
-Message::Message(Hardware hardware, std::string *msg) {
+Message::Message(Hardware hardware, std::string msg) {
     this->hardware = hardware;
     this->msg = msg;
 }
 
 Message::~Message() {
-    delete this->msg;
+    // No op
 }
 
 Hardware Message::getHardware() {
     return this->hardware;
 }
 
-std::string* Message::getMessage() {
+std::string Message::getMessage() {
     return this->msg;
 }
