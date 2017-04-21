@@ -14,11 +14,13 @@
 #include "../include/ISensorManager.h"
 #include "../include/SensorManager.h"
 #include "../include/ISensorManagerExceptions.h"
-#include "mocks/include/MockSensorManager.h"
-#include "mocks/include/MockHardwareInterface.h"
+
+#include <unistd.h>
 
 /* MOCKS */
 #include "MockIRRangeFinderSensor.h"
+#include "mocks/include/MockSensorManager.h"
+#include "mocks/include/MockHardwareInterface.h"
 
 TEST_CASE("Command subsystem tests", "[CommandManager]") {
 
@@ -98,8 +100,9 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
         ISensor* mockSensor = new MockIRRangeFinderSensor();
 
         sensorManager->addSensor(mockHardware, mockSensor);
-        REQUIRE_THROWS(
-                sensorManager->addSensor(mockHardware, mockSensor)
+        REQUIRE_THROWS_AS(
+                sensorManager->addSensor(mockHardware, mockSensor),
+                DuplicateHardwareException
         );
     }
 
@@ -107,8 +110,9 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
         Message* msg = new Message(H_LEFT_MOTOR, "12.2");
         std::list<Message*>* messages = new std::list<Message*>;
         messages->push_back(msg);
-        REQUIRE_THROWS(
-                sensorManager->updateSensors(messages)
+        REQUIRE_THROWS_AS(
+                sensorManager->updateSensors(messages),
+                NonexistentHardwareException
         );
     }
 
@@ -140,19 +144,38 @@ TEST_CASE("Message tests", "[Message]") {
 TEST_CASE("Communicator Tests", "[Communicator]") {
 
     /* Initialize object */
-    ISensorManager* mockSensorManager = new MockSensorManager();
-    IHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+    MockSensorManager* mockSensorManager = new MockSensorManager();
+    MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
 
     Hardware hardwareTarget = H_LEFT_MOTOR;
-    Communicator* comm = new Communicator(mockSensorManager, mockHardwareInterface);
 
     SECTION("Test queuing message") {
+        Communicator* comm = new Communicator(mockSensorManager, mockHardwareInterface);
+
         std::string mockData = "13.2";
         Message* mockMessage = new Message(hardwareTarget, mockData);
         comm->queueMessage(mockMessage);
+
+        comm->start();
+        usleep(500000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockHardwareInterface->writeMessage == mockMessage);
     }
 
     SECTION("Test receiving messages") {
+        Communicator* comm = new Communicator(mockSensorManager, mockHardwareInterface);
+
+        std::list<Message*>* messages = new std::list<Message*>;
+        mockHardwareInterface->setReadMessages(messages);
+
+        comm->start();
+        usleep(500000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(messages == mockSensorManager->getUpdateMessages());
 
     }
 

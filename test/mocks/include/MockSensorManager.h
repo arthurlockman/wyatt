@@ -17,6 +17,9 @@ public:
 
     void addSensor(Hardware hardware, ISensor* sensor) override;
     void updateSensors(std::list<Message*>* messages) override;
+    std::list<Message*>* getUpdateMessages();
+
+    std::list<Message*>* updateMessages;
 
 
 };
