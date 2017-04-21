@@ -78,6 +78,21 @@ public:
      * @return true if successful.
      */
     bool stopAllMotors();
+    /**
+     * Set a PWM channel to a specific on/off time.
+     *
+     * @param channel Channel to write to.
+     * @param on On time
+     * @param off Off time
+     */
+    void setPwm(int channel, int on, int off);
+    /**
+     * Set all PWM channels to a specific on/off time.
+     *
+     * @param on On time
+     * @param off Off time
+     */
+    void setAllPwm(int on, int off);
 private:
     //! I2C device file descriptor
     int m_i2c;
@@ -93,20 +108,5 @@ private:
      * @param freqHz Frequency (Hz)
      */
     void setPwmFrequency(double freqHz);
-    /**
-     * Set a PWM channel to a specific on/off time.
-     *
-     * @param channel Channel to write to.
-     * @param on On time
-     * @param off Off time
-     */
-    void setPwm(int channel, char on, char off);
-    /**
-     * Set all PWM channels to a specific on/off time.
-     *
-     * @param on On time
-     * @param off Off time
-     */
-    void setAllPwm(char on, char off);
 };
 
