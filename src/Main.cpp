@@ -28,5 +28,12 @@ int main (void)
 //
 //    comm->join();
 
+    AdafruitPWMServoHat* controller = new AdafruitPWMServoHat();
+
+    for(int i = 0; i < 4096; i++) {
+    	controller->setMotor(0, i);
+    	usleep(10000);
+    }
+
     return 0 ;
 }

@@ -23,3 +23,4 @@
 #include "RawSensorData.h"
 #include "CommandManager.h"
 #include "Hardware.h"
+#include "AdafruitPWMServoHat.h"

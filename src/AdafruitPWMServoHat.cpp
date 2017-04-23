@@ -22,33 +22,27 @@ AdafruitPWMServoHat::AdafruitPWMServoHat(int pwmFrequency):
 
 AdafruitPWMServoHat::~AdafruitPWMServoHat()
 {
-    //TODO: Finish this stub.
 }
 
 bool AdafruitPWMServoHat::setMotor(int motorID, int speed)
 {
-    //TODO: Fix this stub.
-    double pulseLength = 1000000; // 1,000,000 us per second
-    pulseLength /= m_hz; // n hz
-    std::cout << pulseLength << "us per period" << std::endl;
-    pulseLength /= 4096.0; // 12 bit resolution
-    std::cout << pulseLength << "us per bit" << std::endl;
-    double pulse = (double)speed; // fix this
-    pulse *= 1000;
-    pulse /= pulseLength;
-    this->setPwm(motorID, 0, (int)pulse);
+    speed = (speed > 4095) ? 4095 : (speed < 0) ? 0 : speed;
+    this->setPwm(motorID, 0, speed);
     return true;
 }
 
 bool AdafruitPWMServoHat::stopMotor(int motorID)
 {
-    //TODO: Finish this stub.
+    this->setMotor(motorID, 0);
     return true;
 }
 
 bool AdafruitPWMServoHat::stopAllMotors()
 {
-    //TODO: Finish this stub.
+    for (int i = 0; i < 16; i++)
+    {
+        this->stopMotor(i);
+    }
     return true;
 }
 
@@ -81,7 +75,7 @@ void AdafruitPWMServoHat::setPwm(int channel, int on, int off)
     wiringPiI2CWriteReg8(m_i2c, LED0_ON_L + 4*channel, on & 0xFF);
     wiringPiI2CWriteReg8(m_i2c, LED0_ON_H + 4*channel, on >> 8);
     wiringPiI2CWriteReg8(m_i2c, LED0_OFF_L + 4*channel, off & 0xFF);
-    wiringPiI2CWriteReg8(m_i2c, LED0_OFF_H + 4*channel, on >> 8);
+    wiringPiI2CWriteReg8(m_i2c, LED0_OFF_H + 4*channel, off >> 8);
 }
 
 void AdafruitPWMServoHat::setAllPwm(int on, int off)
@@ -89,5 +83,5 @@ void AdafruitPWMServoHat::setAllPwm(int on, int off)
     wiringPiI2CWriteReg8(m_i2c, ALL_LED_ON_L, on & 0xFF);
     wiringPiI2CWriteReg8(m_i2c, ALL_LED_ON_H, on >> 8);
     wiringPiI2CWriteReg8(m_i2c, ALL_LED_OFF_L, off & 0xFF);
-    wiringPiI2CWriteReg8(m_i2c, ALL_LED_OFF_H, on >> 8);
+    wiringPiI2CWriteReg8(m_i2c, ALL_LED_OFF_H, off >> 8);
 }

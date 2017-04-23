@@ -59,7 +59,7 @@ public:
      * Set a motor or servo on the HAT.
      *
      * @param motorID Motor ID, from 0-15 (mapped to the outputs on the baord.
-     * @param speed The speed (0-255) to set the motor to.
+     * @param speed The speed (0-4095) to set the motor to.
      *
      * @return true if successful.
      */
