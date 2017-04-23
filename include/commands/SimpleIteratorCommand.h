@@ -6,6 +6,7 @@
 #define WYATT_SIMPLEITERATORCOMMAND_H
 
 #include "Command.h"
+#include <mutex>
 
 class SimpleIteratorCommand: public Command {
 public:
@@ -17,4 +18,5 @@ private:
     int m_counter;
     int m_goal;
 };
+
 #endif //WYATT_SIMPLEITERATORCOMMAND_H

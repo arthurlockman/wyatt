@@ -2,7 +2,6 @@
 // Created by Arthur Lockman on 4/7/17.
 //
 
-#include <iostream>
 #include "commands/SimpleIteratorCommand.h"
 
 SimpleIteratorCommand::SimpleIteratorCommand(int goal):
@@ -20,11 +19,16 @@ SimpleIteratorCommand::~SimpleIteratorCommand()
 
 bool SimpleIteratorCommand::execute()
 {
+    m_lock.lock();
     m_counter++;
+    m_lock.unlock();
     return m_counter != m_goal;
 }
 
 int SimpleIteratorCommand::getCount()
 {
-    return m_counter;
+    m_lock.lock();
+    int count = m_counter;
+    m_lock.unlock();
+    return count;
 }

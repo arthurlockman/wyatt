@@ -1,5 +1,7 @@
 FILE(GLOB CXXSOURCES *.cpp)
 FILE(GLOB CXXCOMMANDS ./commands/*.cpp)
+FILE(GLOB MOCKSRC ../wiringPiMock/*.cpp)
+FILE(GLOB MOCKH ../wiringPiMock/*.h)
 
 CheckHasModule(WiringPi)
 
@@ -20,9 +22,10 @@ if(HAS_MODULE_WiringPi)
     target_compile_definitions(wyatt PRIVATE IS_RASPI=1)
 else()
     add_executable(wyatt
+            ${TESTSOURCES}
             ${CXXSOURCES}
-            ../wiringPiMock/wiringPi.h
-            ../wiringPiMock/wiringPi.cpp
+            ${MOCKSRC}
+            ${MOCKH}
             ${CXXCOMMANDS})
     message(STATUS ">>> Building on Mac/PC/Linux")
     # Use mocked WiringPi

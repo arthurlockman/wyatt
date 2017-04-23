@@ -1,21 +1,38 @@
 #pragma once
-
-#include <string>
-#include <cstdint>
 #include "Hardware.h"
+#include <string>
 
-/*
-This class encapsulates information needed to communicate with various pieces of hardware on a robot. Each message must have an identifier for the piece of hardware the message is destined and a string representing the data to be sent to the hardware.
-*/
-using namespace std;
+/**
+ * This class encapsulates information transmitted between the Raspi and a peripheral.
+ */
 class Message {
 
 public:
-    Message(Hardware hardware, string msg);
-    string getMessage();
+    /**
+     * Constructor.
+     * @param hardware The hardware this came from/goes to.
+     * @param msg An byte array of data
+     */
+    Message(Hardware hardware, std::string msg);
+
+    /**
+     * Deconstructor. Deletes all object references.
+     */
+    ~Message();
+
+    /**
+     * Returns a pointer to the byte array. The length of this array is maintained in the Hardware class.
+     * @return
+     */
+    std::string getMessage();
+
+    /**
+     * Returns the hardware that this message came from/goes to.
+     * @return The hardware that this message came from/goes to.
+     */
     Hardware getHardware();
 
 private:
-    string msg;
+    std::string msg;
     Hardware hardware;
 };

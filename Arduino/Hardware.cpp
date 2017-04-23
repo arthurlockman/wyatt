@@ -5,11 +5,6 @@ bool operator < (const Hardware &a, const Hardware &b)
     return a.address < b.address;
 };
 
-bool operator == (const Hardware &a, const Hardware &b)
-{
-    return (a.address == b.address) && (a.messageLength == b.messageLength);
-};
-
 const Hardware H_RIGHT_MOTOR = { 
         .address = 0,
         .messageLength = 1,

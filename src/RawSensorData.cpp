@@ -1,9 +1,13 @@
 #include "RawSensorData.h"
 
-RawSensorData::RawSensorData(string data) {
+RawSensorData::RawSensorData(std::string data) {
     this->data = data;
 };
 
-string RawSensorData::getData() {
+RawSensorData::~RawSensorData() {
+    // No-Op
+};
+
+std::string RawSensorData::getData() {
     return this->data;
 };
