@@ -30,8 +30,11 @@ int main (void)
 
     AdafruitPWMServoHat* controller = new AdafruitPWMServoHat();
 
-    for(int i = 0; i < 4096; i++) {
+    for(int i = 4095; i >= 0; i--) {
     	controller->setMotor(0, i);
+    	controller->setMotor(1, 0);
+    	controller->setMotor(2, i);
+    	controller->setMotor(3, 0);
     	usleep(10000);
     }
 
