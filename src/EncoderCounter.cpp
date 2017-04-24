@@ -8,7 +8,7 @@ EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev):
     m_lastTransition(-2),
     m_ticksPerRevolution(ticksPerRev)
 {
-    m_revolutionsPerTick = 1.0 / (double)ticksPerRev;
+    m_revolutionsPerTick = 10.0 / (double)ticksPerRev;
     pinMode(channelA, INPUT);
     pinMode(channelB, INPUT);
     m_channelAState = digitalRead(m_channelA);
@@ -22,6 +22,7 @@ EncoderCounter::~EncoderCounter()
 
 void* EncoderCounter::run()
 {
+    int numTicks = 0;
     while (m_signal >= 0)
     {
         if (m_signal == 1) // Reset count
@@ -33,8 +34,10 @@ void* EncoderCounter::run()
         int newChannelBState = digitalRead(m_channelB);
         int newTransition = (newChannelAState != m_channelAState) ? 1 : (newChannelBState != m_channelBState) ? -1 : 0;
         // Calculate encoder speed in RPM, store in m_speed
-        if (newTransition != 0)
+        numTicks += abs(newTransition);
+        if (numTicks >= 10)
         {
+            numTicks = 0;
             std::chrono::high_resolution_clock::time_point newTime = std::chrono::high_resolution_clock::now();
             std::chrono::microseconds diffTime = std::chrono::duration_cast<std::chrono::microseconds>(newTime - m_lastTickTime);
             m_lastTickTime = newTime;
