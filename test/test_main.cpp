@@ -169,6 +169,20 @@ TEST_CASE("Message tests", "[Message]") {
                 MessageLengthException
         );
     }
+
+    SECTION("Test message serialization") {
+        std::string data;
+        unsigned char d = 0b10101010;
+        data.append(1, d);
+        Message* msg = new Message(H_RIGHT_MOTOR, data);
+
+        /* Expected string */
+        std::string expected;
+        expected.append(1, H_RIGHT_MOTOR.address);
+        expected += data;
+
+        REQUIRE(msg->serialize() == expected);
+    }
 }
 
 TEST_CASE("Communicator Tests", "[Communicator]") {

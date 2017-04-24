@@ -29,19 +29,19 @@ int main (void)
 //    comm->join();
 
     // Create robot command manager
-    CommandManager* m_commandManager = new CommandManager();
+    // CommandManager* m_commandManager = new CommandManager();
     // Create robot chassis object
-    Chassis* m_chassis = new Chassis();
+    // Chassis* m_chassis = new Chassis();
 
     // Temporary, testing drive
-    DriveForwardSecondsCommand* tmp_driveCmd = new DriveForwardSecondsCommand(m_chassis, 10.0);
-    m_commandManager->runCommand(tmp_driveCmd);
+    // DriveForwardSecondsCommand* tmp_driveCmd = new DriveForwardSecondsCommand(m_chassis, 10.0);
+    // m_commandManager->runCommand(tmp_driveCmd);
 
     // Wait for command to finish
-    while (!tmp_driveCmd->isFinished()) ;
+    // while (!tmp_driveCmd->isFinished()) ;
 
     //Kill command manager.
-    m_commandManager->kill();
+    // m_commandManager->kill();
 
     return 0 ;
 }

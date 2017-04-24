@@ -59,6 +59,12 @@ public:
      */
     Hardware getHardware();
 
+    /**
+     * Serializes object as a string. Appends the hardware address as a character to the front of the data.
+     * @return A string representation of this object.
+     */
+    std::string serialize();
+
 private:
     std::string msg;
     Hardware hardware;

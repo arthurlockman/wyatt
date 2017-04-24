@@ -20,3 +20,11 @@ Hardware Message::getHardware() {
 std::string Message::getMessage() {
     return this->msg;
 }
+
+std::string Message::serialize() {
+    std::string serial;
+    serial.append(1, hardware.address);
+    serial += msg;
+
+    return serial;
+}
