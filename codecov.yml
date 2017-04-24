@@ -29,4 +29,5 @@ ignore:
   - "/usr/*"
   - "/Applications/*"
   - "*/catch.hpp"
-  - "*/test/*"
+  - "test/*"
+  - "wiringPiMock/*"
