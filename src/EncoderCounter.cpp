@@ -1,5 +1,5 @@
 #include "EncoderCounter.h"
-#include "wiringPiInclude.h"
+
 
 EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev):
     m_channelA(channelA),

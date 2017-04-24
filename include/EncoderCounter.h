@@ -6,6 +6,8 @@
 #include <atomic>
 #include <list>
 #include <chrono>
+#include "wiringPiInclude.h"
+#include <stdlib.h>
 
 class EncoderCounter : public Thread, public IHardwareInterface
 {
