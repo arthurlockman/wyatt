@@ -1,14 +1,7 @@
 #pragma once
 
 #include "MotorController.h"
-
-#ifdef IS_RASPI
-    #include <wiringPi.h>
-    #include <wiringPiI2C.h>
-#else
-    #include "../wiringPiMock/wiringPi.h"
-    #include "../wiringPiMock/wiringPiI2C.h"
-#endif
+#include "wiringPiInclude.h"
 
 // Registers
 #define PCA9685_ADDRESS     0x40
