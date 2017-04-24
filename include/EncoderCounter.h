@@ -5,6 +5,7 @@
 #include "Message.h"
 #include <atomic>
 #include <list>
+#include <chrono>
 
 class EncoderCounter : public Thread, public IHardwareInterface
 {
@@ -14,8 +15,9 @@ public:
      *
      * @param channelA WiringPi Pin for channel A.
      * @param channelB WiringPi Pin for channel B.
+     * @param ticksPerRev Number of ticks per revolution on this encoder.
      */
-    EncoderCounter(int channelA, int channelB);
+    EncoderCounter(int channelA, int channelB, int ticksPerRev);
     /**
      * Destructs the encoder counter.
      */
@@ -35,9 +37,15 @@ public:
      */
     void resetCount();
     /**
+     * Get the encoder current speed in RPM.
+     * @return A speed in RPM.
+     */
+    double getSpeedRPM();
+    /**
      * Read a list containing a message with the
-     * current encoder count for this encoder.
-     * @return A message object containing the count for this encoder.
+     * current encoder count for this encoder, and a message with the
+     * current speed.
+     * @return A message list object containing the count/speed for this encoder.
      */
     std::list<Message*>* read();
 private:
@@ -53,6 +61,14 @@ private:
     int m_lastTransition;
     //! Current encoder direction.
     int m_direction;
+    //! Number of ticks per revolution of the encoder.
+    int m_ticksPerRevolution;
+    //! Ratio of one tick to a number of revolutions.
+    double m_revolutionsPerTick;
+    //! Last time the encoder ticked.
+    std::chrono::high_resolution_clock::time_point m_lastTickTime;
+    //! Current encoder speed in RPM.
+    std::atomic<double> m_speed;
     //! Current encoder count.
     std::atomic<long> m_count;
 };

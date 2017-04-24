@@ -1,12 +1,14 @@
 #include "EncoderCounter.h"
 #include "wiringPiInclude.h"
 
-EncoderCounter::EncoderCounter(int channelA, int channelB):
+EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev):
     m_channelA(channelA),
     m_channelB(channelB),
     m_count(0),
-    m_lastTransition(-2)
+    m_lastTransition(-2),
+    m_ticksPerRevolution(ticksPerRev)
 {
+    m_revolutionsPerTick = 1.0 / (double)ticksPerRev;
     pinMode(channelA, INPUT);
     pinMode(channelB, INPUT);
     m_channelAState = digitalRead(m_channelA);
@@ -30,6 +32,14 @@ void* EncoderCounter::run()
         int newChannelAState = digitalRead(m_channelA);
         int newChannelBState = digitalRead(m_channelB);
         int newTransition = (newChannelAState != m_channelAState) ? 1 : (newChannelBState != m_channelBState) ? -1 : 0;
+        // Calculate encoder speed in RPM, store in m_speed
+        if (newTransition != 0)
+        {
+            std::chrono::high_resolution_clock::time_point newTime = std::chrono::high_resolution_clock::now();
+            std::chrono::microseconds diffTime = std::chrono::duration_cast<std::chrono::microseconds>(newTime - m_lastTickTime);
+            m_lastTickTime = newTime;
+            m_speed = (m_revolutionsPerTick / (double)diffTime.count()) * 60000000.0;
+        }
         m_channelAState = newChannelAState;
         m_channelBState = newChannelBState;
         // If last transition is uninitialized, initialize direction to whichever transition just occurred. It will
@@ -56,8 +66,13 @@ void EncoderCounter::resetCount()
 
 std::list<Message*>* EncoderCounter::read()
 {
-    // TODO: finish stub
+    // TODO: finish stub, return a list with a speed and ticks message.
     std::list<Message*>* tmpList = new std::list<Message*>();
 //    Message* tmpMessage = new Message();
     return tmpList;
+}
+
+double EncoderCounter::getSpeedRPM()
+{
+    return m_speed;
 }
