@@ -58,14 +58,14 @@ private:
     };
     /**
      * Drives a specific motor at a specific speed.
-     * @param speed A value from 0-255, motor speed.
+     * @param speed A value from -255 - 255, motor speed.
      */
     void driveMotor(m_motor, int speed);
     /**
-     * Convert motor speed from 0-255 to 0-4096 to hand
+     * Convert motor speed from -255 - 255 to -4095 - 4095 to hand
      * off to the servo hat.
-     * @param speed an int, 0-255.
-     * @return a speed, int, 0-4095
+     * @param speed an int, -255 - 255.
+     * @return a speed, int, -4095 - 4095
      */
     int mapMotorSpeed(int speed);
 };
