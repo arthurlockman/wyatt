@@ -1,5 +1,6 @@
 #include "commands/DriveForwardSecondsCommand.h"
 #include "time.h"
+#include "DriveConstants.h"
 #include <string>
 
 DriveForwardSecondsCommand::DriveForwardSecondsCommand(Chassis *chassis, double seconds) :
@@ -9,11 +10,11 @@ DriveForwardSecondsCommand::DriveForwardSecondsCommand(Chassis *chassis, double 
 {
     m_startTime = time(0);
     std::string rightMessageString;
-    rightMessageString.append(1, 0b10000000);
+    rightMessageString.append(1, FULL_FORWARD);
     Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
 
     std::string leftMessageString;
-    leftMessageString.append(1, 0b11111111);
+    leftMessageString.append(1, FULL_FORWARD);
     Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);
 
     m_chassis->write(rightMessage);
@@ -33,14 +34,11 @@ bool DriveForwardSecondsCommand::execute()
 bool DriveForwardSecondsCommand::cleanup(bool canceled)
 {
     std::cout << "Ran for " << difftime(time(0), m_startTime) << " seconds." << std::endl;
-    // TODO: Send message to stop motor.
     std::string rightMessageString;
-    rightMessageString.append(1, H_RIGHT_MOTOR.address);
-    rightMessageString.append(1, 0b00000000);
+    rightMessageString.append(1, FULL_STOP);
 
     std::string leftMessageString;
-    leftMessageString.append(1, H_LEFT_MOTOR.address);
-    leftMessageString.append(1, 0b00000000);
+    leftMessageString.append(1, FULL_STOP);
 
     Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
     Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);

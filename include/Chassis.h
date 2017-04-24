@@ -45,10 +45,10 @@ private:
      * each of the pins for the left and right motors.
      */
     enum m_motorAddresses: int {
+        right2 = 1,
         right1 = 0,
-        right2,
-        left1,
-        left2
+        left1  = 3,
+        left2  = 2
     };
 
     /**
