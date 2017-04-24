@@ -7,6 +7,7 @@
 
 #include "Command.h"
 #include <mutex>
+#include <atomic>
 
 class SimpleIteratorCommand: public Command {
 public:
@@ -16,7 +17,7 @@ public:
     bool cleanup(bool canceled);
     int getCount();
 private:
-    int m_counter;
+    std::atomic<int> m_counter;
     int m_goal;
 };
 
