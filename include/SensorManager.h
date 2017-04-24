@@ -6,6 +6,8 @@
 #include "Hardware.h"
 #include "Message.h"
 #include <iostream>
+#include "NonexistentHardwareException.h"
+#include "DuplicateHardwareException.h"
 
 /**
  * Implementation header of ISensorManager.

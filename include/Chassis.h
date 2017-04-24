@@ -10,6 +10,7 @@
 #include "Hardware.h"
 #include <stdlib.h>
 #include <iostream>
+#include "NonexistentHardwareException.h"
 
 class Chassis: public IHardwareInterface {
 public:
@@ -64,6 +65,3 @@ private:
      */
     int mapMotorSpeed(unsigned char speed);
 };
-
-
-

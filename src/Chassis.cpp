@@ -9,7 +9,7 @@ Chassis::Chassis() {
 }
 
 Chassis::~Chassis() {
-
+    delete this->m_pwmHat;
 }
 
 void Chassis::write(Message* msg) {
@@ -19,7 +19,7 @@ void Chassis::write(Message* msg) {
     unsigned char data[messageLength];
 
     for(int i = 0; i < messageLength; i++) {
-        data[i] = (unsigned char)msg->getMessage().at(i+1);
+        data[i] = (unsigned char)msg->getMessage().at(i);
     }
 
     switch(hardware.address) {
@@ -30,8 +30,7 @@ void Chassis::write(Message* msg) {
             driveMotor(LEFT_MOTOR_ADDRESS, data[0]);
             break;
         default:
-            std::cout << "Error. Unhandled hardware in Chassis." << std::endl;
-            break;
+            throw NonexistentHardwareException(hardware);
     }
 
     delete msg;

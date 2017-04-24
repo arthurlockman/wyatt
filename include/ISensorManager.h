@@ -4,7 +4,6 @@
 #include "Hardware.h"
 #include "ISensor.h"
 #include "Message.h"
-#include "ISensorManagerExceptions.h"
 
 /**
  * Class for managing sensor data. Receives sensor data from the updateSensors function and writes the data to the respective sensors.
@@ -30,3 +29,4 @@ public:
      */
     virtual void updateSensors(std::list<Message*>* messages) = 0;
 };
+

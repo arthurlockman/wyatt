@@ -13,7 +13,7 @@
 #include "../include/Hardware.h"
 #include "../include/ISensorManager.h"
 #include "../include/SensorManager.h"
-#include "../include/ISensorManagerExceptions.h"
+#include "../include/Chassis.h"
 
 #include <unistd.h>
 
@@ -75,7 +75,7 @@ TEST_CASE("Sensor interface tests", "[ISensor]") {
         sensor->updateSensor(mockRawSensorData_IR);
         MockIRRangeFinderSensor* IRSensor = (MockIRRangeFinderSensor*) sensor;
 
-        REQUIRE( IRSensor->getDistanceCM() == 12.2 );
+        REQUIRE(IRSensor->getData() == mockData);
     }
 
 }
@@ -107,9 +107,12 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
     SECTION("Updating non-existent hardware results in exception") {
-        Message* msg = new Message(H_LEFT_MOTOR, "12.2");
+        std::string data;
+        data.append(1, 0b00000000);
+        Message* msg = new Message(H_LEFT_MOTOR, data);
         std::list<Message*>* messages = new std::list<Message*>;
         messages->push_back(msg);
+
         REQUIRE_THROWS_AS(
                 sensorManager->updateSensors(messages),
                 NonexistentHardwareException
@@ -117,28 +120,55 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
     SECTION("Updates sensors correctly") {
-        Hardware mockHardware = H_LEFT_MOTOR;
+        Hardware mockHardware = {0b11111111, 1};
         MockIRRangeFinderSensor* mockSensor = new MockIRRangeFinderSensor();
         sensorManager->addSensor(mockHardware, mockSensor);
 
-        Message* msg = new Message(H_LEFT_MOTOR, "12.2");
+        std::string data;
+        data.append(1, 0b11111111); // 255
+        Message* msg = new Message(mockHardware, data);
         std::list<Message*>* messages = new std::list<Message*>;
         messages->push_back(msg);
 
         sensorManager->updateSensors(messages);
 
-        REQUIRE(mockSensor->getDistanceCM() == 12.2);
+        REQUIRE(mockSensor->getData() == data);
     }
 
 
 }
 
 TEST_CASE("Message tests", "[Message]") {
-    std::string mockData = "12.2";
-    Hardware hardware = H_LEFT_MOTOR;
-    Message* msg = new Message(hardware, mockData);
-    REQUIRE((msg->getHardware()).address == hardware.address);
-    REQUIRE(msg->getMessage() == mockData);
+
+    SECTION("Test normal message") {
+        std::string mockData;
+        mockData.append(1, 127);
+        Hardware hardware = H_LEFT_MOTOR;
+        Message* msg = new Message(hardware, mockData);
+
+        REQUIRE((msg->getHardware()).address == hardware.address);
+        REQUIRE(msg->getMessage() == mockData);
+    }
+
+    SECTION("Test message length too short") {
+        std::string mockData;
+        Hardware hardware = H_LEFT_MOTOR;
+
+        REQUIRE_THROWS_AS(
+                new Message(hardware, mockData),
+                MessageLengthException
+        );
+    }
+
+    SECTION("Test message length too long") {
+        std::string mockData = "too long";
+        Hardware hardware = H_LEFT_MOTOR;
+
+        REQUIRE_THROWS_AS(
+                new Message(hardware, mockData),
+                MessageLengthException
+        );
+    }
 }
 
 TEST_CASE("Communicator Tests", "[Communicator]") {
@@ -147,13 +177,12 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
     MockSensorManager* mockSensorManager = new MockSensorManager();
     MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
 
-    Hardware hardwareTarget = H_LEFT_MOTOR;
-
     SECTION("Test queuing message") {
         Communicator* comm = new Communicator(mockSensorManager, mockHardwareInterface);
 
-        std::string mockData = "13.2";
-        Message* mockMessage = new Message(hardwareTarget, mockData);
+        std::string mockData;
+        mockData.append(1, 0b00000000);
+        Message* mockMessage = new Message(H_LEFT_MOTOR, mockData);
         comm->queueMessage(mockMessage);
 
         comm->start();
@@ -181,34 +210,44 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
 
 }
 
-//
-//#if IS_RASPI
-//TEST_CASE("Integration Tests", "[Integration]") {
-//
-//    ISensorManager* mockSensorManager = new MockSensorManager();
-//    std::string comPort = "/dev/ttyUSB0";
-//    int baudRate = 9600;
-//    Communicator* comm = new Communicator(mockSensorManager, baudRate);
-//
-//    SECTION("Integration test: Attach arduino and turn both motors") {
-//        /* Attach motors to the arduino */
-//        comm->attachHardware(comPort, H_LEFT_MOTOR);
-//        comm->attachHardware(comPort, H_RIGHT_MOTOR);
-//
-//        /* Command for driving right motor forwards */
-//        char commandLeftMotor[] = {H_LEFT_MOTOR.address, 0};
-//        char commandRightMotor[] = {H_RIGHT_MOTOR.address, 0};
-//        Message* msgRight = new Message(H_RIGHT_MOTOR, commandRightMotor);
-//        Message* msgLeft = new Message(H_LEFT_MOTOR, commandLeftMotor);
-//
-//        /* Queue messages */
-//        comm->queueMessage(msgRight);
-//        comm->queueMessage(msgLeft);
-//
-//        /* Send messages */
-//        comm->sendNextMsg(H_LEFT_MOTOR);
-//        comm->sendNextMsg(H_RIGHT_MOTOR);
-//
-//    }
-//}
-//#endif
+TEST_CASE("Chassis tests", "[Chassis]") {
+
+    Chassis *chassis = new Chassis();
+
+    SECTION("Test writing message to left motor.") {
+        std::string data;
+        data.append(1, 0b00000000);
+        Message* testMessage = new Message(H_LEFT_MOTOR, data);
+
+        // TODO: Check that the data has been written to the appropriate registers
+        chassis->write(testMessage);
+    }
+
+    SECTION("Test writing message to right motor.") {
+        std::string data;
+        data.append(1, 0b00000000);
+        Message* testMessage = new Message(H_RIGHT_MOTOR, data);
+
+        // TODO: Check that the data has been written to the appropriate registers
+        chassis->write(testMessage);
+    }
+
+    SECTION("Test writing messages to an unsupported hardware throws an exception") {
+        std::string data;
+        data.append(1, 0b11111111); // 255
+        Hardware mockHardware = {0b11111111, 1};
+        Message* testMessage = new Message(mockHardware, data);
+
+        REQUIRE_THROWS_AS(
+                chassis->write(testMessage),
+                NonexistentHardwareException
+        );
+    }
+
+    SECTION("Test reading message returns empty list") {
+        std::list<Message*>* messages = chassis->read();
+
+        REQUIRE(messages->size() == 0);
+    }
+
+}
