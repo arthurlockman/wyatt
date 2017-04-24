@@ -38,6 +38,7 @@ public:
 private:
     //! Instance of the PWM Servo Hat.
     AdafruitPWMServoHat* m_pwmHat;
+
     /**
      * Enumerates the addresses on the servo hat of
      * each of the pins for the left and right motors.
@@ -48,26 +49,20 @@ private:
         left1,
         left2
     };
-    /**
-     * Enumerates the message destinations within the chassis
-     * class.
-     */
-    enum m_motor: int {
-        LEFT_MOTOR = 0,
-        RIGHT_MOTOR
-    };
+
     /**
      * Drives a specific motor at a specific speed.
-     * @param speed A value from -255 - 255, motor speed.
+     * @param speed A value from 0 - 255, motor speed.
      */
-    void driveMotor(m_motor, int speed);
+    void driveMotor(unsigned char motorAddress, unsigned char speed);
+
     /**
-     * Convert motor speed from -255 - 255 to -4095 - 4095 to hand
+     * Convert motor speed from 0 - 255 to -4095 - 4095 to hand
      * off to the servo hat.
-     * @param speed an int, -255 - 255.
+     * @param speed an unsigned char, 0 - 255.
      * @return a speed, int, -4095 - 4095
      */
-    int mapMotorSpeed(int speed);
+    int mapMotorSpeed(unsigned char speed);
 };
 
 

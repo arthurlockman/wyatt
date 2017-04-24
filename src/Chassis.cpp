@@ -16,47 +16,53 @@ void Chassis::write(Message* msg) {
 
     Hardware hardware = msg->getHardware();
     int messageLength = hardware.messageLength;
-    int data[messageLength];
+    unsigned char data[messageLength];
 
     for(int i = 0; i < messageLength; i++) {
-        data[i] = (int)((unsigned char)msg->getMessage().at(i+1));
+        data[i] = (unsigned char)msg->getMessage().at(i+1);
     }
 
-    if(hardware == H_RIGHT_MOTOR) {
-        driveMotor(m_motor::RIGHT_MOTOR, data[0]);
-    } else if(hardware == H_LEFT_MOTOR) {
-        driveMotor(m_motor::LEFT_MOTOR, data[0]);
-    } else {
-        // TODO
-        std::cout << "Error: No hardware found." << std::endl;
+    switch(hardware.address) {
+        case RIGHT_MOTOR_ADDRESS:
+            driveMotor(RIGHT_MOTOR_ADDRESS, data[0]);
+            break;
+        case LEFT_MOTOR_ADDRESS:
+            driveMotor(LEFT_MOTOR_ADDRESS, data[0]);
+            break;
+        default:
+            std::cout << "Error. Unhandled hardware in Chassis." << std::endl;
+            break;
     }
+
+    delete msg;
 }
 
-void Chassis::driveMotor(m_motor motor, int speed) {
+void Chassis::driveMotor(unsigned char motorAddress, unsigned char speed) {
 
     int motorSpeed = mapMotorSpeed(speed);
-
-    if(motor == m_motor::LEFT_MOTOR) {
-        if(motorSpeed < 0) {
-            m_pwmHat->setMotor(m_motorAddresses::left1, abs(motorSpeed));
-            m_pwmHat->setMotor(m_motorAddresses::left2, 0);
-        } else {
-            m_pwmHat->setMotor(m_motorAddresses::left1, 0);
-            m_pwmHat->setMotor(m_motorAddresses::left2, abs(motorSpeed));
-        }
-
-    } else if(motor == m_motor::RIGHT_MOTOR) {
-        if(motorSpeed < 0) {
-            m_pwmHat->setMotor(m_motorAddresses::right1, abs(motorSpeed));
-            m_pwmHat->setMotor(m_motorAddresses::right2, 0);
-        } else {
-            m_pwmHat->setMotor(m_motorAddresses::right1, 0);
-            m_pwmHat->setMotor(m_motorAddresses::right2, abs(motorSpeed));
-        }
+    switch(motorAddress) {
+        case LEFT_MOTOR_ADDRESS:
+            if(motorSpeed < 0) {
+                m_pwmHat->setMotor(m_motorAddresses::left1, abs(motorSpeed));
+                m_pwmHat->setMotor(m_motorAddresses::left2, 0);
+            } else {
+                m_pwmHat->setMotor(m_motorAddresses::left1, 0);
+                m_pwmHat->setMotor(m_motorAddresses::left2, abs(motorSpeed));
+            }
+            break;
+        case RIGHT_MOTOR_ADDRESS:
+            if(motorSpeed < 0) {
+                m_pwmHat->setMotor(m_motorAddresses::right1, abs(motorSpeed));
+                m_pwmHat->setMotor(m_motorAddresses::right2, 0);
+            } else {
+                m_pwmHat->setMotor(m_motorAddresses::right1, 0);
+                m_pwmHat->setMotor(m_motorAddresses::right2, abs(motorSpeed));
+            }
+            break;
     }
 }
 
-int Chassis::mapMotorSpeed(int speed) {
+int Chassis::mapMotorSpeed(unsigned char speed) {
     double mappedSpeed = (2 * 4096.0 * ((double)speed)/ 255.0 - 4096.0);
     return (int)mappedSpeed;
 }
