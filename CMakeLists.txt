@@ -7,6 +7,12 @@ set(CMAKE_CXX_EXTENSIONS ON) #...without compiler extensions like gnu++11
 project(Wyatt)
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
+# The project version number.
+set(VERSION_MAJOR   0   CACHE STRING "Project major version number.")
+set(VERSION_MINOR   0   CACHE STRING "Project minor version number.")
+set(VERSION_PATCH   1   CACHE STRING "Project patch version number.")
+mark_as_advanced(VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
+
 function(CheckHasModule Module)
   find_package(${Module} QUIET)
   if(NOT DEFINED ${Module}_DIR)
@@ -34,3 +40,5 @@ add_library(Catch INTERFACE)
 target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 
 add_subdirectory(test)
+
+add_subdirectory(docs)
