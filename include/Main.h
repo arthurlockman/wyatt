@@ -25,3 +25,4 @@
 #include "Hardware.h"
 #include "AdafruitPWMServoHat.h"
 #include "Chassis.h"
+#include "commands/DriveForwardSecondsCommand.h"

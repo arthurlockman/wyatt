@@ -28,23 +28,20 @@ int main (void)
 //
 //    comm->join();
 
-    Chassis* chassis = new Chassis();
+    // Create robot command manager
+    CommandManager* m_commandManager = new CommandManager();
+    // Create robot chassis object
+    Chassis* m_chassis = new Chassis();
 
-    std::string rightMessageString;
-    rightMessageString.append(1, H_RIGHT_MOTOR.address);
-    rightMessageString.append(1, 0b00000000);
-    std::cout << (int)rightMessageString.at(1) << std::endl;
+    // Temporary, testing drive
+    DriveForwardSecondsCommand* tmp_driveCmd = new DriveForwardSecondsCommand(m_chassis, 10.0);
+    m_commandManager->runCommand(tmp_driveCmd);
 
-    std::string leftMessageString;
-    leftMessageString.append(1, H_LEFT_MOTOR.address);
-    leftMessageString.append(1, 0b00000000);
-    std::cout << (int)leftMessageString.at(1) << std::endl;
+    // Wait for command to finish
+    while (m_commandManager->inFlight() > 0) ;
 
-    Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
-    Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);
-
-    chassis->write(rightMessage);
-    chassis->write(leftMessage);
+    //Kill command manager.
+    m_commandManager->kill();
 
     return 0 ;
 }
