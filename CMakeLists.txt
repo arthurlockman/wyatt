@@ -7,6 +7,8 @@ set(CMAKE_CXX_EXTENSIONS ON) #...without compiler extensions like gnu++11
 project(Wyatt)
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
+
 # The project version number.
 set(VERSION_MAJOR   0   CACHE STRING "Project major version number.")
 set(VERSION_MINOR   0   CACHE STRING "Project minor version number.")

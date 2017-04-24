@@ -35,6 +35,12 @@ else()
     message(STATUS ">>> Building on Mac/PC/Linux")
 endif()
 
+message(STATUS ">>> Enabling code coverage")
+include(CodeCoverage)
+setup_target_for_coverage(${PROJECT_NAME}_coverage wyatt_test coverage)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+
 find_package(Threads REQUIRED)
 target_link_libraries(catch_main Catch)
 target_link_libraries(wyatt_test Catch)
