@@ -53,3 +53,11 @@ void EncoderCounter::resetCount()
 {
     this->signal(1);
 }
+
+std::list<Message*>* EncoderCounter::read()
+{
+    // TODO: finish stub
+    std::list<Message*>* tmpList = new std::list<Message*>();
+//    Message* tmpMessage = new Message();
+    return tmpList;
+}

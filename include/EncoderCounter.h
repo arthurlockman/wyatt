@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Thread.h"
+#include "IHardwareInterface.h"
+#include "Message.h"
 #include <atomic>
+#include <list>
 
-class EncoderCounter : public Thread
+class EncoderCounter : public Thread, public IHardwareInterface
 {
 public:
     /**
@@ -31,6 +34,12 @@ public:
      * Reset the encoder count to 0.
      */
     void resetCount();
+    /**
+     * Read a list containing a message with the
+     * current encoder count for this encoder.
+     * @return A message object containing the count for this encoder.
+     */
+    std::list<Message*>* read();
 private:
     //! Pin for the encoder A channel.
     int m_channelA;
