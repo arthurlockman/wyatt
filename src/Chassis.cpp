@@ -18,13 +18,10 @@ void Chassis::write(Message* msg) {
     int messageLength = hardware.messageLength;
     int data[messageLength];
 
-    for(int i = 1; i < messageLength; i++) {
-        data[i] = msg->getMessage().at(i);
+    for(int i = 0; i < messageLength; i++) {
+        data[i] = (int)((unsigned char)msg->getMessage().at(i+1));
     }
-    std::cout << (int)msg->getMessage().at(0) << std::endl;
-    std::cout << (int)msg->getMessage().at(1) << std::endl;
 
-    std::cout << data[0] << std::endl;
     if(hardware == H_RIGHT_MOTOR) {
         driveMotor(m_motor::RIGHT_MOTOR, data[0]);
     } else if(hardware == H_LEFT_MOTOR) {
