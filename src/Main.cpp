@@ -27,7 +27,10 @@ int main (void)
 //    comm->queueMessage(msg1);
 //
 //    comm->join();
-
+   
+    // Setup WiringPi 
+    wiringPiSetup();
+    
     // Create robot command manager
     CommandManager* m_commandManager = new CommandManager();
 
@@ -35,11 +38,14 @@ int main (void)
     Chassis* m_chassis = new Chassis();
 
     // Temporary, testing drive
-    DriveForwardSecondsCommand* tmp_driveCmd = new DriveForwardSecondsCommand(m_chassis, 10.0);
+    DriveForwardSecondsCommand* tmp_driveCmd = new DriveForwardSecondsCommand(m_chassis, 5.0);
     m_commandManager->runCommand(tmp_driveCmd);
+    EncoderCounter* enc = new EncoderCounter(1, 2, 64);
+    EncoderCounter* enc2 = new EncoderCounter(3, 4, 64);
 
     // Wait for command to finish
-    while (!tmp_driveCmd->isFinished()) ;
+    while (!tmp_driveCmd->isFinished())
+        std::cout << enc->getSpeedRPM() << " | " << enc2->getSpeedRPM() << std::endl;
 
     //Kill command manager.
     m_commandManager->kill();

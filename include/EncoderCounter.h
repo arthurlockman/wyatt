@@ -28,7 +28,7 @@ public:
      * Runs the encoder counter worker thread.
      * @return nothing
      */
-    void* run();
+    void* run() override;
     /**
      * Get the current count from the encoder.
      * @return a long, the encoder count (+/-)
@@ -49,7 +49,8 @@ public:
      * current speed.
      * @return A message list object containing the count/speed for this encoder.
      */
-    std::list<Message*>* read();
+    std::list<Message*>* read() override;
+    void write(Message* message) override {};
 private:
     //! Pin for the encoder A channel.
     int m_channelA;

@@ -19,4 +19,5 @@
 #include "Hardware.h"
 #include "AdafruitPWMServoHat.h"
 #include "Chassis.h"
+#include "EncoderCounter.h"
 #include "commands/DriveForwardSecondsCommand.h"

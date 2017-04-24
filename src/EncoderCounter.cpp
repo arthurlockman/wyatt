@@ -1,5 +1,5 @@
 #include "EncoderCounter.h"
-
+#include <iostream>
 
 EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev):
     m_channelA(channelA),
@@ -13,6 +13,7 @@ EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev):
     pinMode(channelB, INPUT);
     m_channelAState = digitalRead(m_channelA);
     m_channelBState = digitalRead(m_channelB);
+    this->start();
 }
 
 EncoderCounter::~EncoderCounter()
