@@ -32,3 +32,8 @@ int SimpleIteratorCommand::getCount()
     m_lock.unlock();
     return count;
 }
+
+bool SimpleIteratorCommand::cleanup(bool canceled)
+{
+    return true;
+}

@@ -10,7 +10,7 @@ public:
     DriveForwardSecondsCommand(Chassis* chassis, double seconds);
     ~DriveForwardSecondsCommand();
     bool execute();
-    bool isFinished();
+    bool cleanup(bool canceled);
 private:
     Chassis* m_chassis;
     double m_seconds;

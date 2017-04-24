@@ -22,13 +22,18 @@ void Command::init()
 
 void Command::cancel()
 {
-    this->stop();
+    m_lock.lock();
+    m_is_running = false;
+    this->cleanup(true);
+    m_is_finished = true;
+    m_lock.unlock();
 }
 
 void Command::stop()
 {
     m_lock.lock();
     m_is_running = false;
+    this->cleanup(false);
     m_is_finished = true;
     m_lock.unlock();
 }

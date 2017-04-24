@@ -38,7 +38,7 @@ int main (void)
     m_commandManager->runCommand(tmp_driveCmd);
 
     // Wait for command to finish
-    while (m_commandManager->inFlight() > 0) ;
+    while (!tmp_driveCmd->isFinished()) ;
 
     //Kill command manager.
     m_commandManager->kill();

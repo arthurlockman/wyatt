@@ -20,8 +20,8 @@ DriveForwardSecondsCommand::DriveForwardSecondsCommand(Chassis *chassis, double 
 
     Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
     Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);
-    chassis->write(rightMessage);
-    chassis->write(leftMessage);
+    m_chassis->write(rightMessage);
+    m_chassis->write(leftMessage);
 }
 
 DriveForwardSecondsCommand::~DriveForwardSecondsCommand()
@@ -31,10 +31,26 @@ DriveForwardSecondsCommand::~DriveForwardSecondsCommand()
 
 bool DriveForwardSecondsCommand::execute()
 {
-    return this->isFinished();
+    return difftime(time(0), m_startTime) < m_seconds;
 }
 
-bool DriveForwardSecondsCommand::isFinished()
+bool DriveForwardSecondsCommand::cleanup(bool canceled)
 {
-    return difftime(time(0), m_startTime) > m_seconds;
+    std::cout << "Ran for " << difftime(time(0), m_startTime) << " seconds." << std::endl;
+    // TODO: Send message to stop motor.
+    std::string rightMessageString;
+    rightMessageString.append(1, H_RIGHT_MOTOR.address);
+    rightMessageString.append(1, 0b00000000);
+    std::cout << (int)rightMessageString.at(1) << std::endl;
+
+    std::string leftMessageString;
+    leftMessageString.append(1, H_LEFT_MOTOR.address);
+    leftMessageString.append(1, 0b00000000);
+    std::cout << (int)leftMessageString.at(1) << std::endl;
+
+    Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
+    Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);
+    m_chassis->write(rightMessage);
+    m_chassis->write(leftMessage);
+    return true;
 }

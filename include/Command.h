@@ -30,6 +30,13 @@ public:
      */
     virtual bool execute() = 0;
     /**
+     * This method is called to cleanup the command (whenever the
+     * stop method is called).
+     * @param canceled true if command was canceled, false otherwise.
+     * @return True if successful.
+     */
+    virtual bool cleanup(bool canceled) = 0;
+    /**
      * This method is called when a command is canceled.
      * Cancellation only comes from the command manager,
      * so this method should never be directly called. You

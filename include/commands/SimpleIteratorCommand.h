@@ -13,6 +13,7 @@ public:
     SimpleIteratorCommand(int goal);
     ~SimpleIteratorCommand();
     bool execute();
+    bool cleanup(bool canceled);
     int getCount();
 private:
     int m_counter;
