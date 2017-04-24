@@ -28,15 +28,21 @@ int main (void)
 //
 //    comm->join();
 
-    AdafruitPWMServoHat* controller = new AdafruitPWMServoHat();
+    Chassis* chassis = new Chassis();
 
-    for(int i = 4095; i >= 0; i--) {
-    	controller->setMotor(0, i);
-    	controller->setMotor(1, 0);
-    	controller->setMotor(2, i);
-    	controller->setMotor(3, 0);
-    	usleep(10000);
-    }
+    std::string rightMessageString = "";
+    rightMessageString.append(1, H_RIGHT_MOTOR.address);
+    rightMessageString.append(1, 0);
+
+    std::string leftMessageString = "";
+    leftMessageString.append(1, H_LEFT_MOTOR.address);
+    leftMessageString.append(1, 0);
+
+    Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
+    Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);
+
+    chassis->write(rightMessage);
+    chassis->write(leftMessage);
 
     return 0 ;
 }
