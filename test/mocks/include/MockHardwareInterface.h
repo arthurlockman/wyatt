@@ -15,8 +15,12 @@ public:
     std::list<Message*>* read();
     void setReadMessages(std::list<Message*>* messages);
 
-    Message* writeMessage;
+    std::list<Message*>* getWriteMessages();
+
+private:
+    std::list<Message*>* writeMessages;
     std::list<Message*>* readMessages;
+    int isSet;
 };
 
 

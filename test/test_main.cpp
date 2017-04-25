@@ -7,11 +7,7 @@
 #include <iostream>
 #include "../include/CommandManager.h"
 #include "../catch/catch.hpp"
-#include "../include/ISensor.h"
 #include "../include/IRangeFinderSensor.h"
-#include "../include/RawSensorData.h"
-#include "../include/Hardware.h"
-#include "../include/ISensorManager.h"
 #include "../include/SensorManager.h"
 #include "../include/Chassis.h"
 
@@ -189,37 +185,245 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
 
     /* Initialize object */
     MockSensorManager* mockSensorManager = new MockSensorManager();
-    MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+    Communicator* comm = new Communicator(mockSensorManager);
 
-    SECTION("Test queuing message") {
-        Communicator* comm = new Communicator(mockSensorManager, mockHardwareInterface);
+    SECTION("Test queuing message for single hardware interface") {
 
+        Hardware mockHardware = {255, 1};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+        std::list<Message*>* readMessages = new std::list<Message*>;
+        mockHardwareInterface->setReadMessages(readMessages);
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware, mockHardwareInterface);
+
+        /* Compose a mock message */
         std::string mockData;
-        mockData.append(1, 0b00000000);
-        Message* mockMessage = new Message(H_LEFT_MOTOR, mockData);
-        comm->queueMessage(mockMessage);
+        unsigned char data = 'a';
+        mockData.append(1, data);
+        Message* mockMessage = new Message(mockHardware, mockData);
 
+        /* Queue message and wait for it to be sent */
+        comm->queueMessage(mockMessage);
         comm->start();
         usleep(500000);
         comm->signal(1);
         comm->join();
-
-        REQUIRE(mockHardwareInterface->writeMessage == mockMessage);
+        REQUIRE(mockHardwareInterface->getWriteMessages()->size() == 1);
+        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage);
     }
 
-    SECTION("Test receiving messages") {
-        Communicator* comm = new Communicator(mockSensorManager, mockHardwareInterface);
+    SECTION("Test queuing messages for multiple hardware interfaces") {
+        Hardware mockHardware1 = {255, 1};
+        Hardware mockHardware2 = {254, 1};
 
-        std::list<Message*>* messages = new std::list<Message*>;
-        mockHardwareInterface->setReadMessages(messages);
+        MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
+        MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
 
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface1);
+        comm->registerHardware(mockHardware2, mockHardwareInterface2);
+
+        /* Compose a mock message */
+        std::string mockData1, mockData2;
+        unsigned char data1 = 'a', data2 = 'b';
+        mockData1.append(1, data1);
+        mockData2.append(1, data2);
+        Message* mockMessage1 = new Message(mockHardware1, mockData1);
+        Message* mockMessage2 = new Message(mockHardware2, mockData2);
+
+        /* Queue message and wait for it to be sent */
+        comm->queueMessage(mockMessage1);
+        comm->queueMessage(mockMessage2);
         comm->start();
         usleep(500000);
         comm->signal(1);
         comm->join();
 
-        REQUIRE(messages == mockSensorManager->getUpdateMessages());
+        REQUIRE(mockHardwareInterface1->getWriteMessages()->size() == 1);
+        REQUIRE(mockHardwareInterface2->getWriteMessages()->size() == 1);
 
+        REQUIRE(mockHardwareInterface1->getWriteMessages()->front() == mockMessage1);
+        REQUIRE(mockHardwareInterface2->getWriteMessages()->front() == mockMessage2);
+    }
+
+    SECTION("Test receiving message from single hardware interface") {
+        Hardware mockHardware = {255, 1};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware, mockHardwareInterface);
+
+        /* Compose a mock message */
+        std::string mockData;
+        unsigned char data = 'a';
+        mockData.append(1, data);
+        Message* mockMessage = new Message(mockHardware, mockData);
+        std::list<Message*>* messages = new std::list<Message*>;
+        messages->push_back(mockMessage);
+        mockHardwareInterface->setReadMessages(messages);
+
+        /* Wait for it to be read */
+        comm->start();
+        usleep(500000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockSensorManager->updateMessages->size() == 1);
+        REQUIRE(mockSensorManager->updateMessages->front() == mockMessage);
+    }
+
+    SECTION("Test receiving messages from multiple hardware interfaces") {
+        Hardware mockHardware1 = {255, 1};
+        Hardware mockHardware2 = {254, 1};
+        MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
+        MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface1);
+        comm->registerHardware(mockHardware2, mockHardwareInterface2);
+
+        /* Compose a mock message */
+        std::string mockData1, mockData2;
+        unsigned char data1 = 'a', data2 = 'b';
+        mockData1.append(1, data1);
+        mockData2.append(1, data2);
+        Message* mockMessage1 = new Message(mockHardware1, mockData1);
+        Message* mockMessage2 = new Message(mockHardware2, mockData2);
+        std::list<Message*>* messages1 = new std::list<Message*>;
+        messages1->push_back(mockMessage1);
+        std::list<Message*>* messages2 = new std::list<Message*>;
+        messages2->push_back(mockMessage2);
+
+        mockHardwareInterface1->setReadMessages(messages1);
+        mockHardwareInterface2->setReadMessages(messages2);
+
+        /* Wait for it to be read */
+        comm->start();
+        usleep(500000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockSensorManager->updateMessages->size() == 2);
+
+        REQUIRE(mockSensorManager->updateMessages->front() == mockMessage1);
+        mockSensorManager->updateMessages->pop_front();
+        REQUIRE(mockSensorManager->updateMessages->front() == mockMessage2);
+    }
+
+    SECTION("Test throws duplicate hardware exception when hardware with the same address is registered more than once.") {
+        Hardware mockHardware1 = {255, 1};
+        Hardware mockHardware2 = {255, 1};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface);
+
+        REQUIRE_THROWS_AS(
+                comm->registerHardware(mockHardware2, mockHardwareInterface),
+                DuplicateHardwareException
+        );
+    }
+
+    SECTION("Test queue list of messages sent to single interface") {
+        Hardware mockHardware = {255, 1};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware, mockHardwareInterface);
+
+        /* Compose two mock messages */
+        std::string mockData1, mockData2;
+        unsigned char data1 = 'a', data2 = 'b';
+        mockData1.append(1, data1);
+        mockData2.append(1, data2);
+        Message* mockMessage1 = new Message(mockHardware, mockData1);
+        Message* mockMessage2 = new Message(mockHardware, mockData2);
+        std::list<Message*>* messages = new std::list<Message*>;
+        messages->push_back(mockMessage1);
+        messages->push_back(mockMessage2);
+
+        /* Queue message and wait for them to be sent */
+        comm->queueMessage(messages);
+        comm->start();
+        usleep(500000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockHardwareInterface->getWriteMessages()->size() == 2);
+
+        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage1);
+        mockHardwareInterface->getWriteMessages()->pop_front();
+        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage2);
+    }
+
+    SECTION("Test queue list of messages sent to multiple interfaces") {
+        Hardware mockHardware1 = {255, 1};
+        Hardware mockHardware2 = {254, 1};
+        MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
+        MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface1);
+        comm->registerHardware(mockHardware2, mockHardwareInterface2);
+
+        /* Compose two mock messages */
+        std::string mockData1, mockData2;
+        unsigned char data1 = 'a', data2 = 'b';
+        mockData1.append(1, data1);
+        mockData2.append(1, data2);
+        Message* mockMessage1 = new Message(mockHardware1, mockData1);
+        Message* mockMessage2 = new Message(mockHardware2, mockData2);
+        std::list<Message*>* messages = new std::list<Message*>;
+        messages->push_back(mockMessage1);
+        messages->push_back(mockMessage2);
+
+        /* Queue message and wait for them to be sent */
+        comm->queueMessage(messages);
+        comm->start();
+        usleep(500000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockHardwareInterface1->getWriteMessages()->size() == 1);
+        REQUIRE(mockHardwareInterface2->getWriteMessages()->size() == 1);
+
+        REQUIRE(mockHardwareInterface1->getWriteMessages()->front() == mockMessage1);
+        REQUIRE(mockHardwareInterface2->getWriteMessages()->front() == mockMessage2);
+    }
+
+    SECTION("Test queuing multiple messages for different hardware sent to the same hardware interface") {
+        Hardware mockHardware1 = {255, 1};
+        Hardware mockHardware2 = {254, 1};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface);
+        comm->registerHardware(mockHardware2, mockHardwareInterface);
+
+        /* Compose two mock messages */
+        std::string mockData1, mockData2;
+        unsigned char data1 = 'a', data2 = 'b';
+        mockData1.append(1, data1);
+        mockData2.append(1, data2);
+        Message* mockMessage1 = new Message(mockHardware1, mockData1);
+        Message* mockMessage2 = new Message(mockHardware2, mockData2);
+        std::list<Message*>* messages = new std::list<Message*>;
+        messages->push_back(mockMessage1);
+        messages->push_back(mockMessage2);
+
+        /* Queue message and wait for them to be sent */
+        comm->queueMessage(messages);
+        comm->start();
+        usleep(500000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockHardwareInterface->getWriteMessages()->size() == 2);
+
+        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage1);
+        mockHardwareInterface->getWriteMessages()->pop_front();
+        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage2);
     }
 
 }

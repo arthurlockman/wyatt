@@ -5,7 +5,7 @@
 #include "include/MockSensorManager.h"
 
 MockSensorManager::MockSensorManager() : ISensorManager() {
-
+    this->updateMessages = new std::list<Message*>;
 };
 
 MockSensorManager::~MockSensorManager() {
@@ -17,9 +17,10 @@ void MockSensorManager::addSensor(Hardware hardware, ISensor* sensor) {
 };
 
 void MockSensorManager::updateSensors(std::list<Message*>* messages) {
-    this->updateMessages = messages;
-};
 
-std::list<Message*>* MockSensorManager::getUpdateMessages() {
-    return this->updateMessages;
-}
+    while(!messages->empty()) {
+        Message* msg = messages->front();
+        this->updateMessages->push_back(msg);
+        messages->pop_front();
+    }
+};

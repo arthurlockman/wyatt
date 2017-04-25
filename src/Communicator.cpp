@@ -1,16 +1,26 @@
 #include "Communicator.h"
 
-Communicator::Communicator(ISensorManager* sensorManager, IHardwareInterface* hardwareInterface) : Thread() {
+Communicator::Communicator(ISensorManager* sensorManager) : Thread() {
     this->sensorManager = sensorManager;
-    this->hardwareInterface = hardwareInterface;
-
     this->messageQueue = new std::list<Message*>;
+    this->hardwareInterfaceMap = new std::map<Hardware, IHardwareInterface*>;
+    this->hardwareInterfaces = new std::list<IHardwareInterface*>;
 }
 
 Communicator::~Communicator() {
     delete this->sensorManager;
-    delete this->hardwareInterface;
     delete this->messageQueue;
+    delete this->hardwareInterfaceMap;
+}
+
+void Communicator::registerHardware(Hardware hardware, IHardwareInterface* interface) {
+
+    if(this->hardwareInterfaceMap->count(hardware) != 0) {
+        throw DuplicateHardwareException(hardware);
+    }
+
+    this->hardwareInterfaceMap->insert(std::make_pair(hardware, interface));
+    this->hardwareInterfaces->push_back(interface);
 }
 
 void Communicator::queueMessage(Message *msg) {
@@ -26,13 +36,29 @@ void Communicator::queueMessage(std::list<Message*>* messages) {
 void Communicator::write() {
     while (!this->messageQueue->empty())
     {
-        this->hardwareInterface->write(this->messageQueue->front());
+        Message* msg = this->messageQueue->front();
+
+        Hardware hardware = msg->getHardware();
+        IHardwareInterface* interface = hardwareInterfaceMap->at(hardware);
+        interface->write(msg);
+
         this->messageQueue->pop_front();
     }
 }
 
 void Communicator::read() {
-    this->sensorManager->updateSensors(this->hardwareInterface->read());
+    std::list<Message*>* messages = new std::list<Message*>;
+
+    for (IHardwareInterface* interface : *(this->hardwareInterfaces)) {
+        std::list<Message*>* msgs = interface->read();
+        while(!msgs->empty()) {
+            Message* msg = msgs->front();
+            messages->push_back(msg);
+            msgs->pop_front();
+        }
+        delete msgs;
+    }
+    this->sensorManager->updateSensors(messages);
 }
 
 void* Communicator::run() {
