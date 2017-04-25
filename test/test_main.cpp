@@ -426,6 +426,10 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage2);
     }
 
+    SECTION("Destructor") {
+        delete comm;
+    }
+
 }
 
 TEST_CASE("Chassis tests", "[Chassis]") {
