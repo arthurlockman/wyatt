@@ -71,29 +71,5 @@ int Chassis::mapMotorSpeed(unsigned char speed) {
 }
 
 std::list<Message*>* Chassis::read() {
-    std::list<Message*>* messages = new std::list<Message*>;
-
-    std::list<Message*>* rightEncoderMessages = m_rightEncoderCounter->read();
-    std::list<Message*>* leftEncoderMessages = m_leftEncoderCounter->read();
-
-    // Add all of the right messages to the message queue
-    while (!rightEncoderMessages->empty())
-    {
-        Message* msg = rightEncoderMessages->front();
-        messages->push_back(msg);
-        rightEncoderMessages->pop_front();
-    } 
-
-    // Add all of the left messages to the message queue
-    while (!leftEncoderMessages->empty())
-    {
-        Message* msg = leftEncoderMessages->front();
-        messages->push_back(msg);
-        leftEncoderMessages->pop_front();
-    } 
-
-    delete rightEncoderMessages;
-    delete leftEncoderMessages;
-
-    return messages;
+    return new std::list<Message*>;
 }

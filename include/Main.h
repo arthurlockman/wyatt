@@ -23,5 +23,3 @@
 #include "commands/DriveForwardSecondsCommand.h"
 #include "IMessage.h"
 #include "MotorMessage.h"
-
-void tmp();

@@ -16,6 +16,7 @@
 #include "../include/Chassis.h"
 
 #include <unistd.h>
+#include <MotorMessage.h>
 
 /* MOCKS */
 #include "MockIRRangeFinderSensor.h"
@@ -221,6 +222,61 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         REQUIRE(messages == mockSensorManager->getUpdateMessages());
 
     }
+
+}
+
+TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
+
+    Hardware mockHardware = {255, 1};
+    unsigned char mockData = 'a';
+    MotorMessage* msg = new MotorMessage(mockHardware, mockData);
+
+    SECTION("GetHardware returns proper hardware") {
+        REQUIRE(msg->getHardware() == mockHardware);
+    }
+
+    SECTION("GetData returns proper data") {
+        REQUIRE(msg->getData() ==  mockData);
+    }
+
+    SECTION("Not enough data throws MessageLengthException") {
+        // Expect 2 bytes, given 1
+        Hardware mockHardware = {255, 2};
+        unsigned char mockData = 'a';
+
+        REQUIRE_THROWS_AS(
+                new MotorMessage(mockHardware, mockData),
+                MessageLengthException
+        );
+    }
+
+    SECTION("Too much data throws MessageLengthException") {
+        // Expect 0 bytes, given 1
+        Hardware mockHardware = {255, 0};
+        unsigned char mockData = 'a';
+
+        REQUIRE_THROWS_AS(
+            new MotorMessage(mockHardware, mockData),
+            MessageLengthException
+        );
+    }
+
+    SECTION("Serialize to proper string") {
+        std::string serial;
+        serial.append(1, (unsigned char) 255);
+        serial.append(1, mockData);
+
+        REQUIRE(msg->serialize() == serial);
+    }
+
+
+    SECTION("Destructor") {
+        delete msg;
+    }
+
+}
+
+TEST_CASE("EncoderMessage Tests", "[EncoderMessage]") {
 
 }
 

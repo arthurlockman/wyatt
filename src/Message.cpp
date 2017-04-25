@@ -5,7 +5,7 @@ Message::Message(Hardware hardware, std::string msg) {
     this->msg = msg;
 
     if((int)(hardware.messageLength) != msg.size()) {
-        throw MessageLengthException(hardware, msg);
+        throw MessageLengthException(hardware);
     }
 }
 
