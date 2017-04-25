@@ -1,23 +1,30 @@
 #include "MotorMessage.h"
 
-MotorMessage::MotorMessage(Hardware hardware, std::string msg) {
-    this->hardware = hardware;
-    this->msg = msg;
+MotorMessage::MotorMessage(Hardware hardware, unsigned char data) : IMessage(hardware) {
 
-    if((int)(hardware.messageLength) != msg.size()) {
-        throw MessageLengthException(hardware, msg);
-    }
+    this->data = data;
+
+    // TODO
+//    if((int)(hardware.messageLength) != msg.size()) {
+//        throw MessageLengthException(hardware, msg);
+//    }
+}
+
+MotorMessage::~MotorMessage() {
+    // TODO
 }
 
 
-std::string Message::getMessage() {
-    return this->msg;
+unsigned char MotorMessage::getData() {
+    return this->data;
 }
 
-std::string Message::serialize() {
-    std::string serial;
-    serial.append(1, hardware.address);
-    serial += msg;
-
-    return serial;
+std::string MotorMessage::serialize() {
+    // TODO
+//    std::string serial;
+//    serial.append(1, hardware.address);
+//    serial += msg;
+//
+//    return serial;
+    return std::string("");
 }

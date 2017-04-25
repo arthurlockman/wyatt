@@ -1,40 +1,18 @@
 #pragma once
 #include "IMessage.h"
 
-
-class MotorMessage: public IMessage {
+class MotorMessage: public IMessage<unsigned char> {
 
 public:
 
-	/**
-     * Constructor.
-     * @param hardware The hardware this came from/goes to.
-     * @param msg An byte array of data
-     * @throws MismatchedHardwareException if hardware message length doesnt match message length.
-     */
-    MotorMessage(Hardware hardware, std::string msg);
+    MotorMessage(Hardware hardware, unsigned char data);
 
+    ~MotorMessage() override;
 
-    /**
-     * Deconstructor. Deletes all object references.
-     */
-    ~MotorMessage();
+    unsigned char getData() override;
 
-
-	/**
-     * Returns a string representation of data.
-     * @return
-     */
-    std::string getMessage();
-
-
-    /**
-     * Serializes object as a string. Appends the hardware address as a character to the front of the data.
-     * @return A string representation of this object.
-     */
-    std::string serialize();
-
+    std::string serialize() override;
 
 private:
-   	std::string msg;
+   	unsigned char data;
 };
