@@ -40,12 +40,31 @@ int main (void)
     // Temporary, testing drive
     DriveForwardSecondsCommand* tmp_driveCmd = new DriveForwardSecondsCommand(m_chassis, 5.0);
     m_commandManager->runCommand(tmp_driveCmd);
-    EncoderCounter* enc = new EncoderCounter(1, 2, 64);
-    EncoderCounter* enc2 = new EncoderCounter(3, 4, 64);
 
     // Wait for command to finish
-    while (!tmp_driveCmd->isFinished())
-        std::cout << enc->getSpeedRPM() << " | " << enc2->getSpeedRPM() << std::endl;
+    while (!tmp_driveCmd->isFinished()) {
+        std::list<Message*>* chassisMessages = m_chassis->read();   
+
+        while(!chassisMessages->empty()) {
+
+            Message* msg = chassisMessages->front();
+            if( (msg->getHardware()).address == LEFT_ENCODER_ADDRESS) {
+                const char* charArray = (msg->getMessage()).c_str();
+                double left = *((double*)charArray);
+                std::cout << "Left: " << left << std::endl;
+            }
+
+            if( (msg->getHardware()).address == RIGHT_ENCODER_ADDRESS) {
+                const char* charArray = (msg->getMessage()).c_str();
+                double right = *((double*)charArray);
+                std::cout << "Right: " << right << std::endl;
+            }
+
+            delete msg;
+            chassisMessages->pop_front();
+        }        
+        delete chassisMessages;
+    }
 
     //Kill command manager.
     m_commandManager->kill();

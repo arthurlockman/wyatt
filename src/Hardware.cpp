@@ -20,7 +20,19 @@ const Hardware H_LEFT_MOTOR = {
         .messageLength = 1,
 };
 
+const Hardware H_RIGHT_ENCODER = { 
+        .address = RIGHT_ENCODER_ADDRESS,
+        .messageLength = 8,
+};
+
+const Hardware H_LEFT_ENCODER = { 
+        .address = LEFT_ENCODER_ADDRESS,
+        .messageLength = 8,
+};
+
 const Hardware HARDWARE_MAP[] = {
     H_RIGHT_MOTOR,
-    H_LEFT_MOTOR
+    H_LEFT_MOTOR,
+    H_LEFT_ENCODER,
+    H_RIGHT_ENCODER
 };

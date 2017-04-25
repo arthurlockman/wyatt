@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "NonexistentHardwareException.h"
+#include "EncoderCounter.h"
 
 class Chassis: public IHardwareInterface {
 public:
@@ -37,6 +38,10 @@ public:
      */
     std::list<Message*>* read() override;
 private:
+    //! Encoder counter for right motor.
+    EncoderCounter* m_rightEncoderCounter;
+    //! Encoder counter for left motor.
+    EncoderCounter* m_leftEncoderCounter;
     //! Instance of the PWM Servo Hat.
     AdafruitPWMServoHat* m_pwmHat;
 

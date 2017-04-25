@@ -8,6 +8,7 @@
 #include <chrono>
 #include "wiringPiInclude.h"
 #include <stdlib.h>
+#include <string>
 
 class EncoderCounter : public Thread, public IHardwareInterface
 {
@@ -19,7 +20,7 @@ public:
      * @param channelB WiringPi Pin for channel B.
      * @param ticksPerRev Number of ticks per revolution on this encoder.
      */
-    EncoderCounter(int channelA, int channelB, int ticksPerRev);
+    EncoderCounter(int channelA, int channelB, int ticksPerRev, Hardware hardware);
     /**
      * Destructs the encoder counter.
      */
@@ -74,4 +75,6 @@ private:
     std::atomic<double> m_speed;
     //! Current encoder count.
     std::atomic<long> m_count;
+    //! The hardware for the encoder
+    Hardware hardware;
 };

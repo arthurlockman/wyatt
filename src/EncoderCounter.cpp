@@ -1,12 +1,13 @@
 #include "EncoderCounter.h"
 #include <iostream>
 
-EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev):
+EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev, Hardware hardware):
     m_channelA(channelA),
     m_channelB(channelB),
     m_count(0),
     m_lastTransition(-2),
-    m_ticksPerRevolution(ticksPerRev)
+    m_ticksPerRevolution(ticksPerRev),
+    hardware(hardware)
 {
     m_revolutionsPerTick = 10.0 / (double)ticksPerRev;
     pinMode(channelA, INPUT);
@@ -70,10 +71,19 @@ void EncoderCounter::resetCount()
 
 std::list<Message*>* EncoderCounter::read()
 {
-    // TODO: finish stub, return a list with a speed and ticks message.
-    std::list<Message*>* tmpList = new std::list<Message*>();
-//    Message* tmpMessage = new Message();
-    return tmpList;
+    std::list<Message*>* messages = new std::list<Message*>();
+
+    std::string data;
+
+    char* dataPntr = (char*)(&(this->m_speed));
+
+    // 8 bytes in a double
+    data.append(dataPntr, 8);
+
+    Message* msg = new Message(this->hardware, data);
+    messages->push_back(msg);
+
+    return messages;
 }
 
 double EncoderCounter::getSpeedRPM()
