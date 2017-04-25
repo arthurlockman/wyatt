@@ -3,8 +3,8 @@
 int main (void)
 {
     // Setup WiringPi 
-//    wiringPiSetup();
-    
+    wiringPiSetup();
+
     // Create robot command manager
 //    CommandManager* m_commandManager = new CommandManager();
 
@@ -47,26 +47,4 @@ int main (void)
 
     return 0 ;
 }
-
-/*
-
-std::list<Message*>* rightEncoderMessages = m_rightEncoderCounter->read();
-std::list<Message*>* leftEncoderMessages = m_leftEncoderCounter->read();
-
-// Add all of the right messages to the message queue
-while (!rightEncoderMessages->empty())
-{
-Message* msg = rightEncoderMessages->front();
-messages->push_back(msg);
-rightEncoderMessages->pop_front();
-}
-
-// Add all of the left messages to the message queue
-while (!leftEncoderMessages->empty())
-{
-Message* msg = leftEncoderMessages->front();
-messages->push_back(msg);
-leftEncoderMessages->pop_front();
-}
-*/
 
