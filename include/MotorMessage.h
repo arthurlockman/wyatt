@@ -22,16 +22,16 @@ public:
     ~MotorMessage() override;
 
     /**
-     * Returns the data the message is encapsulating.
-     * @return Data for the motor
-     */
-    unsigned char getData();
-
-    /**
      * Serializes the message into a string representation. The hardware address is appended to the front.
      * @return A string representation of the message.
      */
     std::string serialize() override;
+
+    /**
+    * Returns the data the message is encapsulating.
+    * @return Data for the motor
+    */
+    unsigned char getData();
 
 private:
     /**

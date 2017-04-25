@@ -5,6 +5,7 @@ MotorMessage::MotorMessage(Hardware hardware, unsigned char data) : IMessage(har
 
     this->data = data;
 
+    // Expect 1 byte
     if((int)(hardware.messageLength) != 1) {
         throw MessageLengthException(hardware);
     }
