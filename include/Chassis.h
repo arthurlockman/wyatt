@@ -12,6 +12,8 @@
 #include <iostream>
 #include "NonexistentHardwareException.h"
 #include "EncoderCounter.h"
+#include "MotorMessage.h"
+#include "IMessage.h"
 
 class Chassis: public IHardwareInterface {
 public:
@@ -29,19 +31,15 @@ public:
      * to drive is expected here).
      * @param msg The drive command message.
      */
-    void write(Message* msg) override;
+    void write(IMessage* msg) override;
     /**
      * Get messages from the chassis. This will never
      * return a real value, as the chassis does not send
      * any messages.
      * @return NULL.
      */
-    std::list<Message*>* read() override;
+    std::list<IMessage*>* read() override;
 private:
-    //! Encoder counter for right motor.
-    EncoderCounter* m_rightEncoderCounter;
-    //! Encoder counter for left motor.
-    EncoderCounter* m_leftEncoderCounter;
     //! Instance of the PWM Servo Hat.
     AdafruitPWMServoHat* m_pwmHat;
 

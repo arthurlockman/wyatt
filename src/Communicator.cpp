@@ -2,7 +2,7 @@
 
 Communicator::Communicator(ISensorManager* sensorManager) : Thread() {
     this->sensorManager = sensorManager;
-    this->messageQueue = new std::list<Message*>;
+    this->messageQueue = new std::list<IMessage*>;
     this->hardwareInterfaceMap = new std::map<Hardware, IHardwareInterface*>;
     this->hardwareInterfaces = new std::list<IHardwareInterface*>;
 }
@@ -23,12 +23,12 @@ void Communicator::registerHardware(Hardware hardware, IHardwareInterface* inter
     this->hardwareInterfaces->push_back(interface);
 }
 
-void Communicator::queueMessage(Message *msg) {
+void Communicator::queueMessage(IMessage *msg) {
     this->messageQueue->push_back(msg);
 }
 
-void Communicator::queueMessage(std::list<Message*>* messages) {
-    for(Message* msg: *messages) {
+void Communicator::queueMessage(std::list<IMessage*>* messages) {
+    for(IMessage* msg: *messages) {
         this->queueMessage(msg);
     }
 }

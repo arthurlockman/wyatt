@@ -3,7 +3,7 @@
 #include <list>
 #include "Hardware.h"
 #include "ISensor.h"
-#include "Message.h"
+#include "IMessage.h"
 
 /**
  * Class for managing sensor data. Receives sensor data from the updateSensors function and writes the data to the respective sensors.
@@ -27,6 +27,6 @@ public:
      * Receives data and distributes it to the respective sensors. Deletes the messages upon completion.
      * @param messages A list of Messages
      */
-    virtual void updateSensors(std::list<Message*>* messages) = 0;
+    virtual void updateSensors(std::list<IMessage*>* messages) = 0;
 };
 

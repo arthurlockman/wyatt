@@ -1,5 +1,5 @@
 #pragma once
-#include "RawSensorData.h"
+#include "IMessage.h"
 
 /**
  * Interface for all sensors
@@ -11,7 +11,7 @@ public:
      * Update sensor data from a new measurement
      * @param data RawSensorData from a new measurement. Should delete pointer.
      */
-    virtual void updateSensor(RawSensorData* data) = 0;
+    virtual void updateSensor(IMessage* message) = 0;
 
     /**
      * Deconstructor. Should delete all pointers.

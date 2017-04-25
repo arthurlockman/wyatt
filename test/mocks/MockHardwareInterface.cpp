@@ -6,31 +6,31 @@
 #include <iostream>
 
 MockHardwareInterface::MockHardwareInterface() {
-    this->writeMessages = new std::list<Message*>;
+    this->writeMessages = new std::list<IMessage*>;
     this->isSet = 0;
 }
 
-void MockHardwareInterface::write(Message* msg) {
+void MockHardwareInterface::write(IMessage* msg) {
     this->writeMessages->push_back(msg);
 }
 
-std::list<Message*>* MockHardwareInterface::read() {
+std::list<IMessage*>* MockHardwareInterface::read() {
     if(this->isSet == 0) {
-        return new std::list<Message*>;
+        return new std::list<IMessage*>;
     } else {
         isSet = 0;
         return this->readMessages;
     }
 }
 
-void MockHardwareInterface::setReadMessages(std::list<Message*>* messages) {
+void MockHardwareInterface::setReadMessages(std::list<IMessage*>* messages) {
     this->isSet = 1;
     this->readMessages = messages;
 }
 
-std::list<Message*>* MockHardwareInterface::getWriteMessages(){
+std::list<IMessage*>* MockHardwareInterface::getWriteMessages(){
     if(this->writeMessages == NULL) {
-        return new std::list<Message*>;
+        return new std::list<IMessage*>;
     } else {
         return this->writeMessages;
     }

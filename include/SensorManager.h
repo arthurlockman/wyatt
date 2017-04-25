@@ -4,7 +4,7 @@
 #include <list>
 #include <map>
 #include "Hardware.h"
-#include "Message.h"
+#include "IMessage.h"
 #include <iostream>
 #include "NonexistentHardwareException.h"
 #include "DuplicateHardwareException.h"
@@ -35,7 +35,7 @@ public:
      * Updates sensors with new measurement data
      * @param messages A list of messages containing new measurement data
      */
-    void updateSensors(std::list<Message*>* messages) override;
+    void updateSensors(std::list<IMessage*>* messages) override;
 
 private:
     std::map<Hardware, ISensor*>* sensorMap;

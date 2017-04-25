@@ -16,7 +16,7 @@ public:
      * Update this sensor object with data received from a peripheral. Deletes data upon completion.
      * @param data The data received from the peripheral.
      */
-    virtual void updateSensor(RawSensorData* data) override = 0;
+    virtual void updateSensor(IMessage* msg) override = 0;
 
     /**
      * Returns the most recent distance reading in centimeters.

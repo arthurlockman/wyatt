@@ -2,13 +2,14 @@
 
 #include "Thread.h"
 #include "IHardwareInterface.h"
-#include "Message.h"
+#include "IMessage.h"
 #include <atomic>
 #include <list>
 #include <chrono>
 #include "wiringPiInclude.h"
 #include <stdlib.h>
 #include <string>
+#include "EncoderMessage.h"
 
 class EncoderCounter : public Thread, public IHardwareInterface
 {
@@ -50,8 +51,8 @@ public:
      * current speed.
      * @return A message list object containing the count/speed for this encoder.
      */
-    std::list<Message*>* read() override;
-    void write(Message* message) override {};
+    std::list<IMessage*>* read() override;
+    void write(IMessage* message) override {};
 private:
     //! Pin for the encoder A channel.
     int m_channelA;

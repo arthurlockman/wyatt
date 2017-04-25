@@ -69,18 +69,10 @@ void EncoderCounter::resetCount()
     this->signal(1);
 }
 
-std::list<Message*>* EncoderCounter::read()
+std::list<IMessage*>* EncoderCounter::read()
 {
-    std::list<Message*>* messages = new std::list<Message*>();
-
-    std::string data;
-
-    char* dataPntr = (char*)(&(this->m_speed));
-
-    // 8 bytes in a double
-    data.append(dataPntr, 8);
-
-    Message* msg = new Message(this->hardware, data);
+    std::list<IMessage*>* messages = new std::list<IMessage*>();
+    IMessage* msg = new EncoderMessage(this->hardware, this->m_speed);
     messages->push_back(msg);
 
     return messages;

@@ -5,7 +5,7 @@ class MockIRRangeFinderSensor : public IRangeFinderSensor {
 public:
     MockIRRangeFinderSensor();
     ~MockIRRangeFinderSensor() override;
-    void updateSensor(RawSensorData* data) override;
+    void updateSensor(IMessage* msg) override;
     double getDistanceCM() override;
     std::string getData();
 

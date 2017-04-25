@@ -16,11 +16,12 @@ void MockSensorManager::addSensor(Hardware hardware, ISensor* sensor) {
 
 };
 
-void MockSensorManager::updateSensors(std::list<Message*>* messages) {
+void MockSensorManager::updateSensors(std::list<IMessage*>* messages) {
 
     while(!messages->empty()) {
-        Message* msg = messages->front();
+        IMessage* msg = messages->front();
         this->updateMessages->push_back(msg);
         messages->pop_front();
     }
 };
+

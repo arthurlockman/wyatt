@@ -10,13 +10,14 @@
 #include "../include/IRangeFinderSensor.h"
 #include "../include/SensorManager.h"
 #include "../include/Chassis.h"
-
 #include <unistd.h>
 
+
 /* MOCKS */
-#include "MockIRRangeFinderSensor.h"
+#include "mocks/include/MockIRRangeFinderSensor.h"
 #include "mocks/include/MockSensorManager.h"
 #include "mocks/include/MockHardwareInterface.h"
+#include "mocks/include/MockIRRangeFinderSensorMessage.h"
 
 TEST_CASE("Command subsystem tests", "[CommandManager]") {
 
@@ -61,32 +62,6 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
     }
 }
 
-TEST_CASE("Sensor interface tests", "[ISensor]") {
-
-    std::string mockData = "12.2";
-    RawSensorData* mockRawSensorData_IR = new RawSensorData(mockData);
-
-    SECTION("ISensor polymorphically updates") {
-        ISensor* sensor = new MockIRRangeFinderSensor();
-        sensor->updateSensor(mockRawSensorData_IR);
-        MockIRRangeFinderSensor* IRSensor = (MockIRRangeFinderSensor*) sensor;
-
-        REQUIRE(IRSensor->getData() == mockData);
-    }
-
-}
-
-TEST_CASE("RawSensorData tests", "[RawSensorData]") {
-
-    std::string mockData = "12.2";
-
-    SECTION("Data is correctly encapsulated and returned") {
-        RawSensorData* data = new RawSensorData(mockData);
-
-        REQUIRE(data->getData() == mockData);
-    }
-}
-
 TEST_CASE("ISensorManager tests", "[ISensorManager]") {
 
     ISensorManager* sensorManager = new SensorManager();
@@ -103,10 +78,9 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
     SECTION("Updating non-existent hardware results in exception") {
-        std::string data;
-        data.append(1, 0b00000000);
-        Message* msg = new Message(H_LEFT_MOTOR, data);
-        std::list<Message*>* messages = new std::list<Message*>;
+        unsigned char data = 0;
+        MotorMessage* msg = new MotorMessage(H_LEFT_MOTOR, data);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(msg);
 
         REQUIRE_THROWS_AS(
@@ -116,14 +90,13 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
     SECTION("Updates sensors correctly") {
-        Hardware mockHardware = {0b11111111, 1};
+        Hardware mockHardware = {255, 1};
         MockIRRangeFinderSensor* mockSensor = new MockIRRangeFinderSensor();
         sensorManager->addSensor(mockHardware, mockSensor);
 
-        std::string data;
-        data.append(1, 0b11111111); // 255
-        Message* msg = new Message(mockHardware, data);
-        std::list<Message*>* messages = new std::list<Message*>;
+        std::string data = "255";
+        IMessage* msg = new MockIRRangeFinderSensorMessage(mockHardware, data);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(msg);
 
         sensorManager->updateSensors(messages);
@@ -132,53 +105,6 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
 
-}
-
-TEST_CASE("Message tests", "[Message]") {
-
-    SECTION("Test normal message") {
-        std::string mockData;
-        mockData.append(1, 127);
-        Hardware hardware = H_LEFT_MOTOR;
-        Message* msg = new Message(hardware, mockData);
-
-        REQUIRE((msg->getHardware()).address == hardware.address);
-        REQUIRE(msg->getMessage() == mockData);
-    }
-
-    SECTION("Test message length too short") {
-        std::string mockData;
-        Hardware hardware = H_LEFT_MOTOR;
-
-        REQUIRE_THROWS_AS(
-                new Message(hardware, mockData),
-                MessageLengthException
-        );
-    }
-
-    SECTION("Test message length too long") {
-        std::string mockData = "too long";
-        Hardware hardware = H_LEFT_MOTOR;
-
-        REQUIRE_THROWS_AS(
-                new Message(hardware, mockData),
-                MessageLengthException
-        );
-    }
-
-    SECTION("Test message serialization") {
-        std::string data;
-        unsigned char d = 0b10101010;
-        data.append(1, d);
-        Message* msg = new Message(H_RIGHT_MOTOR, data);
-
-        /* Expected string */
-        std::string expected;
-        expected.append(1, H_RIGHT_MOTOR.address);
-        expected += data;
-
-        REQUIRE(msg->serialize() == expected);
-    }
 }
 
 TEST_CASE("Communicator Tests", "[Communicator]") {
@@ -191,7 +117,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
 
         Hardware mockHardware = {255, 1};
         MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
-        std::list<Message*>* readMessages = new std::list<Message*>;
+        std::list<IMessage*>* readMessages = new std::list<IMessage*>;
         mockHardwareInterface->setReadMessages(readMessages);
 
         /* Register hardware */
@@ -201,7 +127,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         std::string mockData;
         unsigned char data = 'a';
         mockData.append(1, data);
-        Message* mockMessage = new Message(mockHardware, mockData);
+        IMessage* mockMessage = new MotorMessage(mockHardware, mockData);
 
         /* Queue message and wait for it to be sent */
         comm->queueMessage(mockMessage);
@@ -255,11 +181,9 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware, mockHardwareInterface);
 
         /* Compose a mock message */
-        std::string mockData;
         unsigned char data = 'a';
-        mockData.append(1, data);
-        Message* mockMessage = new Message(mockHardware, mockData);
-        std::list<Message*>* messages = new std::list<Message*>;
+        IMessage* mockMessage = new MotorMessage(mockHardware, data);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(mockMessage);
         mockHardwareInterface->setReadMessages(messages);
 
@@ -432,33 +356,134 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
 
 }
 
+TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
+
+    unsigned char address = 255;
+    Hardware mockHardware = {address, 1};
+    unsigned char mockData = 'a';
+    MotorMessage* msg = new MotorMessage(mockHardware, mockData);
+
+    SECTION("GetHardware returns proper hardware") {
+        REQUIRE(msg->getHardware() == mockHardware);
+    }
+
+    SECTION("GetData returns proper data") {
+        REQUIRE(msg->getData() ==  mockData);
+    }
+
+    SECTION("Not enough data throws MessageLengthException") {
+        // Expect 2 bytes, given 1
+        Hardware mockHardware = {address, 2};
+
+        REQUIRE_THROWS_AS(
+                new MotorMessage(mockHardware, mockData),
+                MessageLengthException
+        );
+    }
+
+    SECTION("Too much data throws MessageLengthException") {
+        // Expect 0 bytes, given 1
+        Hardware mockHardware = {address, 0};
+
+        REQUIRE_THROWS_AS(
+            new MotorMessage(mockHardware, mockData),
+            MessageLengthException
+        );
+    }
+
+    SECTION("Serialize to proper string") {
+        std::string serial;
+        serial.append(1, address);
+        serial.append(1, mockData);
+
+        REQUIRE(msg->serialize() == serial);
+    }
+
+
+    SECTION("Destructor") {
+        delete msg;
+    }
+
+}
+
+TEST_CASE("EncoderMessage Tests", "[EncoderMessage]") {
+    unsigned char address = 255;
+    Hardware mockHardware = {address, 8};
+    double mockData = 128.0;
+    EncoderMessage* msg = new EncoderMessage(mockHardware, mockData);
+
+    SECTION("GetHardware returns proper hardware") {
+        REQUIRE(msg->getHardware() == mockHardware);
+    }
+
+    SECTION("GetData returns proper data") {
+        REQUIRE(msg->getData() ==  mockData);
+    }
+
+    SECTION("Not enough data throws MessageLengthException") {
+        // Expect 10 bytes, given 8
+        Hardware mockHardware = {address, 10};
+
+        REQUIRE_THROWS_AS(
+                new EncoderMessage(mockHardware, mockData),
+                MessageLengthException
+        );
+    }
+
+    SECTION("Too much data throws MessageLengthException") {
+        // Expect 0 bytes, given 1
+        Hardware mockHardware = {address, 0};
+
+        REQUIRE_THROWS_AS(
+                new EncoderMessage(mockHardware, mockData),
+                MessageLengthException
+        );
+    }
+
+    SECTION("Serialize to proper string") {
+        std::string serial;
+        serial.append(1, address);
+        serial.append((char*)(&mockData), 8);
+
+        // Serialized data is expected
+        REQUIRE(msg->serialize() == serial);
+
+        // Unserialized data is unchanged
+        // Need to move pointer forward 1 byte to skip over the address
+        double data = *((double*)(serial.c_str() + (unsigned char)1));
+        REQUIRE(data == mockData);
+    }
+
+
+    SECTION("Destructor") {
+        delete msg;
+    }
+}
+
 TEST_CASE("Chassis tests", "[Chassis]") {
 
     Chassis *chassis = new Chassis();
 
     SECTION("Test writing message to left motor.") {
-        std::string data;
-        data.append(1, 0b00000000);
-        Message* testMessage = new Message(H_LEFT_MOTOR, data);
+        unsigned char data = 0;
+        MotorMessage* testMessage = new MotorMessage(H_LEFT_MOTOR, data);
 
         // TODO: Check that the data has been written to the appropriate registers
         chassis->write(testMessage);
     }
 
     SECTION("Test writing message to right motor.") {
-        std::string data;
-        data.append(1, 0b00000000);
-        Message* testMessage = new Message(H_RIGHT_MOTOR, data);
+        unsigned char data = 0;
+        MotorMessage* testMessage = new MotorMessage(H_RIGHT_MOTOR, data);
 
         // TODO: Check that the data has been written to the appropriate registers
         chassis->write(testMessage);
     }
 
     SECTION("Test writing messages to an unsupported hardware throws an exception") {
-        std::string data;
-        data.append(1, 0b11111111); // 255
+        unsigned char data = 0;
         Hardware mockHardware = {0b11111111, 1};
-        Message* testMessage = new Message(mockHardware, data);
+        MotorMessage* testMessage = new MotorMessage(mockHardware, data);
 
         REQUIRE_THROWS_AS(
                 chassis->write(testMessage),
@@ -467,7 +492,7 @@ TEST_CASE("Chassis tests", "[Chassis]") {
     }
 
     SECTION("Test reading message returns empty list") {
-        std::list<Message*>* messages = chassis->read();
+        std::list<IMessage*>* messages = chassis->read();
 
         REQUIRE(messages->size() == 0);
     }

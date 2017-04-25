@@ -30,13 +30,9 @@ DriveDirectionCommand::DriveDirectionCommand(Chassis *chassis, int direction) :
             leftDir = FULL_STOP;
             break;
     }
-    std::string rightMessageString;
-    rightMessageString.append(1, rightDir);
-    Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
 
-    std::string leftMessageString;
-    leftMessageString.append(1, leftDir);
-    Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);
+    MotorMessage* rightMessage = new MotorMessage(H_RIGHT_MOTOR, rightDir);
+    MotorMessage* leftMessage = new MotorMessage(H_LEFT_MOTOR, leftDir);
 
     m_chassis->write(rightMessage);
     m_chassis->write(leftMessage);

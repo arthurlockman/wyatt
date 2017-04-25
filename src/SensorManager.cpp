@@ -17,24 +17,18 @@ void SensorManager::addSensor(Hardware hardware, ISensor* sensor) {
     this->sensorMap->insert(std::make_pair(hardware, sensor));
 };
 
-void SensorManager::updateSensors(std::list<Message*>* messages) {
+void SensorManager::updateSensors(std::list<IMessage*>* messages) {
 
     // For each message, extract the message data and send it to the appropriate sensor.
-    for(Message* msg: *messages) {
-        RawSensorData* data = new RawSensorData(msg->getMessage());
+    for(IMessage* msg: *messages) {
 
         Hardware hardware = msg->getHardware();
         if( this->sensorMap->find(hardware) == this->sensorMap->end() ) {
             throw NonexistentHardwareException(hardware);
         }
 
-        this->sensorMap->at(msg->getHardware())->updateSensor(data);
+        this->sensorMap->at(msg->getHardware())->updateSensor(msg);
     }
 
-    // Delete the list of messages
-    while(!messages->empty()) {
-        delete messages->front();
-        messages->pop_front();
-    }
-
+    delete messages;
 };

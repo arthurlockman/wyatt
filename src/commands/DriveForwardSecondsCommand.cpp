@@ -9,13 +9,9 @@ DriveForwardSecondsCommand::DriveForwardSecondsCommand(Chassis *chassis, double 
     Command()
 {
     m_startTime = time(0);
-    std::string rightMessageString;
-    rightMessageString.append(1, FULL_FORWARD);
-    Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
 
-    std::string leftMessageString;
-    leftMessageString.append(1, FULL_FORWARD);
-    Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);
+    MotorMessage* rightMessage = new MotorMessage(H_RIGHT_MOTOR, FULL_FORWARD);
+    MotorMessage* leftMessage = new MotorMessage(H_LEFT_MOTOR, FULL_FORWARD);
 
     m_chassis->write(rightMessage);
     m_chassis->write(leftMessage);
@@ -34,14 +30,10 @@ bool DriveForwardSecondsCommand::execute()
 bool DriveForwardSecondsCommand::cleanup(bool canceled)
 {
     std::cout << "Ran for " << difftime(time(0), m_startTime) << " seconds." << std::endl;
-    std::string rightMessageString;
-    rightMessageString.append(1, FULL_STOP);
 
-    std::string leftMessageString;
-    leftMessageString.append(1, FULL_STOP);
+    MotorMessage* rightMessage = new MotorMessage(H_RIGHT_MOTOR, FULL_STOP);
+    MotorMessage* leftMessage = new MotorMessage(H_LEFT_MOTOR, FULL_STOP);
 
-    Message* rightMessage = new Message(H_RIGHT_MOTOR, rightMessageString);
-    Message* leftMessage = new Message(H_LEFT_MOTOR, leftMessageString);
     m_chassis->write(rightMessage);
     m_chassis->write(leftMessage);
     return true;

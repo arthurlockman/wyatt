@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "Message.h"
+#include "IMessage.h"
 #include <list>
 
 /**
@@ -20,11 +20,11 @@ public:
      * Write a message to the peripheral. Deletes the message pointer.
      * @param msg A Message to be sent
      */
-    virtual void write(Message* msg) = 0;
+    virtual void write(IMessage* msg) = 0;
 
     /**
      * Read data from the peripheral
      * @return A list of Messages
      */
-    virtual std::list<Message*>* read() = 0;
+    virtual std::list<IMessage*>* read() = 0;
 };
