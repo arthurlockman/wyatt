@@ -14,14 +14,11 @@ class MockSensorManager : public ISensorManager{
 public:
     MockSensorManager();
     ~MockSensorManager() override;
-
     void addSensor(Hardware hardware, ISensor* sensor) override;
     void updateSensors(std::list<IMessage*>* messages) override;
+  
     std::list<IMessage*>* getUpdateMessages();
-
     std::list<IMessage*>* updateMessages;
-
-
 };
 
 

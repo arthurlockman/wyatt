@@ -11,6 +11,7 @@
 #include "Hardware.h"
 #include "Thread.h"
 #include "IHardwareInterface.h"
+#include "DuplicateHardwareException.h"
 
 /**
  * Class that oversees communication between the Raspberry pi and a single peripheral. Data that is read/written to/from a peripheral must pass through this class. This class runs on its own thread and exposes functions to queue messages.
@@ -23,14 +24,21 @@ public:
     /**
     * Constructor.
     * @param sensorManager The ISensorManager object to pass data to.
-    * @param hardwareInterface The IHardwareInterface object to read/write from.
     */
-    Communicator(ISensorManager* sensorManager, IHardwareInterface* hardwareInterface);
+    Communicator(ISensorManager* sensorManager);
 
     /**
     * Deconstructor. Deletes all pointer references.
     */
     ~Communicator();
+
+    /**
+     * Registers a piece of hardware with the communicator
+     * @param hardware The hardware to register
+     * @param interface The interface from which to read/write messages to the hardware
+     * @throws DuplicateHardwareException Thrown when hardware is registered more than once.
+     */
+    void registerHardware(Hardware hardware, IHardwareInterface* interface);
 
     /**
     * Add a message to a queue to be written to the peripheral
@@ -52,8 +60,9 @@ public:
 
 private:
     ISensorManager* sensorManager;
-    IHardwareInterface* hardwareInterface;
     std::list<IMessage*>* messageQueue;
+    std::map<Hardware, IHardwareInterface*>* hardwareInterfaceMap;
+    std::list<IHardwareInterface*>* hardwareInterfaces;
 
     /**
     * Write all messages in the queue to the peripheral

@@ -67,6 +67,8 @@ int Chassis::mapMotorSpeed(unsigned char speed) {
     return (int)mappedSpeed;
 }
 
+
 std::list<IMessage*>* Chassis::read() {
-    return new std::list<IMessage*>;
+    std::list<IMessage*>* messages = new std::list<IMessage*>;
+    return messages;
 }
