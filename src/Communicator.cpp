@@ -4,7 +4,7 @@ Communicator::Communicator(ISensorManager* sensorManager, IHardwareInterface* ha
     this->sensorManager = sensorManager;
     this->hardwareInterface = hardwareInterface;
 
-    this->messageQueue = new std::list<Message*>;
+    this->messageQueue = new std::list<IMessage*>;
 }
 
 Communicator::~Communicator() {
@@ -13,12 +13,12 @@ Communicator::~Communicator() {
     delete this->messageQueue;
 }
 
-void Communicator::queueMessage(Message *msg) {
+void Communicator::queueMessage(IMessage *msg) {
     this->messageQueue->push_back(msg);
 }
 
-void Communicator::queueMessage(std::list<Message*>* messages) {
-    for(Message* msg: *messages) {
+void Communicator::queueMessage(std::list<IMessage*>* messages) {
+    for(IMessage* msg: *messages) {
         this->queueMessage(msg);
     }
 }

@@ -1,4 +1,5 @@
-#include "MockIRRangeFinderSensor.h"
+#include "include/MockIRRangeFinderSensor.h"
+#include "include/MockIRRangeFinderSensorMessage.h"
 
 MockIRRangeFinderSensor::MockIRRangeFinderSensor() {
     // Constructor
@@ -8,9 +9,9 @@ MockIRRangeFinderSensor::~MockIRRangeFinderSensor() {
     // Destructor
 }
 
-void MockIRRangeFinderSensor::updateSensor(RawSensorData* data) {
-    this->data = data->getData();
-    delete data;
+void MockIRRangeFinderSensor::updateSensor(IMessage* msg) {
+    this->data = ((MockIRRangeFinderSensorMessage*)msg)->getData();
+    delete msg;
 }
 
 double MockIRRangeFinderSensor::getDistanceCM() {

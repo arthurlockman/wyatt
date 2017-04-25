@@ -6,24 +6,21 @@
 
 Chassis::Chassis() {
     this->m_pwmHat = new AdafruitPWMServoHat();
-    this->m_rightEncoderCounter = new EncoderCounter(3, 4, 64, H_RIGHT_ENCODER);
-    this->m_leftEncoderCounter = new EncoderCounter(1, 2, 64, H_LEFT_ENCODER);
 }
 
 Chassis::~Chassis() {
     delete this->m_pwmHat;
-    delete this->m_rightEncoderCounter;
-    delete this->m_leftEncoderCounter;
 }
 
-void Chassis::write(Message* msg) {
+void Chassis::write(IMessage* m) {
+    MotorMessage* msg = (MotorMessage*)m;
 
     Hardware hardware = msg->getHardware();
     int messageLength = hardware.messageLength;
     unsigned char data[messageLength];
 
     for(int i = 0; i < messageLength; i++) {
-        data[i] = (unsigned char)msg->getMessage().at(i);
+        data[i] = msg->getData();
     }
 
     switch(hardware.address) {
@@ -70,6 +67,6 @@ int Chassis::mapMotorSpeed(unsigned char speed) {
     return (int)mappedSpeed;
 }
 
-std::list<Message*>* Chassis::read() {
-    return new std::list<Message*>;
+std::list<IMessage*>* Chassis::read() {
+    return new std::list<IMessage*>;
 }

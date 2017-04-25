@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "Message.h"
+#include "IMessage.h"
 #include "ISensorManager.h"
 #include "Hardware.h"
 #include "Thread.h"
@@ -36,13 +36,13 @@ public:
     * Add a message to a queue to be written to the peripheral
     * @param msg A Message object to be written
     */
-    void queueMessage(Message* message);
+    void queueMessage(IMessage* message);
 
     /**
     * Add a list of messages to a queue to be written to the peripheral
     * @param messages An std::list of Messages to be written
     */
-    void queueMessage(std::list<Message*>* messages);
+    void queueMessage(std::list<IMessage*>* messages);
 
     /**
     * Overwritten Thread run function. Continuously reads and writes data to the peripheral
@@ -53,7 +53,7 @@ public:
 private:
     ISensorManager* sensorManager;
     IHardwareInterface* hardwareInterface;
-    std::list<Message*>* messageQueue;
+    std::list<IMessage*>* messageQueue;
 
     /**
     * Write all messages in the queue to the peripheral

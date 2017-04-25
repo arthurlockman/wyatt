@@ -5,7 +5,7 @@
 #include "../../include/ISensorManager.h"
 #include "../../include/ISensor.h"
 #include "../../include/Hardware.h"
-#include "../../include/Message.h"
+#include "../../include/IMessage.h"
 #include <list>
 
 
@@ -16,10 +16,10 @@ public:
     ~MockSensorManager() override;
 
     void addSensor(Hardware hardware, ISensor* sensor) override;
-    void updateSensors(std::list<Message*>* messages) override;
-    std::list<Message*>* getUpdateMessages();
+    void updateSensors(std::list<IMessage*>* messages) override;
+    std::list<IMessage*>* getUpdateMessages();
 
-    std::list<Message*>* updateMessages;
+    std::list<IMessage*>* updateMessages;
 
 
 };

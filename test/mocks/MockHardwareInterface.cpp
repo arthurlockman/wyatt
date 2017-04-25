@@ -6,14 +6,14 @@
 
 MockHardwareInterface::MockHardwareInterface() {}
 
-void MockHardwareInterface::write(Message* msg) {
+void MockHardwareInterface::write(IMessage* msg) {
     this->writeMessage = msg;
 }
 
-std::list<Message*>* MockHardwareInterface::read() {
+std::list<IMessage*>* MockHardwareInterface::read() {
     return this->readMessages;
 }
 
-void MockHardwareInterface::setReadMessages(std::list<Message*>* messages) {
+void MockHardwareInterface::setReadMessages(std::list<IMessage*>* messages) {
     this->readMessages = messages;
 }

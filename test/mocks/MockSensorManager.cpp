@@ -16,10 +16,10 @@ void MockSensorManager::addSensor(Hardware hardware, ISensor* sensor) {
 
 };
 
-void MockSensorManager::updateSensors(std::list<Message*>* messages) {
+void MockSensorManager::updateSensors(std::list<IMessage*>* messages) {
     this->updateMessages = messages;
 };
 
-std::list<Message*>* MockSensorManager::getUpdateMessages() {
+std::list<IMessage*>* MockSensorManager::getUpdateMessages() {
     return this->updateMessages;
 }

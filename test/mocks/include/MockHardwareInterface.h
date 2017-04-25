@@ -4,19 +4,19 @@
 
 #pragma once
 #include "../../../include/IHardwareInterface.h"
-#include "../../../include/Message.h"
+#include "../../../include/IMessage.h"
 #include <list>
 
 
 class MockHardwareInterface : public IHardwareInterface {
 public:
     MockHardwareInterface();
-    void write(Message* msg);
-    std::list<Message*>* read();
-    void setReadMessages(std::list<Message*>* messages);
+    void write(IMessage* msg);
+    std::list<IMessage*>* read();
+    void setReadMessages(std::list<IMessage*>* messages);
 
-    Message* writeMessage;
-    std::list<Message*>* readMessages;
+    IMessage* writeMessage;
+    std::list<IMessage*>* readMessages;
 };
 
 
