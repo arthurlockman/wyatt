@@ -11,7 +11,7 @@
 #include "../include/Chassis.h"
 #include "../include/MotorAdapter.h"
 #include "../include/EncoderSensor.h"
-#include "../include/DriveConstants.h"
+#include "../include/DataSizeException.h"
 #include <unistd.h>
 
 
@@ -384,8 +384,23 @@ TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
         serial.append((char*)(&mockData), sizeof(int));
 
         REQUIRE(msg->serialize() == serial);
+        int unserializeData = *((int*)(serial.c_str() + sizeof(char)));
+        REQUIRE(unserializeData == mockData);
     }
 
+    SECTION("Data too large throws DataSizeException") {
+        REQUIRE_THROWS_AS(
+            new MotorMessage(mockHardware, FULL_FORWARD + 1),
+            DataSizeException
+        );
+    }
+
+    SECTION("Data too small throws DataSizeException") {
+        REQUIRE_THROWS_AS(
+                new MotorMessage(mockHardware, FULL_BACKWARD - 1),
+                DataSizeException
+        );
+    }
 
     SECTION("Destructor") {
         delete msg;

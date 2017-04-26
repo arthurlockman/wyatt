@@ -3,11 +3,15 @@
 
 MotorMessage::MotorMessage(Hardware hardware, int data) : IMessage(hardware) {
 
-    this->data = data;
-
     if((int)(hardware.messageLength) != sizeof(int)) {
         throw MessageLengthException(hardware);
     }
+
+    if(data > FULL_FORWARD || data < FULL_BACKWARD) {
+        throw DataSizeException(data);
+    }
+
+    this->data = data;
 }
 
 MotorMessage::~MotorMessage() {

@@ -17,7 +17,7 @@ public:
      * Constructor.
      * @param hardware The hardware address for the encoder
      * @param data Double representing the RPM speed of the motors
-     * @throws MessageLengthException if the data is not the correct length
+     * @throws MessageLengthException if hardware length does not match the data size
      */
     EncoderMessage(Hardware hardware, double data);
 
