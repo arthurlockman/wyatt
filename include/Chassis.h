@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "NonexistentHardwareException.h"
-#include "EncoderCounter.h"
+#include "EncoderAdapter.h"
 #include "MotorMessage.h"
 #include "IMessage.h"
 

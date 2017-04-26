@@ -18,7 +18,7 @@
 #include "Hardware.h"
 #include "AdafruitPWMServoHat.h"
 #include "Chassis.h"
-#include "EncoderCounter.h"
+#include "EncoderAdapter.h"
 #include "commands/DriveForwardSecondsCommand.h"
 #include "IMessage.h"
 #include "MotorMessage.h"

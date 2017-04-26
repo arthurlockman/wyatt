@@ -1,4 +1,4 @@
-#include "EncoderCounter.h"
+#include "EncoderAdapter.h"
 #include <iostream>
 
 EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev, Hardware hardware):
