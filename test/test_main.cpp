@@ -92,8 +92,8 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         DrivetrainAdapter *dt = new DrivetrainAdapter();
         DriveDirectionCommand *df = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::forward);
         DriveDirectionCommand *db = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::backward);
-        DriveDirectionCommand *tr = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::forward);
-        DriveDirectionCommand *tl = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::forward);
+        DriveDirectionCommand *tr = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::turnRight);
+        DriveDirectionCommand *tl = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::turnLeft);
         DriveDirectionCommand *st = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::stop);
         cm->runCommand(df);
         while (!df->isFinished()) {}
