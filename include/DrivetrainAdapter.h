@@ -15,17 +15,17 @@
 #include "MotorMessage.h"
 #include "IMessage.h"
 
-class Chassis: public IHardwareInterface {
+class DrivetrainAdapter: public IHardwareInterface {
 public:
     /**
      * Creates a chassis object. This also instantiates
      * the Adafruit PWM Servo Hat module.
      */
-    Chassis();
+    DrivetrainAdapter();
     /**
      * Destructs the chassis module.
      */
-    ~Chassis() override;
+    ~DrivetrainAdapter() override;
     /**
      * Send a command to the chassis (a command
      * to drive is expected here).

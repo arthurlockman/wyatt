@@ -3,7 +3,7 @@
 #include "DriveConstants.h"
 #include <string>
 
-DriveForwardSecondsCommand::DriveForwardSecondsCommand(Chassis *chassis, double seconds) :
+DriveForwardSecondsCommand::DriveForwardSecondsCommand(DrivetrainAdapter *chassis, double seconds) :
     m_chassis(chassis),
     m_seconds(seconds),
     Command()

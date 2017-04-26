@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Command.h"
-#include "Chassis.h"
+#include "DrivetrainAdapter.h"
 #include <mutex>
 
 class DriveDirectionCommand : public Command
 {
 public:
-    DriveDirectionCommand(Chassis* chassis, int direction);
+    DriveDirectionCommand(DrivetrainAdapter* chassis, int direction);
     ~DriveDirectionCommand();
     bool execute();
     bool cleanup(bool canceled);
@@ -19,5 +19,5 @@ public:
         turnRight
     };
 private:
-    Chassis* m_chassis;
+    DrivetrainAdapter* m_chassis;
 };

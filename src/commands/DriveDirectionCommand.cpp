@@ -1,7 +1,7 @@
 #include "commands/DriveDirectionCommand.h"
 #include "DriveConstants.h"
 
-DriveDirectionCommand::DriveDirectionCommand(Chassis *chassis, int direction) :
+DriveDirectionCommand::DriveDirectionCommand(DrivetrainAdapter *chassis, int direction) :
     m_chassis(chassis),
     Command()
 {

@@ -8,7 +8,7 @@
 #include "../catch/catch.hpp"
 #include "../include/IRangeFinderSensor.h"
 #include "../include/SensorManager.h"
-#include "../include/Chassis.h"
+#include "DrivetrainAdapter.h"
 #include "../include/MotorAdapter.h"
 #include "../include/EncoderSensor.h"
 #include "../include/EncoderAdapter.h"

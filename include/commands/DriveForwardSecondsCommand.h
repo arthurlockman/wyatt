@@ -1,18 +1,18 @@
 #pragma once
 
 #include "Command.h"
-#include "Chassis.h"
+#include "DrivetrainAdapter.h"
 #include <mutex>
 
 class DriveForwardSecondsCommand : public Command
 {
 public:
-    DriveForwardSecondsCommand(Chassis* chassis, double seconds);
+    DriveForwardSecondsCommand(DrivetrainAdapter* chassis, double seconds);
     ~DriveForwardSecondsCommand();
     bool execute();
     bool cleanup(bool canceled);
 private:
-    Chassis* m_chassis;
+    DrivetrainAdapter* m_chassis;
     double m_seconds;
     time_t m_startTime;
 };

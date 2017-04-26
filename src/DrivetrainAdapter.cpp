@@ -2,17 +2,17 @@
 // Created by Tucker Haydon on 4/23/17.
 //
 
-#include "../include/Chassis.h"
+#include "DrivetrainAdapter.h"
 
-Chassis::Chassis() {
+DrivetrainAdapter::DrivetrainAdapter() {
     this->m_pwmHat = new AdafruitPWMServoHat();
 }
 
-Chassis::~Chassis() {
+DrivetrainAdapter::~DrivetrainAdapter() {
     delete this->m_pwmHat;
 }
 
-void Chassis::write(IMessage* m) {
+void DrivetrainAdapter::write(IMessage* m) {
     MotorMessage* msg = (MotorMessage*)m;
 
     Hardware hardware = msg->getHardware();
@@ -37,7 +37,7 @@ void Chassis::write(IMessage* m) {
     delete msg;
 }
 
-void Chassis::driveMotor(unsigned char motorAddress, unsigned char speed) {
+void DrivetrainAdapter::driveMotor(unsigned char motorAddress, unsigned char speed) {
 
     int motorSpeed = mapMotorSpeed(speed);
     switch(motorAddress) {
@@ -62,13 +62,13 @@ void Chassis::driveMotor(unsigned char motorAddress, unsigned char speed) {
     }
 }
 
-int Chassis::mapMotorSpeed(unsigned char speed) {
+int DrivetrainAdapter::mapMotorSpeed(unsigned char speed) {
     double mappedSpeed = (2 * 4096.0 * ((double)speed)/ 255.0 - 4096.0);
     return (int)mappedSpeed;
 }
 
 
-std::list<IMessage*>* Chassis::read() {
+std::list<IMessage*>* DrivetrainAdapter::read() {
     std::list<IMessage*>* messages = new std::list<IMessage*>;
     return messages;
 }
