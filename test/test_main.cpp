@@ -11,7 +11,7 @@
 #include "../include/Chassis.h"
 #include "../include/MotorAdapter.h"
 #include "../include/EncoderSensor.h"
-#include "../include/MismatchedMessageException.h"
+#include "../include/EncoderAdapter.h"
 #include <unistd.h>
 
 
@@ -106,7 +106,9 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
         REQUIRE(mockSensor->getData() == data);
     }
 
-
+    SECTION("Destructor") {
+        delete sensorManager;
+    }
 }
 
 TEST_CASE("Communicator Tests", "[Communicator]") {
@@ -472,8 +474,23 @@ TEST_CASE("MotorAdapter Tests", "[MotorAdapter]") {
         // TODO: Check that the appropriate register has been written
     }
 
+    SECTION("Destructor") {
+        delete adapter;
+    }
 
 
+}
+
+TEST_CASE("EncoderAdapter Tests", "[EncoderAdapter]") {
+
+    Hardware mockHardware = {255, 8};
+    int ticksPerRev = 100;
+    int channelA = 0, channelB = 1;
+    EncoderAdapter* adapter = new EncoderAdapter(channelA, channelB, ticksPerRev, mockHardware);
+
+    SECTION("Destructor") {
+        delete adapter;
+    }
 }
 
 TEST_CASE("EncoderSensor Tests", "[EncoderSensor]") {
