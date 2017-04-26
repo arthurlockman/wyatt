@@ -15,6 +15,11 @@ MotorAdapter::~MotorAdapter() {
 }
 
 void MotorAdapter::write(IMessage* m) {
+
+    if(typeid(*m) != typeid(MotorMessage)) {
+        throw MismatchedMessageException(m);
+    }
+
     MotorMessage* msg = (MotorMessage*)m;
     unsigned char speed = msg->getData();
     driveMotor(speed);

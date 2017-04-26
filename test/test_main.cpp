@@ -474,6 +474,15 @@ TEST_CASE("MotorAdapter Tests", "[MotorAdapter]") {
         // TODO: Check that the appropriate register has been written
     }
 
+    SECTION("MismatchedMessageException thrown when message of wrong type is passed in") {
+        IMessage* msg = new EncoderMessage(H_RIGHT_ENCODER, 10.0);
+
+        REQUIRE_THROWS_AS(
+          adapter->write(msg),
+          MismatchedMessageException
+        );
+    }
+
     SECTION("Destructor") {
         delete adapter;
     }

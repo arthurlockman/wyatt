@@ -9,6 +9,7 @@
 #include "IMessage.h"
 #include "MotorMessage.h"
 #include <stdlib.h>
+#include "MismatchedMessageException.h"
 
 /**
  * Adapter class for communicating with Pololu motor hardware.
@@ -32,7 +33,7 @@ public:
     /**
      * Write a message to the motor. Contains a byte [0-255] specifying motor speed.
      * @param msg A message wrapping a byte specifying motor speed
-     * @throws UnsupportedHardwareException Hardware type does not match
+     * @throws MismatchedMessageException Message is of wrong type
      */
     void write(IMessage* msg) override;
 
