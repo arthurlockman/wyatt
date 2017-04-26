@@ -25,7 +25,7 @@ public:
      * loop() function. While the command is executing
      * this will be called repeatedly. Do not include
      * while loops in here.
-     * @return true if the command is done, false if it needs
+     * @return false if the command is done, true if it needs
      * to continue.
      */
     virtual bool execute() = 0;

@@ -44,7 +44,7 @@ DriveDirectionCommand::~DriveDirectionCommand()
 
 bool DriveDirectionCommand::execute()
 {
-    return true;
+    return false;
 }
 
 bool DriveDirectionCommand::cleanup(bool canceled)

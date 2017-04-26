@@ -13,6 +13,8 @@
 #include "sensors/EncoderSensor.h"
 #include "exceptions/DataSizeException.h"
 #include <unistd.h>
+#include <commands/DriveForwardSecondsCommand.h>
+#include <commands/DriveDirectionCommand.h>
 
 
 /* MOCKS */
@@ -26,6 +28,7 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
     SECTION("Command manager can be killed.") {
         CommandManager *commandManager = new CommandManager();
         REQUIRE(commandManager->kill() == 0);
+        delete commandManager;
     }
 
     SECTION("Simple commands run to completion.") {
@@ -40,6 +43,9 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         REQUIRE(sc2->getCount() == 20);
         REQUIRE(commandManager1->inFlight() == 0);
         commandManager1->kill();
+        delete commandManager1;
+        delete sc1;
+        delete sc2;
     }
 
     SECTION("Commands can be canceled.") {
@@ -61,6 +67,58 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         REQUIRE(sc5->getCount() != 2000);
         REQUIRE(sc6->getCount() != 3000);
         commandManager2->kill();
+        delete commandManager2;
+        delete sc3;
+        delete sc4;
+        delete sc5;
+        delete sc6;
+    }
+
+    SECTION("Drive seconds can be scheduled and run") {
+        CommandManager *cm3 = new CommandManager();
+        DrivetrainAdapter *dt = new DrivetrainAdapter();
+        DriveForwardSecondsCommand *dsc = new DriveForwardSecondsCommand(dt, 1);
+        cm3->runCommand(dsc);
+        while (!dsc->isFinished()) {}
+        REQUIRE(dsc->isFinished());
+        REQUIRE(cm3->inFlight() == 0);
+        cm3->kill();
+        delete cm3;
+        delete dt;
+    }
+
+    SECTION("Drive direction command yields results") {
+        CommandManager *cm = new CommandManager();
+        DrivetrainAdapter *dt = new DrivetrainAdapter();
+        DriveDirectionCommand *df = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::forward);
+        DriveDirectionCommand *db = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::backward);
+        DriveDirectionCommand *tr = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::forward);
+        DriveDirectionCommand *tl = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::forward);
+        DriveDirectionCommand *st = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::stop);
+        cm->runCommand(df);
+        while (!df->isFinished()) {}
+        REQUIRE(df->isFinished());
+        cm->runCommand(db);
+        while (!db->isFinished()) {}
+        REQUIRE(db->isFinished());
+        cm->runCommand(tr);
+        while (!tr->isFinished()) {}
+        REQUIRE(tr->isFinished());
+        cm->runCommand(tl);
+        while (!tl->isFinished()) {}
+        REQUIRE(tl->isFinished());
+        cm->runCommand(st);
+        while (!st->isFinished()) {}
+        REQUIRE(st->isFinished());
+        REQUIRE(cm->inFlight() == 0);
+        cm->kill();
+        delete cm;
+        delete dt;
+        delete df;
+        delete db;
+        delete tr;
+        delete tl;
+        delete st;
     }
 }
 
