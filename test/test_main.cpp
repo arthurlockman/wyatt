@@ -10,6 +10,7 @@
 #include "../include/IRangeFinderSensor.h"
 #include "../include/SensorManager.h"
 #include "../include/Chassis.h"
+#include "../include/MotorAdapter.h"
 #include <unistd.h>
 
 
@@ -130,7 +131,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         /* Queue message and wait for it to be sent */
         comm->queueMessage(mockMessage);
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
         REQUIRE(mockHardwareInterface->getWriteMessages()->size() == 1);
@@ -157,7 +158,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->queueMessage(mockMessage1);
         comm->queueMessage(mockMessage2);
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
 
@@ -184,7 +185,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
 
         /* Wait for it to be read */
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
 
@@ -216,7 +217,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
 
         /* Wait for it to be read */
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
 
@@ -259,7 +260,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         /* Queue message and wait for them to be sent */
         comm->queueMessage(messages);
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
 
@@ -291,7 +292,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         /* Queue message and wait for them to be sent */
         comm->queueMessage(messages);
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
 
@@ -322,7 +323,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         /* Queue message and wait for them to be sent */
         comm->queueMessage(messages);
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
 
@@ -443,41 +444,32 @@ TEST_CASE("EncoderMessage Tests", "[EncoderMessage]") {
     }
 }
 
-TEST_CASE("Chassis tests", "[Chassis]") {
+TEST_CASE("Motor Adapter Tests", "[MotorAdapter]") {
 
-    Chassis *chassis = new Chassis();
+    int forwardPin = 1, backwardPin = 2;
+    AdafruitPWMServoHat* m_pwmHat = new AdafruitPWMServoHat();
+    MotorAdapter* adapter = new MotorAdapter(m_pwmHat, forwardPin, backwardPin);
+    Hardware hardware = H_RIGHT_MOTOR;
 
-    SECTION("Test writing message to left motor.") {
-        unsigned char data = 0;
-        MotorMessage* testMessage = new MotorMessage(H_LEFT_MOTOR, data);
-
-        // TODO: Check that the data has been written to the appropriate registers
-        chassis->write(testMessage);
+    SECTION("Read returns empty list. Cannot read motors.") {
+        REQUIRE(adapter->read()->size() == 0);
     }
 
-    SECTION("Test writing message to right motor.") {
-        unsigned char data = 0;
-        MotorMessage* testMessage = new MotorMessage(H_RIGHT_MOTOR, data);
+    SECTION("0 drives the motor full backwards") {
+        unsigned char speed = 0;
+        IMessage* msg = new MotorMessage(hardware, speed);
+        adapter->write(msg);
 
-        // TODO: Check that the data has been written to the appropriate registers
-        chassis->write(testMessage);
+        // TODO: Check that the appropriate register has been written
     }
 
-    SECTION("Test writing messages to an unsupported hardware throws an exception") {
-        unsigned char data = 0;
-        Hardware mockHardware = {0b11111111, 1};
-        MotorMessage* testMessage = new MotorMessage(mockHardware, data);
-
-        REQUIRE_THROWS_AS(
-                chassis->write(testMessage),
-                NonexistentHardwareException
-        );
+    SECTION("255 drives the motor full forwards") {
+        unsigned char speed = 255;
+        IMessage* msg = new MotorMessage(hardware, speed);
+        adapter->write(msg);
+        // TODO: Check that the appropriate register has been written
     }
 
-    SECTION("Test reading message returns empty list") {
-        std::list<IMessage*>* messages = chassis->read();
 
-        REQUIRE(messages->size() == 0);
-    }
 
 }

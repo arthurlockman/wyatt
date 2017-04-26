@@ -25,7 +25,7 @@ public:
     /**
      * Destructs the encoder counter.
      */
-    ~EncoderAdapter();
+    ~EncoderAdapter() override;
     /**
      * Runs the encoder counter worker thread.
      * @return nothing
