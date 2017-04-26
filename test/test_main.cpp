@@ -467,6 +467,7 @@ TEST_CASE("Motor Adapter Tests", "[MotorAdapter]") {
         unsigned char speed = 255;
         IMessage* msg = new MotorMessage(hardware, speed);
         adapter->write(msg);
+
         // TODO: Check that the appropriate register has been written
     }
 

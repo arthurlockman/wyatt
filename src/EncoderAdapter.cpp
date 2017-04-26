@@ -14,7 +14,6 @@ EncoderAdapter::EncoderAdapter(int channelA, int channelB, int ticksPerRev, Hard
     pinMode(channelB, INPUT);
     m_channelAState = digitalRead(m_channelA);
     m_channelBState = digitalRead(m_channelB);
-    this->start();
 }
 
 EncoderAdapter::~EncoderAdapter()
