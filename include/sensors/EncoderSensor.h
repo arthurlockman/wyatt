@@ -30,7 +30,8 @@ public:
     ~EncoderSensor();
 
     /**
-     * Updates this object with the newest measurements from an encoder. Measurements may need to be scaled by a gear ratio.
+     * Updates this object with the newest measurements from an encoder.
+     * Measurements may need to be scaled by a gear ratio.
      * @param message IMessage (EncoderMessage) encapsulating the newest measurements.
      * @throws MismatchedMessageException if the type of the message is not EncoderMessage
      */

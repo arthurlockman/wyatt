@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <commands/DriveForwardSecondsCommand.h>
 #include <commands/DriveDirectionCommand.h>
+#include <commands/DrivePIDCommand.h>
 
 
 /* MOCKS */
@@ -95,6 +96,41 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         DriveDirectionCommand *tr = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::turnRight);
         DriveDirectionCommand *tl = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::turnLeft);
         DriveDirectionCommand *st = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::stop);
+        cm->runCommand(df);
+        while (!df->isFinished()) {}
+        REQUIRE(df->isFinished());
+        cm->runCommand(db);
+        while (!db->isFinished()) {}
+        REQUIRE(db->isFinished());
+        cm->runCommand(tr);
+        while (!tr->isFinished()) {}
+        REQUIRE(tr->isFinished());
+        cm->runCommand(tl);
+        while (!tl->isFinished()) {}
+        REQUIRE(tl->isFinished());
+        cm->runCommand(st);
+        while (!st->isFinished()) {}
+        REQUIRE(st->isFinished());
+        REQUIRE(cm->inFlight() == 0);
+        cm->kill();
+        delete cm;
+        delete dt;
+        delete df;
+        delete db;
+        delete tr;
+        delete tl;
+        delete st;
+    }
+
+    SECTION("Drive PID command yields results") {
+        // TODO: ACTUALLY WRITE THIS TEST CASE
+        CommandManager *cm = new CommandManager();
+        DrivetrainAdapter *dt = new DrivetrainAdapter();
+        DrivePIDCommand *df = new DrivePIDCommand(dt, DriveDirectionCommand::DriveDirections::forward, NULL, NULL);
+        DrivePIDCommand *db = new DrivePIDCommand(dt, DriveDirectionCommand::DriveDirections::backward, NULL, NULL);
+        DrivePIDCommand *tr = new DrivePIDCommand(dt, DriveDirectionCommand::DriveDirections::turnRight, NULL, NULL);
+        DrivePIDCommand *tl = new DrivePIDCommand(dt, DriveDirectionCommand::DriveDirections::turnLeft, NULL, NULL);
+        DrivePIDCommand *st = new DrivePIDCommand(dt, DriveDirectionCommand::DriveDirections::stop, NULL, NULL);
         cm->runCommand(df);
         while (!df->isFinished()) {}
         REQUIRE(df->isFinished());
