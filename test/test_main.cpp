@@ -11,7 +11,7 @@
 #include "../include/Chassis.h"
 #include "../include/MotorAdapter.h"
 #include "../include/EncoderSensor.h"
-#include "../include/EncoderAdapter.h"
+#include "../include/DriveConstants.h"
 #include <unistd.h>
 
 
@@ -80,7 +80,7 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
     SECTION("Updating non-existent hardware results in exception") {
-        unsigned char data = 0;
+        int data = FULL_FORWARD;
         MotorMessage* msg = new MotorMessage(H_LEFT_MOTOR, data);
         std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(msg);
@@ -119,7 +119,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
 
     SECTION("Test queuing message for single hardware interface") {
 
-        Hardware mockHardware = {255, 1};
+        Hardware mockHardware = {255, sizeof(int)};
         MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
         std::list<IMessage*>* readMessages = new std::list<IMessage*>;
         mockHardwareInterface->setReadMessages(readMessages);
@@ -128,7 +128,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware, mockHardwareInterface);
 
         /* Compose a mock message */
-        unsigned char mockData = 'a';
+        int mockData = FULL_FORWARD;
         IMessage* mockMessage = new MotorMessage(mockHardware, mockData);
 
         /* Queue message and wait for it to be sent */
@@ -142,8 +142,8 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
     }
 
     SECTION("Test queuing messages for multiple hardware interfaces") {
-        Hardware mockHardware1 = {255, 1};
-        Hardware mockHardware2 = {254, 1};
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {254, sizeof(int)};
 
         MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
         MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
@@ -153,7 +153,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware2, mockHardwareInterface2);
 
         /* Compose a mock message */
-        unsigned char data1 = 'a', data2 = 'b';
+       int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
         IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
         IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
 
@@ -173,14 +173,14 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
     }
 
     SECTION("Test receiving message from single hardware interface") {
-        Hardware mockHardware = {255, 1};
+        Hardware mockHardware = {255, sizeof(int)};
         MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
 
         /* Register hardware */
         comm->registerHardware(mockHardware, mockHardwareInterface);
 
         /* Compose a mock message */
-        unsigned char data = 'a';
+        int data = FULL_FORWARD;
         IMessage* mockMessage = new MotorMessage(mockHardware, data);
         std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(mockMessage);
@@ -197,8 +197,8 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
     }
 
     SECTION("Test receiving messages from multiple hardware interfaces") {
-        Hardware mockHardware1 = {255, 1};
-        Hardware mockHardware2 = {254, 1};
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {254, sizeof(int)};
         MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
         MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
 
@@ -207,7 +207,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware2, mockHardwareInterface2);
 
         /* Compose a mock message */
-        unsigned char data1 = 'a', data2 = 'b';
+        int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
         IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
         IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
         std::list<IMessage*>* messages1 = new std::list<IMessage*>;
@@ -232,8 +232,8 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
     }
 
     SECTION("Test throws duplicate hardware exception when hardware with the same address is registered more than once.") {
-        Hardware mockHardware1 = {255, 1};
-        Hardware mockHardware2 = {255, 1};
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {255, sizeof(int)};
         MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
 
         /* Register hardware */
@@ -246,14 +246,14 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
     }
 
     SECTION("Test queue list of messages sent to single interface") {
-        Hardware mockHardware = {255, 1};
+        Hardware mockHardware = {255, sizeof(int)};
         MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
 
         /* Register hardware */
         comm->registerHardware(mockHardware, mockHardwareInterface);
 
         /* Compose two mock messages */
-        unsigned char data1 = 'a', data2 = 'b';
+        int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
         IMessage* mockMessage1 = new MotorMessage(mockHardware, data1);
         IMessage* mockMessage2 = new MotorMessage(mockHardware, data2);
         std::list<IMessage*>* messages = new std::list<IMessage*>;
@@ -275,8 +275,8 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
     }
 
     SECTION("Test queue list of messages sent to multiple interfaces") {
-        Hardware mockHardware1 = {255, 1};
-        Hardware mockHardware2 = {254, 1};
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {254, sizeof(int)};
         MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
         MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
 
@@ -285,7 +285,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware2, mockHardwareInterface2);
 
         /* Compose two mock messages */
-        unsigned char data1 = 'a', data2 = 'b';
+        int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
         IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
         IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
         std::list<IMessage*>* messages = new std::list<IMessage*>;
@@ -307,8 +307,8 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
     }
 
     SECTION("Test queuing multiple messages for different hardware sent to the same hardware interface") {
-        Hardware mockHardware1 = {255, 1};
-        Hardware mockHardware2 = {254, 1};
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {254, sizeof(int)};
         MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
 
         /* Register hardware */
@@ -316,7 +316,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware2, mockHardwareInterface);
 
         /* Compose two mock messages */
-        unsigned char data1 = 'a', data2 = 'b';
+        int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
         IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
         IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
         std::list<IMessage*>* messages = new std::list<IMessage*>;
@@ -346,8 +346,8 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
 TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
 
     unsigned char address = 255;
-    Hardware mockHardware = {address, 1};
-    unsigned char mockData = 'a';
+    Hardware mockHardware = {address, sizeof(int)};
+    int mockData = FULL_FORWARD;
     MotorMessage* msg = new MotorMessage(mockHardware, mockData);
 
     SECTION("GetHardware returns proper hardware") {
@@ -359,7 +359,7 @@ TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
     }
 
     SECTION("Not enough data throws MessageLengthException") {
-        // Expect 2 bytes, given 1
+        // Expect 5 bytes, given 4
         Hardware mockHardware = {address, 2};
 
         REQUIRE_THROWS_AS(
@@ -369,7 +369,7 @@ TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
     }
 
     SECTION("Too much data throws MessageLengthException") {
-        // Expect 0 bytes, given 1
+        // Expect 0 bytes, given 4
         Hardware mockHardware = {address, 0};
 
         REQUIRE_THROWS_AS(
@@ -381,7 +381,7 @@ TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
     SECTION("Serialize to proper string") {
         std::string serial;
         serial.append(1, address);
-        serial.append(1, mockData);
+        serial.append((char*)(&mockData), sizeof(int));
 
         REQUIRE(msg->serialize() == serial);
     }
@@ -395,7 +395,7 @@ TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
 
 TEST_CASE("EncoderMessage Tests", "[EncoderMessage]") {
     unsigned char address = 255;
-    Hardware mockHardware = {address, 8};
+    Hardware mockHardware = {address, sizeof(double)};
     double mockData = 128.0;
     EncoderMessage* msg = new EncoderMessage(mockHardware, mockData);
 
@@ -430,14 +430,14 @@ TEST_CASE("EncoderMessage Tests", "[EncoderMessage]") {
     SECTION("Serialize to proper string") {
         std::string serial;
         serial.append(1, address);
-        serial.append((char*)(&mockData), 8);
+        serial.append((char*)(&mockData), sizeof(double));
 
         // Serialized data is expected
         REQUIRE(msg->serialize() == serial);
 
         // Unserialized data is unchanged
         // Need to move pointer forward 1 byte to skip over the address
-        double data = *((double*)(serial.c_str() + (unsigned char)1));
+        double data = *((double*)(serial.c_str() + sizeof(char)));
         REQUIRE(data == mockData);
     }
 
@@ -458,16 +458,16 @@ TEST_CASE("MotorAdapter Tests", "[MotorAdapter]") {
         REQUIRE(adapter->read()->size() == 0);
     }
 
-    SECTION("0 drives the motor full backwards") {
-        unsigned char speed = 0;
+    SECTION("Drive the motor full backwards") {
+        int speed = FULL_BACKWARD;
         IMessage* msg = new MotorMessage(hardware, speed);
         adapter->write(msg);
 
         // TODO: Check that the appropriate register has been written
     }
 
-    SECTION("255 drives the motor full forwards") {
-        unsigned char speed = 255;
+    SECTION("Drive the motor full forwards") {
+        int speed = FULL_FORWARD;
         IMessage* msg = new MotorMessage(hardware, speed);
         adapter->write(msg);
 
@@ -517,7 +517,7 @@ TEST_CASE("EncoderSensor Tests", "[EncoderSensor]") {
     }
 
     SECTION("MismatchMessageException thrown if wrong message type sent to encoder") {
-        IMessage* msg = new MotorMessage(H_RIGHT_MOTOR, 'a');
+        IMessage* msg = new MotorMessage(H_RIGHT_MOTOR, FULL_FORWARD);
 
         REQUIRE_THROWS_AS(
             sensor->updateSensor(msg),

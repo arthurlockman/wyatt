@@ -31,7 +31,7 @@ public:
     ~MotorAdapter() override;
 
     /**
-     * Write a message to the motor. Contains a byte [0-255] specifying motor speed.
+     * Write a message to the motor. Contains an integer representing the speed of the motor [-4095 - 4095] = [Full Backwards, Full Forwards]
      * @param msg A message wrapping a byte specifying motor speed
      * @throws MismatchedMessageException Message is of wrong type
      */
@@ -51,16 +51,9 @@ private:
 
     /**
      * Drives a specific motor at a specific speed.
-     * @param speed A value from 0 - 255, motor speed.
+     * @param speed Integer representing the speed of the motor [-4095 - 4095] = [Full Backwards, Full Forwards]
      */
-    void driveMotor(unsigned char speed);
+    void driveMotor(int speed);
 
-    /**
-     * Convert motor speed from 0 - 255 to -4095 - 4095 to hand
-     * off to the servo hat.
-     * @param speed an unsigned char, 0 - 255.
-     * @return a speed, int, -4095 - 4095
-     */
-    int mapMotorSpeed(unsigned char speed);
 
 };

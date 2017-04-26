@@ -7,8 +7,7 @@
 EncoderMessage::EncoderMessage(Hardware hardware, double data) : IMessage(hardware) {
     this->data = data;
 
-    // Expect 8 bytes in a double
-    if((int)(hardware.messageLength) != 8) {
+    if((int)(hardware.messageLength) != sizeof(double)) {
         throw MessageLengthException(hardware);
     }
 }
@@ -24,7 +23,7 @@ double EncoderMessage::getData() {
 std::string EncoderMessage::serialize() {
     std::string serial;
     serial.append(1, hardware.address);
-    serial.append((char*)(&(this->data)), 8);
+    serial.append((char*)(&(this->data)), sizeof(double));
     return serial;
 }
 

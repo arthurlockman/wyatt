@@ -1,12 +1,11 @@
 #include "MotorMessage.h"
 
 
-MotorMessage::MotorMessage(Hardware hardware, unsigned char data) : IMessage(hardware) {
+MotorMessage::MotorMessage(Hardware hardware, int data) : IMessage(hardware) {
 
     this->data = data;
 
-    // Expect 1 byte
-    if((int)(hardware.messageLength) != 1) {
+    if((int)(hardware.messageLength) != sizeof(int)) {
         throw MessageLengthException(hardware);
     }
 }
@@ -15,13 +14,13 @@ MotorMessage::~MotorMessage() {
     // Nothing.
 }
 
-unsigned char MotorMessage::getData() {
+int MotorMessage::getData() {
     return this->data;
 }
 
 std::string MotorMessage::serialize() {
     std::string serial;
     serial.append(1, hardware.address);
-    serial.append(1, this->data);
+    serial.append((char*)(&(this->data)), sizeof(int));
     return serial;
 }
