@@ -2,10 +2,10 @@
 // Created by Tucker Haydon on 4/9/17.
 //
 #pragma once
-#include "../../include/ISensorManager.h"
-#include "../../include/ISensor.h"
+#include "sensors/ISensorManager.h"
+#include "sensors/ISensor.h"
 #include "../../include/Hardware.h"
-#include "../../include/IMessage.h"
+#include "messages/IMessage.h"
 #include <list>
 
 

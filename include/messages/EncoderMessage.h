@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "IMessage.h"
+#include "messages/IMessage.h"
 #include "Hardware.h"
 #include <string>
 

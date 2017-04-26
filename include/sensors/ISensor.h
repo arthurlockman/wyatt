@@ -1,5 +1,5 @@
 #pragma once
-#include "IMessage.h"
+#include "messages/IMessage.h"
 
 /**
  * Interface for all sensors

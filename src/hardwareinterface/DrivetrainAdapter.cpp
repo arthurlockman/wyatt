@@ -2,7 +2,7 @@
 // Created by Tucker Haydon on 4/23/17.
 //
 
-#include "DrivetrainAdapter.h"
+#include "hardwareinterface/DrivetrainAdapter.h"
 
 DrivetrainAdapter::DrivetrainAdapter() {
     this->m_pwmHat = new AdafruitPWMServoHat();

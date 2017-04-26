@@ -1,4 +1,4 @@
-#include "MotorMessage.h"
+#include "messages/MotorMessage.h"
 
 
 MotorMessage::MotorMessage(Hardware hardware, int data) : IMessage(hardware) {

@@ -2,14 +2,14 @@
 
 #include "Thread.h"
 #include "IHardwareInterface.h"
-#include "IMessage.h"
+#include "messages/IMessage.h"
 #include <atomic>
 #include <list>
 #include <chrono>
 #include "wiringPiInclude.h"
 #include <stdlib.h>
 #include <string>
-#include "EncoderMessage.h"
+#include "messages/EncoderMessage.h"
 
 class EncoderAdapter : public Thread, public IHardwareInterface
 {

@@ -6,12 +6,12 @@
 #include <Communicator.h>
 #include "../include/CommandManager.h"
 #include "../catch/catch.hpp"
-#include "../include/IRangeFinderSensor.h"
-#include "../include/SensorManager.h"
-#include "DrivetrainAdapter.h"
-#include "../include/MotorAdapter.h"
-#include "../include/EncoderSensor.h"
-#include "../include/DataSizeException.h"
+#include "sensors/IRangeFinderSensor.h"
+#include "sensors/SensorManager.h"
+#include "hardwareinterface/DrivetrainAdapter.h"
+#include "hardwareinterface/MotorAdapter.h"
+#include "sensors/EncoderSensor.h"
+#include "exceptions/DataSizeException.h"
 #include <unistd.h>
 
 

@@ -1,6 +1,6 @@
 #pragma once
-#include "IMessage.h"
-#include "DataSizeException.h"
+#include "messages/IMessage.h"
+#include "exceptions/DataSizeException.h"
 #include "DriveConstants.h"
 
 /**

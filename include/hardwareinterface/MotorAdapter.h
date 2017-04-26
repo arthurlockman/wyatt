@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "IHardwareInterface.h"
-#include "AdafruitPWMServoHat.h"
-#include "IMessage.h"
-#include "MotorMessage.h"
+#include "hardwareinterface/IHardwareInterface.h"
+#include "hardwareinterface/AdafruitPWMServoHat.h"
+#include "messages/IMessage.h"
+#include "messages/MotorMessage.h"
 #include <stdlib.h>
-#include "MismatchedMessageException.h"
+#include "exceptions/MismatchedMessageException.h"
 
 /**
  * Adapter class for communicating with Pololu motor hardware.

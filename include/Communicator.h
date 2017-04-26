@@ -6,12 +6,12 @@
 #include <iostream>
 #include <fstream>
 
-#include "IMessage.h"
-#include "ISensorManager.h"
+#include "messages/IMessage.h"
+#include "sensors/ISensorManager.h"
 #include "Hardware.h"
 #include "Thread.h"
-#include "IHardwareInterface.h"
-#include "DuplicateHardwareException.h"
+#include "hardwareinterface/IHardwareInterface.h"
+#include "exceptions/DuplicateHardwareException.h"
 
 /**
  * Class that oversees communication between the Raspberry pi and a single peripheral. Data that is read/written to/from a peripheral must pass through this class. This class runs on its own thread and exposes functions to queue messages.

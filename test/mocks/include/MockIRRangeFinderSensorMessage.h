@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "../../include/IMessage.h"
+#include "messages/IMessage.h"
 #include <string>
 
 

@@ -3,7 +3,7 @@
 #include <list>
 #include "Hardware.h"
 #include "ISensor.h"
-#include "IMessage.h"
+#include "messages/IMessage.h"
 
 /**
  * Class for managing sensor data. Receives sensor data from the updateSensors function and writes the data to the respective sensors.

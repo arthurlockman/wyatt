@@ -5,15 +5,15 @@
 #pragma once
 
 #include "IHardwareInterface.h"
-#include "AdafruitPWMServoHat.h"
+#include "hardwareinterface/AdafruitPWMServoHat.h"
 #include <list>
 #include "Hardware.h"
 #include <stdlib.h>
 #include <iostream>
-#include "NonexistentHardwareException.h"
+#include "exceptions/NonexistentHardwareException.h"
 #include "EncoderAdapter.h"
-#include "MotorMessage.h"
-#include "IMessage.h"
+#include "messages/MotorMessage.h"
+#include "messages/IMessage.h"
 
 class DrivetrainAdapter: public IHardwareInterface {
 public:

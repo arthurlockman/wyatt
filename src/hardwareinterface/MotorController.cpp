@@ -1,4 +1,4 @@
-#include "MotorController.h"
+#include "hardwareinterface/MotorController.h"
 
 MotorController::MotorController()
 {

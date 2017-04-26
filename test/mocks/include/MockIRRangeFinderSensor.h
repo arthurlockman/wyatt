@@ -1,4 +1,4 @@
-#include "IRangeFinderSensor.h"
+#include "sensors/IRangeFinderSensor.h"
 
 class MockIRRangeFinderSensor : public IRangeFinderSensor {
 

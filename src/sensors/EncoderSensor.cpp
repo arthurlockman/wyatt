@@ -2,7 +2,7 @@
 // Created by Tucker Haydon on 4/26/17.
 //
 
-#include "EncoderSensor.h"
+#include "sensors/EncoderSensor.h"
 
 EncoderSensor::EncoderSensor() {
     // Nothing

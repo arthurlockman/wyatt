@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Command.h"
-#include "DrivetrainAdapter.h"
+#include "hardwareinterface/DrivetrainAdapter.h"
 #include <mutex>
 
 class DriveDirectionCommand : public Command

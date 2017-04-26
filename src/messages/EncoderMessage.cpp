@@ -2,7 +2,7 @@
 // Created by Tucker Haydon on 4/25/17.
 //
 
-#include "EncoderMessage.h"
+#include "messages/EncoderMessage.h"
 
 EncoderMessage::EncoderMessage(Hardware hardware, double data) : IMessage(hardware) {
     this->data = data;

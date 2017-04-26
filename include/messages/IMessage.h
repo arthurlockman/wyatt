@@ -2,7 +2,7 @@
 #pragma once
 #include "Hardware.h"
 #include <string>
-#include "MessageLengthException.h"
+#include "exceptions/MessageLengthException.h"
 
 /**
  * Message interface. All messages are required to state the hardware they are sent to/come from. In addition, they must all serialize themselves into string format.

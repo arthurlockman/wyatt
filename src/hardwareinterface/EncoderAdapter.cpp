@@ -1,4 +1,4 @@
-#include "EncoderAdapter.h"
+#include "hardwareinterface/EncoderAdapter.h"
 #include <iostream>
 
 EncoderAdapter::EncoderAdapter(int channelA, int channelB, int ticksPerRev, Hardware hardware):

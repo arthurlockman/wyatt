@@ -3,8 +3,8 @@
 //
 
 #pragma once
-#include "../../../include/IHardwareInterface.h"
-#include "../../../include/IMessage.h"
+#include "hardwareinterface/IHardwareInterface.h"
+#include "messages/IMessage.h"
 #include <list>
 
 

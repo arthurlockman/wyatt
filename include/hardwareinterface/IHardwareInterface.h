@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "IMessage.h"
+#include "messages/IMessage.h"
 #include <list>
 
 /**

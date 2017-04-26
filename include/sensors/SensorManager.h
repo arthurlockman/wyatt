@@ -1,13 +1,13 @@
 #pragma once
-#include "ISensorManager.h"
-#include "ISensor.h"
+#include "sensors/ISensorManager.h"
+#include "sensors/ISensor.h"
 #include <list>
 #include <map>
 #include "Hardware.h"
-#include "IMessage.h"
+#include "messages/IMessage.h"
 #include <iostream>
-#include "NonexistentHardwareException.h"
-#include "DuplicateHardwareException.h"
+#include "exceptions/NonexistentHardwareException.h"
+#include "exceptions/DuplicateHardwareException.h"
 
 /**
  * Implementation header of ISensorManager.

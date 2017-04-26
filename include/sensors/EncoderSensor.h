@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "IMessage.h"
+#include "messages/IMessage.h"
 #include "ISensor.h"
-#include "MismatchedMessageException.h"
+#include "exceptions/MismatchedMessageException.h"
 #include <typeinfo>
-#include "EncoderMessage.h"
+#include "messages/EncoderMessage.h"
 
 #define GEAR_RATIO ((double) 1/19.0 * 3.0/5.0)
 

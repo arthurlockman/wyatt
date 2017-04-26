@@ -1,4 +1,4 @@
-#include "SensorManager.h"
+#include "sensors/SensorManager.h"
 
 SensorManager::SensorManager() : ISensorManager() {
     this->sensorMap = new std::map<Hardware, ISensor*>;

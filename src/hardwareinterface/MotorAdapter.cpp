@@ -2,7 +2,7 @@
 // Created by Tucker Haydon on 4/25/17.
 //
 
-#include "../include/MotorAdapter.h"
+#include "hardwareinterface/MotorAdapter.h"
 
 MotorAdapter::MotorAdapter(AdafruitPWMServoHat* m_pwmHat, int forwardPin, int backwardPin) {
     this->m_pwmHat = m_pwmHat;

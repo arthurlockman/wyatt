@@ -5,11 +5,11 @@
 #pragma once
 
 #include "Communicator.h"
-#include "SensorManager.h"
-#include "ISensorManager.h"
-#include "MotorAdapter.h"
-#include "EncoderAdapter.h"
-#include "AdafruitPWMServoHat.h"
+#include "sensors/SensorManager.h"
+#include "sensors/ISensorManager.h"
+#include "hardwareinterface/MotorAdapter.h"
+#include "hardwareinterface/EncoderAdapter.h"
+#include "hardwareinterface/AdafruitPWMServoHat.h"
 #include "wiringPiInclude.h"
 
 #define RIGHT_MOTOR_FORWARD_PIN 0
