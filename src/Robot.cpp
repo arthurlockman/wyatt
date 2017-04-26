@@ -19,6 +19,10 @@ Robot::Robot() {
     this->leftEncoderAdapter =  new EncoderAdapter(LEFT_ENCODER_PIN_A, LEFT_ENCODER_PIN_B, ENCODER_TICKS_PER_REVOLUTION, H_LEFT_ENCODER);
     this->rightEncoderAdapter = new EncoderAdapter(RIGHT_ENCODER_PIN_A, RIGHT_ENCODER_PIN_B, ENCODER_TICKS_PER_REVOLUTION, H_RIGHT_ENCODER);
 
+    /* Create the sensors */
+    this->leftEncoderSensor = new EncoderSensor();
+    this->rightEncoderSensor = new EncoderSensor();
+
     /* Create the sensor manager and communicator */
     this->sensorManager = new SensorManager();
     this->communicator = new Communicator(sensorManager);
@@ -30,7 +34,8 @@ Robot::Robot() {
     this->communicator->registerHardware(H_RIGHT_ENCODER, this->rightEncoderAdapter);
 
     /* Register the sensors with the sensor manager */
-    // TODO
+    sensorManager->addSensor(H_LEFT_ENCODER, this->leftEncoderSensor);
+    sensorManager->addSensor(H_RIGHT_ENCODER, this->rightEncoderSensor);
 
     /* Start the hardware adapters */
     this->rightEncoderAdapter->start();

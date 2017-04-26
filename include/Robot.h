@@ -11,6 +11,8 @@
 #include "hardwareinterface/EncoderAdapter.h"
 #include "hardwareinterface/AdafruitPWMServoHat.h"
 #include "wiringPiInclude.h"
+#include "sensors/EncoderSensor.h"
+#include "sensors/ISensor.h"
 
 #define RIGHT_MOTOR_FORWARD_PIN 0
 #define RIGHT_MOTOR_BACKWARD_PIN 1
@@ -57,7 +59,8 @@ private:
     EncoderAdapter* rightEncoderAdapter;
 
     /* Sensors */
-    // TODO
+    ISensor* leftEncoderSensor;
+    ISensor* rightEncoderSensor;
 
     /* Adafruit PWM driver */
     AdafruitPWMServoHat* pwmServoHat;
