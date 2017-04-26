@@ -124,9 +124,7 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware, mockHardwareInterface);
 
         /* Compose a mock message */
-        std::string mockData;
-        unsigned char data = 'a';
-        mockData.append(1, data);
+        unsigned char mockData = 'a';
         IMessage* mockMessage = new MotorMessage(mockHardware, mockData);
 
         /* Queue message and wait for it to be sent */
@@ -151,12 +149,9 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware2, mockHardwareInterface2);
 
         /* Compose a mock message */
-        std::string mockData1, mockData2;
         unsigned char data1 = 'a', data2 = 'b';
-        mockData1.append(1, data1);
-        mockData2.append(1, data2);
-        Message* mockMessage1 = new Message(mockHardware1, mockData1);
-        Message* mockMessage2 = new Message(mockHardware2, mockData2);
+        IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
 
         /* Queue message and wait for it to be sent */
         comm->queueMessage(mockMessage1);
@@ -208,15 +203,12 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware2, mockHardwareInterface2);
 
         /* Compose a mock message */
-        std::string mockData1, mockData2;
         unsigned char data1 = 'a', data2 = 'b';
-        mockData1.append(1, data1);
-        mockData2.append(1, data2);
-        Message* mockMessage1 = new Message(mockHardware1, mockData1);
-        Message* mockMessage2 = new Message(mockHardware2, mockData2);
-        std::list<Message*>* messages1 = new std::list<Message*>;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
+        std::list<IMessage*>* messages1 = new std::list<IMessage*>;
         messages1->push_back(mockMessage1);
-        std::list<Message*>* messages2 = new std::list<Message*>;
+        std::list<IMessage*>* messages2 = new std::list<IMessage*>;
         messages2->push_back(mockMessage2);
 
         mockHardwareInterface1->setReadMessages(messages1);
@@ -257,13 +249,10 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware, mockHardwareInterface);
 
         /* Compose two mock messages */
-        std::string mockData1, mockData2;
         unsigned char data1 = 'a', data2 = 'b';
-        mockData1.append(1, data1);
-        mockData2.append(1, data2);
-        Message* mockMessage1 = new Message(mockHardware, mockData1);
-        Message* mockMessage2 = new Message(mockHardware, mockData2);
-        std::list<Message*>* messages = new std::list<Message*>;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware, data2);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(mockMessage1);
         messages->push_back(mockMessage2);
 
@@ -292,13 +281,10 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware2, mockHardwareInterface2);
 
         /* Compose two mock messages */
-        std::string mockData1, mockData2;
         unsigned char data1 = 'a', data2 = 'b';
-        mockData1.append(1, data1);
-        mockData2.append(1, data2);
-        Message* mockMessage1 = new Message(mockHardware1, mockData1);
-        Message* mockMessage2 = new Message(mockHardware2, mockData2);
-        std::list<Message*>* messages = new std::list<Message*>;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(mockMessage1);
         messages->push_back(mockMessage2);
 
@@ -326,13 +312,10 @@ TEST_CASE("Communicator Tests", "[Communicator]") {
         comm->registerHardware(mockHardware2, mockHardwareInterface);
 
         /* Compose two mock messages */
-        std::string mockData1, mockData2;
         unsigned char data1 = 'a', data2 = 'b';
-        mockData1.append(1, data1);
-        mockData2.append(1, data2);
-        Message* mockMessage1 = new Message(mockHardware1, mockData1);
-        Message* mockMessage2 = new Message(mockHardware2, mockData2);
-        std::list<Message*>* messages = new std::list<Message*>;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(mockMessage1);
         messages->push_back(mockMessage2);
 

@@ -5,7 +5,7 @@
 #include "include/MockSensorManager.h"
 
 MockSensorManager::MockSensorManager() : ISensorManager() {
-    this->updateMessages = new std::list<Message*>;
+    this->updateMessages = new std::list<IMessage*>;
 };
 
 MockSensorManager::~MockSensorManager() {

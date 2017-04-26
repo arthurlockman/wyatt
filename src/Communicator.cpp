@@ -36,7 +36,7 @@ void Communicator::queueMessage(std::list<IMessage*>* messages) {
 void Communicator::write() {
     while (!this->messageQueue->empty())
     {
-        Message* msg = this->messageQueue->front();
+        IMessage* msg = this->messageQueue->front();
 
         Hardware hardware = msg->getHardware();
         IHardwareInterface* interface = hardwareInterfaceMap->at(hardware);
@@ -47,12 +47,12 @@ void Communicator::write() {
 }
 
 void Communicator::read() {
-    std::list<Message*>* messages = new std::list<Message*>;
+    std::list<IMessage*>* messages = new std::list<IMessage*>;
 
     for (IHardwareInterface* interface : *(this->hardwareInterfaces)) {
-        std::list<Message*>* msgs = interface->read();
+        std::list<IMessage*>* msgs = interface->read();
         while(!msgs->empty()) {
-            Message* msg = msgs->front();
+            IMessage* msg = msgs->front();
             messages->push_back(msg);
             msgs->pop_front();
         }
