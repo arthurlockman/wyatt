@@ -4,13 +4,14 @@
 
 #include <commands/SimpleIteratorCommand.h>
 #include <Communicator.h>
-#include <iostream>
 #include "../include/CommandManager.h"
 #include "../catch/catch.hpp"
 #include "../include/IRangeFinderSensor.h"
 #include "../include/SensorManager.h"
 #include "../include/Chassis.h"
 #include "../include/MotorAdapter.h"
+#include "../include/EncoderSensor.h"
+#include "../include/MismatchedMessageException.h"
 #include <unistd.h>
 
 
@@ -444,7 +445,7 @@ TEST_CASE("EncoderMessage Tests", "[EncoderMessage]") {
     }
 }
 
-TEST_CASE("Motor Adapter Tests", "[MotorAdapter]") {
+TEST_CASE("MotorAdapter Tests", "[MotorAdapter]") {
 
     int forwardPin = 1, backwardPin = 2;
     AdafruitPWMServoHat* m_pwmHat = new AdafruitPWMServoHat();
@@ -473,4 +474,32 @@ TEST_CASE("Motor Adapter Tests", "[MotorAdapter]") {
 
 
 
+}
+
+TEST_CASE("EncoderSensor Tests", "[EncoderSensor]") {
+
+    EncoderSensor* sensor = new EncoderSensor();
+
+    SECTION("Sensor value updates correctly") {
+        double data = 1000;
+        double expectedRPM = data * GEAR_RATIO;
+        IMessage* msg = new EncoderMessage(H_LEFT_ENCODER, data);
+        sensor->updateSensor(msg);
+
+        REQUIRE(sensor->getRPM() == expectedRPM);
+
+    }
+
+    SECTION("MismatchMessageException thrown if wrong message type sent to encoder") {
+        IMessage* msg = new MotorMessage(H_RIGHT_MOTOR, 'a');
+
+        REQUIRE_THROWS_AS(
+            sensor->updateSensor(msg),
+            MismatchedMessageException
+        );
+    }
+
+    SECTION("Destructor") {
+        delete sensor;
+    }
 }
