@@ -1,7 +1,7 @@
 #include "EncoderAdapter.h"
 #include <iostream>
 
-EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev, Hardware hardware):
+EncoderAdapter::EncoderAdapter(int channelA, int channelB, int ticksPerRev, Hardware hardware):
     m_channelA(channelA),
     m_channelB(channelB),
     m_count(0),
@@ -17,12 +17,12 @@ EncoderCounter::EncoderCounter(int channelA, int channelB, int ticksPerRev, Hard
     this->start();
 }
 
-EncoderCounter::~EncoderCounter()
+EncoderAdapter::~EncoderAdapter()
 {
 
 }
 
-void* EncoderCounter::run()
+void* EncoderAdapter::run()
 {
     int numTicks = 0;
     while (m_signal >= 0)
@@ -59,17 +59,17 @@ void* EncoderCounter::run()
     return NULL;
 }
 
-long EncoderCounter::getCount()
+long EncoderAdapter::getCount()
 {
     return m_count;
 }
 
-void EncoderCounter::resetCount()
+void EncoderAdapter::resetCount()
 {
     this->signal(1);
 }
 
-std::list<IMessage*>* EncoderCounter::read()
+std::list<IMessage*>* EncoderAdapter::read()
 {
     std::list<IMessage*>* messages = new std::list<IMessage*>();
     IMessage* msg = new EncoderMessage(this->hardware, this->m_speed);
@@ -78,7 +78,7 @@ std::list<IMessage*>* EncoderCounter::read()
     return messages;
 }
 
-double EncoderCounter::getSpeedRPM()
+double EncoderAdapter::getSpeedRPM()
 {
     return m_speed;
 }

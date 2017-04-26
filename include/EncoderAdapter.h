@@ -11,7 +11,7 @@
 #include <string>
 #include "EncoderMessage.h"
 
-class EncoderCounter : public Thread, public IHardwareInterface
+class EncoderAdapter : public Thread, public IHardwareInterface
 {
 public:
     /**
@@ -21,11 +21,11 @@ public:
      * @param channelB WiringPi Pin for channel B.
      * @param ticksPerRev Number of ticks per revolution on this encoder.
      */
-    EncoderCounter(int channelA, int channelB, int ticksPerRev, Hardware hardware);
+    EncoderAdapter(int channelA, int channelB, int ticksPerRev, Hardware hardware);
     /**
      * Destructs the encoder counter.
      */
-    ~EncoderCounter();
+    ~EncoderAdapter();
     /**
      * Runs the encoder counter worker thread.
      * @return nothing
