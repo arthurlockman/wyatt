@@ -1,5 +1,7 @@
 #pragma once
 #include "IMessage.h"
+#include "DataSizeException.h"
+#include "DriveConstants.h"
 
 /**
  * Message class encapsulating data sent to the Pololu motors.
@@ -11,10 +13,11 @@ public:
     /**
      * Constructor
      * @param hardware The hardware address of the motor
-     * @param data An unsigned character representing the speed of the motor [0-255] -> [Backwards(0)-Forwards(255)]
-     * @throws MessageLengthException if the data is not the correct length
+     * @param data An Integer representing the speed of the motor [-4095 - 4095] = [Full Backwards, Full Forwards]
+     * @throws MessageLengthException if the hardware size does not match
+     * @throws DataSizeException if data exceeds FULL_FORWARDS/FULL_BACKWARDS as defined in DriveConstants
      */
-    MotorMessage(Hardware hardware, unsigned char data);
+    MotorMessage(Hardware hardware, int data);
 
     /**
      * Destructor
@@ -31,11 +34,11 @@ public:
     * Returns the data the message is encapsulating.
     * @return Data for the motor
     */
-    unsigned char getData();
+    int getData();
 
 private:
     /**
-     * Unsigned character representing the speed of the motor [0-255] -> [Backwards(0)-Forwards(255)]
+     * Integer representing the speed of the motor [-4095 - 4095] = [Full Backwards, Full Forwards]
      */
-   	unsigned char data;
+   	int data;
 };

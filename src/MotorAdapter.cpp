@@ -15,25 +15,24 @@ MotorAdapter::~MotorAdapter() {
 }
 
 void MotorAdapter::write(IMessage* m) {
+
+    if(typeid(*m) != typeid(MotorMessage)) {
+        throw MismatchedMessageException(m);
+    }
+
     MotorMessage* msg = (MotorMessage*)m;
-    unsigned char speed = msg->getData();
+    int speed = msg->getData();
     driveMotor(speed);
     delete msg;
 }
 
-void MotorAdapter::driveMotor(unsigned char speed) {
+void MotorAdapter::driveMotor(int speed) {
 
-    int motorSpeed = mapMotorSpeed(speed);
-    if(motorSpeed < 0) {
-        m_pwmHat->setMotor(this->forwardPin, abs(motorSpeed));
+    if(speed < 0) {
+        m_pwmHat->setMotor(this->forwardPin, abs(speed));
         m_pwmHat->setMotor(this->backwardPin, 0);
     } else {
         m_pwmHat->setMotor(this->forwardPin, 0);
-        m_pwmHat->setMotor(this->backwardPin, abs(motorSpeed));
+        m_pwmHat->setMotor(this->backwardPin, abs(speed));
     }
-}
-
-int MotorAdapter::mapMotorSpeed(unsigned char speed) {
-    double mappedSpeed = (2 * 4096.0 * ((double)speed)/ 255.0 - 4096.0);
-    return (int)mappedSpeed;
 }

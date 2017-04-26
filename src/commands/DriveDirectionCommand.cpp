@@ -5,8 +5,7 @@ DriveDirectionCommand::DriveDirectionCommand(DrivetrainAdapter *chassis, int dir
     m_chassis(chassis),
     Command()
 {
-    unsigned char rightDir;
-    unsigned char leftDir;
+    int rightDir, leftDir;
     switch(direction) {
         case DriveDirectionCommand::DriveDirections::forward:
             rightDir = FULL_FORWARD;
