@@ -1,6 +1,5 @@
 #pragma once
 
-#include "MotorController.h"
 #include "wiringPiInclude.h"
 
 // Registers
@@ -34,7 +33,7 @@
  * I2C specific functions adapted from:
  * https://github.com/adafruit/Adafruit_Python_PCA9685/blob/master/Adafruit_PCA9685/PCA9685.py
  */
-class AdafruitPWMServoHat: public MotorController {
+class AdafruitPWMServoHat {
 public:
     /**
      * Constructs an Adafruit PWM/Servo Driver Hat controller.
