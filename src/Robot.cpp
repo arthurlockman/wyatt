@@ -51,15 +51,27 @@ Robot::Robot() {
 
 void Robot::run() {
 
-    int RPM = 150;
-    Command* driveMotorRight = new DriveMotorRPM(this->communicator, H_RIGHT_MOTOR, this->rightEncoderSensor, RPM, FORWARD_DIRECTION);
-    Command* driveMotorLeft = new DriveMotorRPM(this->communicator, H_LEFT_MOTOR, this->leftEncoderSensor, RPM, BACKWARD_DIRECTION);
-    commander->runCommand(driveMotorRight);
-    commander->runCommand(driveMotorLeft);
+    double radius = -10.0;
+    double rotationRate = 0.7854; // Rads/s = 45 degrees/s
+    int duration_ms = 10000; // ms
 
+    Command* driveArc = new DriveRobotCommand(
+            this->communicator,
+            this->leftEncoderSensor,
+            this->rightEncoderSensor,
+            radius,
+            rotationRate,
+            duration_ms,
+            WHEEL_DIAMETER,
+            DRIVETRAIN_DIAMETER);
 
-    while(!driveMotorRight->isFinished());
+    this->commander->runCommand(driveArc);
+
+    while(!driveArc->isFinished());
+
+    pwmServoHat->stopAllMotors();
 }
+
 
 
 Robot::~Robot() {

@@ -15,6 +15,7 @@
 #include "sensors/ISensor.h"
 #include "CommandManager.h"
 #include "commands/DriveMotorRPM.h"
+#include "commands/DriveRobotCommand.h"
 
 #define RIGHT_MOTOR_FORWARD_PIN 0
 #define RIGHT_MOTOR_BACKWARD_PIN 1
@@ -30,6 +31,9 @@
 
 // Wheel diameter in cm
 #define WHEEL_DIAMETER (double) 10.16
+
+// Drivetrain diameter in cm
+#define DRIVETRAIN_DIAMETER (double) 20.32
 
 /**
  * Main class for the robot. Implemented as a signleton. All important pins are defined above.
