@@ -11,22 +11,28 @@ bool operator == (const Hardware &a, const Hardware &b)
 };
 
 const Hardware H_RIGHT_MOTOR = { 
-        .address = 0,
-        .messageLength = 1,
+        .address = RIGHT_MOTOR_ADDRESS,
+        .messageLength = sizeof(int),
 };
 
 const Hardware H_LEFT_MOTOR = { 
-        .address = 1,
-        .messageLength = 1,
+        .address = LEFT_MOTOR_ADDRESS,
+        .messageLength = sizeof(int),
 };
 
-const Hardware H_MOCK_IR_SENSOR = { 
-        .address = 2,
-        .messageLength = 1,
+const Hardware H_RIGHT_ENCODER = { 
+        .address = RIGHT_ENCODER_ADDRESS,
+        .messageLength = sizeof(double),
+};
+
+const Hardware H_LEFT_ENCODER = { 
+        .address = LEFT_ENCODER_ADDRESS,
+        .messageLength = sizeof(double),
 };
 
 const Hardware HARDWARE_MAP[] = {
     H_RIGHT_MOTOR,
     H_LEFT_MOTOR,
-    H_MOCK_IR_SENSOR
+    H_LEFT_ENCODER,
+    H_RIGHT_ENCODER
 };

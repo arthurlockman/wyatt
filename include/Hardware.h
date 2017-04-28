@@ -1,5 +1,9 @@
 #pragma once
 
+#define RIGHT_MOTOR_ADDRESS         ((unsigned char) 0)
+#define LEFT_MOTOR_ADDRESS          ((unsigned char) 1)
+#define LEFT_ENCODER_ADDRESS        ((unsigned char) 2)
+#define RIGHT_ENCODER_ADDRESS       ((unsigned char) 3)
 
 /**
  * Struct containing data specific to a piece of hardware
@@ -23,4 +27,5 @@ extern const Hardware HARDWARE_MAP[];
 /* DECLARE ALL HARDWARE HERE */
 extern const Hardware H_RIGHT_MOTOR;
 extern const Hardware H_LEFT_MOTOR;
-extern const Hardware H_MOCK_IR_SENSOR;
+extern const Hardware H_RIGHT_ENCODER;
+extern const Hardware H_LEFT_ENCODER;

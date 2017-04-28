@@ -8,6 +8,7 @@ env: COMPILER='clang++'
 
 install:
   - which cmake || brew install cmake
+  - which lcov || brew install lcov
 
 before_script:
   - export CXX=${COMPILER}
@@ -18,3 +19,16 @@ before_script:
 script:
   - make -j 2
   - ctest -V -j 2
+  - make Wyatt_coverage
+
+after_success:
+  - cd ${TRAVIS_BUILD_DIR}
+  - lcov --directory . --capture --output-file coverage.info # capture coverage info
+  - lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter out system
+  - lcov --remove coverage.info '/Applications/*' --output-file coverage.info # filter out system
+  - lcov --remove coverage.info '*/catch.hpp' --output-file coverage.info
+  - lcov --remove coverage.info '*/test/*' --output-file coverage.info
+  - lcov --list coverage.info #debug info
+  # Uploading report to CodeCov
+  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+  

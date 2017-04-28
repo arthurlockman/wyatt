@@ -4,29 +4,30 @@
 
 #include <commands/SimpleIteratorCommand.h>
 #include <Communicator.h>
-#include <iostream>
 #include "../include/CommandManager.h"
 #include "../catch/catch.hpp"
-#include "../include/ISensor.h"
-#include "../include/IRangeFinderSensor.h"
-#include "../include/RawSensorData.h"
-#include "../include/Hardware.h"
-#include "../include/ISensorManager.h"
-#include "../include/SensorManager.h"
-#include "../include/ISensorManagerExceptions.h"
-
+#include "sensors/IRangeFinderSensor.h"
+#include "sensors/SensorManager.h"
+#include "hardwareinterface/DrivetrainAdapter.h"
+#include "hardwareinterface/MotorAdapter.h"
+#include "sensors/EncoderSensor.h"
+#include "exceptions/DataSizeException.h"
 #include <unistd.h>
+#include <commands/DriveForwardSecondsCommand.h>
+#include <commands/DriveDirectionCommand.h>
 
 /* MOCKS */
-#include "MockIRRangeFinderSensor.h"
+#include "mocks/include/MockIRRangeFinderSensor.h"
 #include "mocks/include/MockSensorManager.h"
 #include "mocks/include/MockHardwareInterface.h"
+#include "mocks/include/MockIRRangeFinderSensorMessage.h"
 
 TEST_CASE("Command subsystem tests", "[CommandManager]") {
 
     SECTION("Command manager can be killed.") {
         CommandManager *commandManager = new CommandManager();
         REQUIRE(commandManager->kill() == 0);
+        delete commandManager;
     }
 
     SECTION("Simple commands run to completion.") {
@@ -41,6 +42,9 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         REQUIRE(sc2->getCount() == 20);
         REQUIRE(commandManager1->inFlight() == 0);
         commandManager1->kill();
+        delete commandManager1;
+        delete sc1;
+        delete sc2;
     }
 
     SECTION("Commands can be canceled.") {
@@ -62,33 +66,60 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         REQUIRE(sc5->getCount() != 2000);
         REQUIRE(sc6->getCount() != 3000);
         commandManager2->kill();
-    }
-}
-
-TEST_CASE("Sensor interface tests", "[ISensor]") {
-
-    std::string mockData = "12.2";
-    RawSensorData* mockRawSensorData_IR = new RawSensorData(mockData);
-
-    SECTION("ISensor polymorphically updates") {
-        ISensor* sensor = new MockIRRangeFinderSensor();
-        sensor->updateSensor(mockRawSensorData_IR);
-        MockIRRangeFinderSensor* IRSensor = (MockIRRangeFinderSensor*) sensor;
-
-        REQUIRE( IRSensor->getDistanceCM() == 12.2 );
+        delete commandManager2;
+        delete sc3;
+        delete sc4;
+        delete sc5;
+        delete sc6;
     }
 
-}
-
-TEST_CASE("RawSensorData tests", "[RawSensorData]") {
-
-    std::string mockData = "12.2";
-
-    SECTION("Data is correctly encapsulated and returned") {
-        RawSensorData* data = new RawSensorData(mockData);
-
-        REQUIRE(data->getData() == mockData);
+    SECTION("Drive seconds can be scheduled and run") {
+        CommandManager *cm3 = new CommandManager();
+        DrivetrainAdapter *dt = new DrivetrainAdapter();
+        DriveForwardSecondsCommand *dsc = new DriveForwardSecondsCommand(dt, 1);
+        cm3->runCommand(dsc);
+        while (!dsc->isFinished()) {}
+        REQUIRE(dsc->isFinished());
+        REQUIRE(cm3->inFlight() == 0);
+        cm3->kill();
+        delete cm3;
+        delete dt;
     }
+
+    SECTION("Drive direction command yields results") {
+        CommandManager *cm = new CommandManager();
+        DrivetrainAdapter *dt = new DrivetrainAdapter();
+        DriveDirectionCommand *df = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::forward);
+        DriveDirectionCommand *db = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::backward);
+        DriveDirectionCommand *tr = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::turnRight);
+        DriveDirectionCommand *tl = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::turnLeft);
+        DriveDirectionCommand *st = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::stop);
+        cm->runCommand(df);
+        while (!df->isFinished()) {}
+        REQUIRE(df->isFinished());
+        cm->runCommand(db);
+        while (!db->isFinished()) {}
+        REQUIRE(db->isFinished());
+        cm->runCommand(tr);
+        while (!tr->isFinished()) {}
+        REQUIRE(tr->isFinished());
+        cm->runCommand(tl);
+        while (!tl->isFinished()) {}
+        REQUIRE(tl->isFinished());
+        cm->runCommand(st);
+        while (!st->isFinished()) {}
+        REQUIRE(st->isFinished());
+        REQUIRE(cm->inFlight() == 0);
+        cm->kill();
+        delete cm;
+        delete dt;
+        delete df;
+        delete db;
+        delete tr;
+        delete tl;
+        delete st;
+    }
+
 }
 
 TEST_CASE("ISensorManager tests", "[ISensorManager]") {
@@ -107,9 +138,11 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
     SECTION("Updating non-existent hardware results in exception") {
-        Message* msg = new Message(H_LEFT_MOTOR, "12.2");
-        std::list<Message*>* messages = new std::list<Message*>;
+        int data = FULL_FORWARD;
+        MotorMessage* msg = new MotorMessage(H_LEFT_MOTOR, data);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(msg);
+
         REQUIRE_THROWS_AS(
                 sensorManager->updateSensors(messages),
                 NonexistentHardwareException
@@ -117,98 +150,454 @@ TEST_CASE("ISensorManager tests", "[ISensorManager]") {
     }
 
     SECTION("Updates sensors correctly") {
-        Hardware mockHardware = H_LEFT_MOTOR;
+        Hardware mockHardware = {255, 1};
         MockIRRangeFinderSensor* mockSensor = new MockIRRangeFinderSensor();
         sensorManager->addSensor(mockHardware, mockSensor);
 
-        Message* msg = new Message(H_LEFT_MOTOR, "12.2");
-        std::list<Message*>* messages = new std::list<Message*>;
+        std::string data = "255";
+        IMessage* msg = new MockIRRangeFinderSensorMessage(mockHardware, data);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
         messages->push_back(msg);
 
         sensorManager->updateSensors(messages);
 
-        REQUIRE(mockSensor->getDistanceCM() == 12.2);
+        REQUIRE(mockSensor->getData() == data);
     }
 
-
-}
-
-TEST_CASE("Message tests", "[Message]") {
-    std::string mockData = "12.2";
-    Hardware hardware = H_LEFT_MOTOR;
-    Message* msg = new Message(hardware, mockData);
-    REQUIRE((msg->getHardware()).address == hardware.address);
-    REQUIRE(msg->getMessage() == mockData);
+    SECTION("Destructor") {
+        delete sensorManager;
+    }
 }
 
 TEST_CASE("Communicator Tests", "[Communicator]") {
 
     /* Initialize object */
     MockSensorManager* mockSensorManager = new MockSensorManager();
-    MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+    Communicator* comm = new Communicator(mockSensorManager);
 
-    Hardware hardwareTarget = H_LEFT_MOTOR;
+    SECTION("Test queuing message for single hardware interface") {
 
-    SECTION("Test queuing message") {
-        Communicator* comm = new Communicator(mockSensorManager, mockHardwareInterface);
+        Hardware mockHardware = {255, sizeof(int)};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+        std::list<IMessage*>* readMessages = new std::list<IMessage*>;
+        mockHardwareInterface->setReadMessages(readMessages);
 
-        std::string mockData = "13.2";
-        Message* mockMessage = new Message(hardwareTarget, mockData);
+        /* Register hardware */
+        comm->registerHardware(mockHardware, mockHardwareInterface);
+
+        /* Compose a mock message */
+        int mockData = FULL_FORWARD;
+        IMessage* mockMessage = new MotorMessage(mockHardware, mockData);
+
+        /* Queue message and wait for it to be sent */
         comm->queueMessage(mockMessage);
-
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
-
-        REQUIRE(mockHardwareInterface->writeMessage == mockMessage);
+        REQUIRE(mockHardwareInterface->getWriteMessages()->size() == 1);
+        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage);
     }
 
-    SECTION("Test receiving messages") {
-        Communicator* comm = new Communicator(mockSensorManager, mockHardwareInterface);
+    SECTION("Test queuing messages for multiple hardware interfaces") {
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {254, sizeof(int)};
 
-        std::list<Message*>* messages = new std::list<Message*>;
-        mockHardwareInterface->setReadMessages(messages);
+        MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
+        MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
 
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface1);
+        comm->registerHardware(mockHardware2, mockHardwareInterface2);
+
+        /* Compose a mock message */
+       int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
+
+        /* Queue message and wait for it to be sent */
+        comm->queueMessage(mockMessage1);
+        comm->queueMessage(mockMessage2);
         comm->start();
-        usleep(500000);
+        usleep(100000);
         comm->signal(1);
         comm->join();
 
-        REQUIRE(messages == mockSensorManager->getUpdateMessages());
+        REQUIRE(mockHardwareInterface1->getWriteMessages()->size() == 1);
+        REQUIRE(mockHardwareInterface2->getWriteMessages()->size() == 1);
 
+        REQUIRE(mockHardwareInterface1->getWriteMessages()->front() == mockMessage1);
+        REQUIRE(mockHardwareInterface2->getWriteMessages()->front() == mockMessage2);
+    }
+
+    SECTION("Test receiving message from single hardware interface") {
+        Hardware mockHardware = {255, sizeof(int)};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware, mockHardwareInterface);
+
+        /* Compose a mock message */
+        int data = FULL_FORWARD;
+        IMessage* mockMessage = new MotorMessage(mockHardware, data);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
+        messages->push_back(mockMessage);
+        mockHardwareInterface->setReadMessages(messages);
+
+        /* Wait for it to be read */
+        comm->start();
+        usleep(100000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockSensorManager->updateMessages->size() == 1);
+        REQUIRE(mockSensorManager->updateMessages->front() == mockMessage);
+    }
+
+    SECTION("Test receiving messages from multiple hardware interfaces") {
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {254, sizeof(int)};
+        MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
+        MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface1);
+        comm->registerHardware(mockHardware2, mockHardwareInterface2);
+
+        /* Compose a mock message */
+        int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
+        std::list<IMessage*>* messages1 = new std::list<IMessage*>;
+        messages1->push_back(mockMessage1);
+        std::list<IMessage*>* messages2 = new std::list<IMessage*>;
+        messages2->push_back(mockMessage2);
+
+        mockHardwareInterface1->setReadMessages(messages1);
+        mockHardwareInterface2->setReadMessages(messages2);
+
+        /* Wait for it to be read */
+        comm->start();
+        usleep(100000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockSensorManager->updateMessages->size() == 2);
+
+        REQUIRE(mockSensorManager->updateMessages->front() == mockMessage1);
+        mockSensorManager->updateMessages->pop_front();
+        REQUIRE(mockSensorManager->updateMessages->front() == mockMessage2);
+    }
+
+    SECTION("Test throws duplicate hardware exception when hardware with the same address is registered more than once.") {
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {255, sizeof(int)};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface);
+
+        REQUIRE_THROWS_AS(
+                comm->registerHardware(mockHardware2, mockHardwareInterface),
+                DuplicateHardwareException
+        );
+    }
+
+    SECTION("Test queue list of messages sent to single interface") {
+        Hardware mockHardware = {255, sizeof(int)};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware, mockHardwareInterface);
+
+        /* Compose two mock messages */
+        int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware, data2);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
+        messages->push_back(mockMessage1);
+        messages->push_back(mockMessage2);
+
+        /* Queue message and wait for them to be sent */
+        comm->queueMessage(messages);
+        comm->start();
+        usleep(100000);
+        comm->signal(1);
+        comm->join();
+
+//        REQUIRE(mockHardwareInterface->getWriteMessages()->size() == 2);
+//
+//        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage1);
+//        mockHardwareInterface->getWriteMessages()->pop_front();
+//        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage2);
+    }
+
+    SECTION("Test queue list of messages sent to multiple interfaces") {
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {254, sizeof(int)};
+        MockHardwareInterface* mockHardwareInterface1 = new MockHardwareInterface();
+        MockHardwareInterface* mockHardwareInterface2 = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface1);
+        comm->registerHardware(mockHardware2, mockHardwareInterface2);
+
+        /* Compose two mock messages */
+        int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
+        messages->push_back(mockMessage1);
+        messages->push_back(mockMessage2);
+
+        /* Queue message and wait for them to be sent */
+        comm->queueMessage(messages);
+        comm->start();
+        usleep(100000);
+        comm->signal(1);
+        comm->join();
+
+        REQUIRE(mockHardwareInterface1->getWriteMessages()->size() == 1);
+        REQUIRE(mockHardwareInterface2->getWriteMessages()->size() == 1);
+
+        REQUIRE(mockHardwareInterface1->getWriteMessages()->front() == mockMessage1);
+        REQUIRE(mockHardwareInterface2->getWriteMessages()->front() == mockMessage2);
+    }
+
+    SECTION("Test queuing multiple messages for different hardware sent to the same hardware interface") {
+        Hardware mockHardware1 = {255, sizeof(int)};
+        Hardware mockHardware2 = {254, sizeof(int)};
+        MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+        /* Register hardware */
+        comm->registerHardware(mockHardware1, mockHardwareInterface);
+        comm->registerHardware(mockHardware2, mockHardwareInterface);
+
+        /* Compose two mock messages */
+        int data1 = FULL_FORWARD, data2 = FULL_BACKWARD;
+        IMessage* mockMessage1 = new MotorMessage(mockHardware1, data1);
+        IMessage* mockMessage2 = new MotorMessage(mockHardware2, data2);
+        std::list<IMessage*>* messages = new std::list<IMessage*>;
+        messages->push_back(mockMessage1);
+        messages->push_back(mockMessage2);
+
+        /* Queue message and wait for them to be sent */
+        comm->queueMessage(messages);
+        comm->start();
+        usleep(100000);
+        comm->signal(1);
+        comm->join();
+
+//        REQUIRE(mockHardwareInterface->getWriteMessages()->size() == 2);
+
+//        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage1);
+//        mockHardwareInterface->getWriteMessages()->pop_front();
+//        REQUIRE(mockHardwareInterface->getWriteMessages()->front() == mockMessage2);
+    }
+
+    SECTION("Destructor") {
+        delete comm;
     }
 
 }
 
-//
-//#if IS_RASPI
-//TEST_CASE("Integration Tests", "[Integration]") {
-//
-//    ISensorManager* mockSensorManager = new MockSensorManager();
-//    std::string comPort = "/dev/ttyUSB0";
-//    int baudRate = 9600;
-//    Communicator* comm = new Communicator(mockSensorManager, baudRate);
-//
-//    SECTION("Integration test: Attach arduino and turn both motors") {
-//        /* Attach motors to the arduino */
-//        comm->attachHardware(comPort, H_LEFT_MOTOR);
-//        comm->attachHardware(comPort, H_RIGHT_MOTOR);
-//
-//        /* Command for driving right motor forwards */
-//        char commandLeftMotor[] = {H_LEFT_MOTOR.address, 0};
-//        char commandRightMotor[] = {H_RIGHT_MOTOR.address, 0};
-//        Message* msgRight = new Message(H_RIGHT_MOTOR, commandRightMotor);
-//        Message* msgLeft = new Message(H_LEFT_MOTOR, commandLeftMotor);
-//
-//        /* Queue messages */
-//        comm->queueMessage(msgRight);
-//        comm->queueMessage(msgLeft);
-//
-//        /* Send messages */
-//        comm->sendNextMsg(H_LEFT_MOTOR);
-//        comm->sendNextMsg(H_RIGHT_MOTOR);
-//
-//    }
-//}
-//#endif
+TEST_CASE("MotorMessage Tests", "[MotorMessage]") {
+
+    unsigned char address = 255;
+    Hardware mockHardware = {address, sizeof(int)};
+    int mockData = FULL_FORWARD;
+    MotorMessage* msg = new MotorMessage(mockHardware, mockData);
+
+    SECTION("GetHardware returns proper hardware") {
+        REQUIRE(msg->getHardware() == mockHardware);
+    }
+
+    SECTION("GetData returns proper data") {
+        REQUIRE(msg->getData() ==  mockData);
+    }
+
+    SECTION("Not enough data throws MessageLengthException") {
+        // Expect 5 bytes, given 4
+        Hardware mockHardware = {address, 2};
+
+        REQUIRE_THROWS_AS(
+                new MotorMessage(mockHardware, mockData),
+                MessageLengthException
+        );
+    }
+
+    SECTION("Too much data throws MessageLengthException") {
+        // Expect 0 bytes, given 4
+        Hardware mockHardware = {address, 0};
+
+        REQUIRE_THROWS_AS(
+            new MotorMessage(mockHardware, mockData),
+            MessageLengthException
+        );
+    }
+
+    SECTION("Serialize to proper string") {
+        std::string serial;
+        serial.append(1, address);
+        serial.append((char*)(&mockData), sizeof(int));
+
+        REQUIRE(msg->serialize() == serial);
+        int unserializeData = *((int*)(serial.c_str() + sizeof(char)));
+        REQUIRE(unserializeData == mockData);
+    }
+
+    SECTION("Data too large throws DataSizeException") {
+        REQUIRE_THROWS_AS(
+            new MotorMessage(mockHardware, FULL_FORWARD + 1),
+            DataSizeException
+        );
+    }
+
+    SECTION("Data too small throws DataSizeException") {
+        REQUIRE_THROWS_AS(
+                new MotorMessage(mockHardware, FULL_BACKWARD - 1),
+                DataSizeException
+        );
+    }
+
+    SECTION("Destructor") {
+        delete msg;
+    }
+
+}
+
+TEST_CASE("EncoderMessage Tests", "[EncoderMessage]") {
+    unsigned char address = 255;
+    Hardware mockHardware = {address, sizeof(double)};
+    double mockData = 128.0;
+    EncoderMessage* msg = new EncoderMessage(mockHardware, mockData);
+
+    SECTION("GetHardware returns proper hardware") {
+        REQUIRE(msg->getHardware() == mockHardware);
+    }
+
+    SECTION("GetData returns proper data") {
+        REQUIRE(msg->getData() ==  mockData);
+    }
+
+    SECTION("Not enough data throws MessageLengthException") {
+        // Expect 10 bytes, given 8
+        Hardware mockHardware = {address, 10};
+
+        REQUIRE_THROWS_AS(
+                new EncoderMessage(mockHardware, mockData),
+                MessageLengthException
+        );
+    }
+
+    SECTION("Too much data throws MessageLengthException") {
+        // Expect 0 bytes, given 1
+        Hardware mockHardware = {address, 0};
+
+        REQUIRE_THROWS_AS(
+                new EncoderMessage(mockHardware, mockData),
+                MessageLengthException
+        );
+    }
+
+    SECTION("Serialize to proper string") {
+        std::string serial;
+        serial.append(1, address);
+        serial.append((char*)(&mockData), sizeof(double));
+
+        // Serialized data is expected
+        REQUIRE(msg->serialize() == serial);
+
+        // Unserialized data is unchanged
+        // Need to move pointer forward 1 byte to skip over the address
+        double data = *((double*)(serial.c_str() + sizeof(char)));
+        REQUIRE(data == mockData);
+    }
+
+
+    SECTION("Destructor") {
+        delete msg;
+    }
+}
+
+TEST_CASE("MotorAdapter Tests", "[MotorAdapter]") {
+
+    int forwardPin = 1, backwardPin = 2;
+    AdafruitPWMServoHat* m_pwmHat = new AdafruitPWMServoHat();
+    MotorAdapter* adapter = new MotorAdapter(m_pwmHat, forwardPin, backwardPin);
+    Hardware hardware = H_RIGHT_MOTOR;
+
+    SECTION("Read returns empty list. Cannot read motors.") {
+        REQUIRE(adapter->read()->size() == 0);
+    }
+
+    SECTION("Drive the motor full backwards") {
+        int speed = FULL_BACKWARD;
+        IMessage* msg = new MotorMessage(hardware, speed);
+        adapter->write(msg);
+
+        // TODO: Check that the appropriate register has been written
+    }
+
+    SECTION("Drive the motor full forwards") {
+        int speed = FULL_FORWARD;
+        IMessage* msg = new MotorMessage(hardware, speed);
+        adapter->write(msg);
+
+        // TODO: Check that the appropriate register has been written
+    }
+
+    SECTION("MismatchedMessageException thrown when message of wrong type is passed in") {
+        IMessage* msg = new EncoderMessage(H_RIGHT_ENCODER, 10.0);
+
+        REQUIRE_THROWS_AS(
+          adapter->write(msg),
+          MismatchedMessageException
+        );
+    }
+
+    SECTION("Destructor") {
+        delete adapter;
+    }
+
+
+}
+
+TEST_CASE("EncoderAdapter Tests", "[EncoderAdapter]") {
+
+    Hardware mockHardware = {255, sizeof(double)};
+    int ticksPerRev = 100;
+    int channelA = 0, channelB = 1;
+    EncoderAdapter* adapter = new EncoderAdapter(channelA, channelB, ticksPerRev, mockHardware);
+
+    SECTION("Destructor") {
+        delete adapter;
+    }
+}
+
+TEST_CASE("EncoderSensor Tests", "[EncoderSensor]") {
+
+    EncoderSensor* sensor = new EncoderSensor();
+
+    SECTION("Sensor value updates correctly") {
+        double data = 1000;
+        IMessage* msg = new EncoderMessage(H_LEFT_ENCODER, data);
+        sensor->updateSensor(msg);
+
+        REQUIRE(sensor->getRPM() == data);
+
+    }
+
+    SECTION("MismatchMessageException thrown if wrong message type sent to encoder") {
+        IMessage* msg = new MotorMessage(H_RIGHT_MOTOR, FULL_FORWARD);
+
+        REQUIRE_THROWS_AS(
+            sensor->updateSensor(msg),
+            MismatchedMessageException
+        );
+    }
+
+    SECTION("Destructor") {
+        delete sensor;
+    }
+}
