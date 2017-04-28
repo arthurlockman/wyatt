@@ -22,22 +22,21 @@ DriveMotorRPM::~DriveMotorRPM() {
 bool DriveMotorRPM::execute() {
 
     double currentRPM = encoder->getRPM();
-
     double diff = this->desiredRPM - currentRPM;
 
     double pd = this->k_p * diff + this->k_d * (diff - lastDiff);
     this->setpoint = this->setpoint + pd;
 
     // Ensure that the control input is bounded
-    if(fabs(this->setpoint) > FULL_FORWARD) {
+    if(this->setpoint > FULL_FORWARD) {
         this->setpoint = FULL_FORWARD;
     }
-
-    // Multiply by direction (1 or -1) because encoder only read abs(speed).
-    this->setpoint *= this->direction;
+    if(this->setpoint < FULL_BACKWARD) {
+        this->setpoint = FULL_BACKWARD;
+    }
 
     // Compose the motor message
-    IMessage* msg = new MotorMessage(this->motorHardware, (int)(this->setpoint));
+    IMessage* msg = new MotorMessage(this->motorHardware, (int)(this->setpoint * this->direction));
 
     // Send the message to the communicator
     comm->queueMessage(msg);

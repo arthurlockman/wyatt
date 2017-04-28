@@ -53,7 +53,7 @@ void Robot::run() {
 
     int RPM = 150;
     Command* driveMotorRight = new DriveMotorRPM(this->communicator, H_RIGHT_MOTOR, this->rightEncoderSensor, RPM, FORWARD_DIRECTION);
-    Command* driveMotorLeft = new DriveMotorRPM(this->communicator, H_LEFT_MOTOR, this->leftEncoderSensor, RPM, FORWARD_DIRECTION);
+    Command* driveMotorLeft = new DriveMotorRPM(this->communicator, H_LEFT_MOTOR, this->leftEncoderSensor, RPM, BACKWARD_DIRECTION);
     commander->runCommand(driveMotorRight);
     commander->runCommand(driveMotorLeft);
 
