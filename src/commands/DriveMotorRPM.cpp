@@ -3,6 +3,7 @@
 //
 
 #include "../../include/commands/DriveMotorRPM.h"
+#include <iostream>
 
 DriveMotorRPM::DriveMotorRPM(Communicator* comm, Hardware motorHardware, EncoderSensor* encoder, int desiredRPM, int direction) : Command() {
     this->comm = comm;
@@ -18,7 +19,10 @@ DriveMotorRPM::~DriveMotorRPM() {
 
 bool DriveMotorRPM::execute() {
 
+
     double currentRPM = encoder->getRPM();
+    std::cout << "Encoder: " << currentRPM << std::endl;
+
     double diff = this->desiredRPM - currentRPM;
 
     double motorSpeed = this->k_p * diff + this->k_d * (diff - lastDiff);

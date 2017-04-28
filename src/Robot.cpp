@@ -44,7 +44,19 @@ Robot::Robot() {
     /* Start the communicator */
     this->communicator->start();
 
+    /* Create and start the command manager */
+    this->commander = new CommandManager();
+
 }
+
+void Robot::run() {
+
+    int RPM = 60;
+    Command* driveMotor = new DriveMotorRPM(this->communicator, H_RIGHT_MOTOR, this->rightEncoderSensor, RPM, FORWARD_DIRECTION);
+    commander->runCommand(driveMotor);
+
+}
+
 
 Robot::~Robot() {
 

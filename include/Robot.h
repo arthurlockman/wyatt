@@ -13,6 +13,8 @@
 #include "wiringPiInclude.h"
 #include "sensors/EncoderSensor.h"
 #include "sensors/ISensor.h"
+#include "CommandManager.h"
+#include "commands/DriveMotorRPM.h"
 
 #define RIGHT_MOTOR_FORWARD_PIN 0
 #define RIGHT_MOTOR_BACKWARD_PIN 1
@@ -20,10 +22,10 @@
 #define LEFT_MOTOR_BACKWARD_PIN 2
 
 #define ENCODER_TICKS_PER_REVOLUTION 64
-#define LEFT_ENCODER_PIN_A 0
-#define LEFT_ENCODER_PIN_B 1
-#define RIGHT_ENCODER_PIN_A 2
-#define RIGHT_ENCODER_PIN_B 3
+#define LEFT_ENCODER_PIN_A 1
+#define LEFT_ENCODER_PIN_B 2
+#define RIGHT_ENCODER_PIN_A 3
+#define RIGHT_ENCODER_PIN_B 4
 
 /**
  * Main class for the robot. Implemented as a signleton. All important pins are defined above.
@@ -45,6 +47,11 @@ public:
      */
     ~Robot();
 
+    /**
+     * Starts the robot.
+     */
+    void run();
+
     /* Redefine these methods to prevent copies */
     Robot(Robot const&) = delete;
     void operator=(Robot const&) = delete;
@@ -59,8 +66,8 @@ private:
     EncoderAdapter* rightEncoderAdapter;
 
     /* Sensors */
-    ISensor* leftEncoderSensor;
-    ISensor* rightEncoderSensor;
+    EncoderSensor* leftEncoderSensor;
+    EncoderSensor* rightEncoderSensor;
 
     /* Adafruit PWM driver */
     AdafruitPWMServoHat* pwmServoHat;
@@ -70,5 +77,8 @@ private:
 
     /* Communicator */
     Communicator* communicator;
+
+    /* Command Manager */
+    CommandManager* commander;
 
 };
