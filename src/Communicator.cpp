@@ -27,26 +27,27 @@ void Communicator::registerHardware(Hardware hardware, IHardwareInterface* inter
 }
 
 void Communicator::queueMessage(IMessage *msg) {
-    (*this->messageMap)[msg->getHardware()] = msg;
+    m_lock.lock();
+    this->messageMap->erase(msg->getHardware());
+    this->messageMap->insert(std::make_pair(msg->getHardware(), msg));
+    m_lock.unlock();
 }
 
 void Communicator::queueMessage(std::list<IMessage*>* messages) {
     for(IMessage* msg: *messages) {
         this->queueMessage(msg);
     }
+    delete messages;
 }
 
 void Communicator::write() {
-    while (!this->messageMap->empty())
-    {
-        IMessage* msg = messageMap->begin()->second;
-
-        Hardware hardware = msg->getHardware();
-        IHardwareInterface* interface = hardwareInterfaceMap->at(hardware);
-        interface->write(msg);
-
-        this->messageMap->erase(hardware);
+    m_lock.lock();
+    for (std::map<Hardware,IMessage*>::iterator it=messageMap->begin(); it!=messageMap->end(); ++it) {
+        IHardwareInterface* interface = hardwareInterfaceMap->at(it->first);
+        interface->write(it->second);
     }
+    messageMap->clear();
+    m_lock.unlock();
 }
 
 void Communicator::read() {

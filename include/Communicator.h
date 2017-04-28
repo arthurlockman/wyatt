@@ -12,6 +12,7 @@
 #include "Thread.h"
 #include "hardwareinterface/IHardwareInterface.h"
 #include "exceptions/DuplicateHardwareException.h"
+#include <mutex>
 
 /**
  * Class that oversees communication between the Raspberry pi and a single peripheral. Data that is read/written to/from a peripheral must pass through this class. This class runs on its own thread and exposes functions to queue messages.
@@ -63,6 +64,8 @@ private:
     std::map<Hardware, IMessage*>* messageMap;
     std::map<Hardware, IHardwareInterface*>* hardwareInterfaceMap;
     std::list<IHardwareInterface*>* hardwareInterfaces;
+
+    std::mutex m_lock;
 
     /**
     * Write all messages in the queue to the peripheral

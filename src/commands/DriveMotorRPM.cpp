@@ -22,7 +22,6 @@ DriveMotorRPM::~DriveMotorRPM() {
 bool DriveMotorRPM::execute() {
 
     double currentRPM = encoder->getRPM();
-    std::cout << "Encoder: " << currentRPM << std::endl;
 
     double diff = this->desiredRPM - currentRPM;
 
@@ -42,7 +41,7 @@ bool DriveMotorRPM::execute() {
 
     // Send the message to the communicator
     comm->queueMessage(msg);
-    usleep(100000);
+//    usleep(100000);
 
     // Log the lastDiff
     this->lastDiff = diff;
