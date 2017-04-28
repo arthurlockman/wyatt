@@ -10,9 +10,6 @@
 #include <typeinfo>
 #include "messages/EncoderMessage.h"
 
-#define GEAR_RATIO ((double) 1/19.0 * 3.0/5.0)
-
-
 /**
  * Model class used to encapsulate the current state of an encoder.
  */

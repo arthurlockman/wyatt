@@ -43,6 +43,7 @@ void* EncoderAdapter::run()
             std::chrono::microseconds diffTime = std::chrono::duration_cast<std::chrono::microseconds>(newTime - m_lastTickTime);
             m_lastTickTime = newTime;
             m_speed = (m_revolutionsPerTick / (double)diffTime.count()) * 60000000.0;
+            m_speed = m_speed * GEAR_RATIO;
         }
         m_channelAState = newChannelAState;
         m_channelBState = newChannelBState;

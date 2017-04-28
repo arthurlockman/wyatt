@@ -21,9 +21,7 @@ void EncoderSensor::updateSensor(IMessage *message) {
     // Cast the message
     EncoderMessage* msg = (EncoderMessage*)message;
 
-    // Extract the raw data and multiply by the gear ratio to get the wheel speed
-    double rawData = msg->getData();
-    this->RPM = rawData * GEAR_RATIO;
+    this->RPM = msg->getData();
 }
 
 double EncoderSensor::getRPM() {

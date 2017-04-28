@@ -565,7 +565,7 @@ TEST_CASE("MotorAdapter Tests", "[MotorAdapter]") {
 
 TEST_CASE("EncoderAdapter Tests", "[EncoderAdapter]") {
 
-    Hardware mockHardware = {255, 8};
+    Hardware mockHardware = {255, sizeof(double)};
     int ticksPerRev = 100;
     int channelA = 0, channelB = 1;
     EncoderAdapter* adapter = new EncoderAdapter(channelA, channelB, ticksPerRev, mockHardware);
@@ -581,11 +581,10 @@ TEST_CASE("EncoderSensor Tests", "[EncoderSensor]") {
 
     SECTION("Sensor value updates correctly") {
         double data = 1000;
-        double expectedRPM = data * GEAR_RATIO;
         IMessage* msg = new EncoderMessage(H_LEFT_ENCODER, data);
         sensor->updateSensor(msg);
 
-        REQUIRE(sensor->getRPM() == expectedRPM);
+        REQUIRE(sensor->getRPM() == data);
 
     }
 

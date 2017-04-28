@@ -1,5 +1,7 @@
 #pragma once
 
+#define GEAR_RATIO ((double) 1/19.0 * 3.0/5.0)
+
 #include "Thread.h"
 #include "IHardwareInterface.h"
 #include "messages/IMessage.h"
