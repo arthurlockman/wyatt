@@ -72,7 +72,7 @@ void EncoderAdapter::resetCount()
 std::list<IMessage*>* EncoderAdapter::read()
 {
     std::list<IMessage*>* messages = new std::list<IMessage*>();
-    IMessage* msg = new EncoderMessage(this->hardware, this->m_speed);
+    IMessage* msg = new EncoderMessage(this->hardware, m_speed);
     messages->push_back(msg);
 
     return messages;

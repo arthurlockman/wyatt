@@ -1,4 +1,7 @@
 #include "Communicator.h"
+#include "hardwareinterface/EncoderAdapter.h"
+#include "messages/EncoderMessage.h"
+#include <iostream>
 
 Communicator::Communicator(ISensorManager* sensorManager) : Thread() {
     this->sensorManager = sensorManager;

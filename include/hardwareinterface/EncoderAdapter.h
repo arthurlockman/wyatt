@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string>
 #include "messages/EncoderMessage.h"
+#include <mutex>
 
 class EncoderAdapter : public Thread, public IHardwareInterface
 {
@@ -75,7 +76,8 @@ private:
     //! Last time the encoder ticked.
     std::chrono::high_resolution_clock::time_point m_lastTickTime;
     //! Current encoder speed in RPM.
-    std::atomic<double> m_speed;
+    volatile double m_speed;
+    std::mutex m_lock;
     //! Current encoder count.
     std::atomic<long> m_count;
     //! The hardware for the encoder
