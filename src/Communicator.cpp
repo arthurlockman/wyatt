@@ -5,14 +5,14 @@
 
 Communicator::Communicator(ISensorManager* sensorManager) : Thread() {
     this->sensorManager = sensorManager;
-    this->messageQueue = new std::list<IMessage*>;
+    this->messageMap = new std::map<Hardware, IMessage*>;
     this->hardwareInterfaceMap = new std::map<Hardware, IHardwareInterface*>;
     this->hardwareInterfaces = new std::list<IHardwareInterface*>;
 }
 
 Communicator::~Communicator() {
     delete this->sensorManager;
-    delete this->messageQueue;
+    delete this->messageMap;
     delete this->hardwareInterfaceMap;
 }
 
@@ -27,7 +27,7 @@ void Communicator::registerHardware(Hardware hardware, IHardwareInterface* inter
 }
 
 void Communicator::queueMessage(IMessage *msg) {
-    this->messageQueue->push_back(msg);
+    (*this->messageMap)[msg->getHardware()] = msg;
 }
 
 void Communicator::queueMessage(std::list<IMessage*>* messages) {
@@ -37,15 +37,15 @@ void Communicator::queueMessage(std::list<IMessage*>* messages) {
 }
 
 void Communicator::write() {
-    while (!this->messageQueue->empty())
+    while (!this->messageMap->empty())
     {
-        IMessage* msg = this->messageQueue->front();
+        IMessage* msg = messageMap->begin()->second;
 
         Hardware hardware = msg->getHardware();
         IHardwareInterface* interface = hardwareInterfaceMap->at(hardware);
         interface->write(msg);
 
-        this->messageQueue->pop_front();
+        this->messageMap->erase(hardware);
     }
 }
 

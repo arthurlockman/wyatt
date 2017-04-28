@@ -60,7 +60,7 @@ public:
 
 private:
     ISensorManager* sensorManager;
-    std::list<IMessage*>* messageQueue;
+    std::map<Hardware, IMessage*>* messageMap;
     std::map<Hardware, IHardwareInterface*>* hardwareInterfaceMap;
     std::list<IHardwareInterface*>* hardwareInterfaces;
 
