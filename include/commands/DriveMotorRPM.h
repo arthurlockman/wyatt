@@ -53,8 +53,8 @@ private:
     EncoderSensor* encoder;
     Communicator* comm;
 
-    double k_p = 10.0;
-    double k_d = 2.0;
+    double k_p = 1.0;
+    double k_d = 0.0;
 
     double lastDiff = 0;
     double setpoint = 0;
