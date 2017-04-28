@@ -27,6 +27,10 @@
 #define RIGHT_ENCODER_PIN_A 3
 #define RIGHT_ENCODER_PIN_B 4
 
+
+// Wheel diameter in cm
+#define WHEEL_DIAMETER (double) 10.16
+
 /**
  * Main class for the robot. Implemented as a signleton. All important pins are defined above.
  */
