@@ -16,6 +16,7 @@
 #include "CommandManager.h"
 #include "commands/DriveMotorRPM.h"
 #include "commands/DriveRobotCommand.h"
+#include <unistd.h>
 
 #define RIGHT_MOTOR_FORWARD_PIN 0
 #define RIGHT_MOTOR_BACKWARD_PIN 1

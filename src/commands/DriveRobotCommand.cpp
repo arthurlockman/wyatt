@@ -3,15 +3,25 @@
 //
 
 #include "../../include/commands/DriveRobotCommand.h"
+#include <iostream>
+using namespace std;
 
 DriveRobotCommand::DriveRobotCommand(Communicator* comm, EncoderSensor* leftEncoder, EncoderSensor* rightEncoder, double radius, double rotationRate, int duration_ms, double wheelDiameter, double drivetrainDiameter) : Command() {
 
     this->duration_ms = duration_ms;
 
-    double leftMotorRPM = - rotationRate * (radius + drivetrainDiameter/2) * 60.0 / (3.14159 * wheelDiameter);
-    double rightMotorRPM = - rotationRate * (radius - drivetrainDiameter/2) * 60.0 / (3.14159 * wheelDiameter);
+    double leftMotorRPM = rotationRate * (radius + drivetrainDiameter/2) * 60.0 / (3.14159 * wheelDiameter);
+    double rightMotorRPM = rotationRate * (radius - drivetrainDiameter/2) * 60.0 / (3.14159 * wheelDiameter);
     int leftMotorDirection = leftMotorRPM < 0 ? BACKWARD_DIRECTION : FORWARD_DIRECTION;
     int rightMotorDirection = rightMotorRPM < 0 ? BACKWARD_DIRECTION : FORWARD_DIRECTION;
+
+    // cout << "radius (cm): " << radius << endl;
+    // cout << "rotation (rad/s): " << rotationRate << endl;
+    // cout << "duration (ms): " << duration_ms << endl;
+    // cout << "wheel diameter (cm): " << wheelDiameter << endl;
+    // cout << "drivetrain diameter (cm): " << drivetrainDiameter << endl;
+    // cout << "Left Motor RPM: " << leftMotorRPM << endl;
+    // cout << "Right Motor RPM: " << rightMotorRPM << endl;
 
     this->leftMotorCommand = new DriveMotorRPM(comm, H_LEFT_MOTOR, leftEncoder, fabs(leftMotorRPM), leftMotorDirection);
     this->rightMotorCommand = new DriveMotorRPM(comm, H_RIGHT_MOTOR, rightEncoder, fabs(rightMotorRPM), rightMotorDirection);

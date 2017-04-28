@@ -51,9 +51,9 @@ Robot::Robot() {
 
 void Robot::run() {
 
-    double radius = -10.0;
-    double rotationRate = 0.7854; // Rads/s = 45 degrees/s
-    int duration_ms = 10000; // ms
+    double radius = 60;                                             // cm
+    int duration_ms = 10000;                                        // ms
+    double rotationRate = 2 * 3.14159 / (duration_ms / 1000.0);     // 1 rotation in X seconds
 
     Command* driveArc = new DriveRobotCommand(
             this->communicator,
@@ -68,7 +68,9 @@ void Robot::run() {
     this->commander->runCommand(driveArc);
 
     while(!driveArc->isFinished());
-
+    
+    pwmServoHat->stopAllMotors();
+    usleep(500000);
     pwmServoHat->stopAllMotors();
 }
 
