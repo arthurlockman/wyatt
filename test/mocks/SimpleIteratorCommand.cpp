@@ -2,7 +2,7 @@
 // Created by Arthur Lockman on 4/7/17.
 //
 
-#include "commands/SimpleIteratorCommand.h"
+#include "../include/SimpleIteratorCommand.h"
 
 SimpleIteratorCommand::SimpleIteratorCommand(int goal):
     m_counter(0),

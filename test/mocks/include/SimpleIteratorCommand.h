@@ -1,11 +1,9 @@
 //
 // Created by Arthur Lockman on 4/7/17.
 //
+#pragma once
 
-#ifndef WYATT_SIMPLEITERATORCOMMAND_H
-#define WYATT_SIMPLEITERATORCOMMAND_H
-
-#include "Command.h"
+#include "../../../include/commands/Command.h"
 #include <mutex>
 #include <atomic>
 
@@ -20,5 +18,3 @@ private:
     std::atomic<int> m_counter;
     int m_goal;
 };
-
-#endif //WYATT_SIMPLEITERATORCOMMAND_H

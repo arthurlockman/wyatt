@@ -2,25 +2,25 @@
 //// Created by Arthur Lockman on 4/5/17.
 ////
 
-#include <commands/SimpleIteratorCommand.h>
+#include <SimpleIteratorCommand.h>
 #include <Communicator.h>
 #include "../include/CommandManager.h"
 #include "../catch/catch.hpp"
 #include "sensors/IRangeFinderSensor.h"
 #include "sensors/SensorManager.h"
-#include "hardwareinterface/DrivetrainAdapter.h"
 #include "hardwareinterface/MotorAdapter.h"
 #include "sensors/EncoderSensor.h"
 #include "exceptions/DataSizeException.h"
 #include <unistd.h>
-#include <commands/DriveForwardSecondsCommand.h>
-#include <commands/DriveDirectionCommand.h>
+#include "../include/hardwareinterface/EncoderAdapter.h"
 
 /* MOCKS */
 #include "mocks/include/MockIRRangeFinderSensor.h"
 #include "mocks/include/MockSensorManager.h"
 #include "mocks/include/MockHardwareInterface.h"
 #include "mocks/include/MockIRRangeFinderSensorMessage.h"
+#include "mocks/include/SimpleIteratorCommand.h"
+
 
 TEST_CASE("Command subsystem tests", "[CommandManager]") {
 
@@ -72,54 +72,6 @@ TEST_CASE("Command subsystem tests", "[CommandManager]") {
         delete sc5;
         delete sc6;
     }
-
-    SECTION("Drive seconds can be scheduled and run") {
-        CommandManager *cm3 = new CommandManager();
-        DrivetrainAdapter *dt = new DrivetrainAdapter();
-        DriveForwardSecondsCommand *dsc = new DriveForwardSecondsCommand(dt, 1);
-        cm3->runCommand(dsc);
-        while (!dsc->isFinished()) {}
-        REQUIRE(dsc->isFinished());
-        REQUIRE(cm3->inFlight() == 0);
-        cm3->kill();
-        delete cm3;
-        delete dt;
-    }
-
-    SECTION("Drive direction command yields results") {
-        CommandManager *cm = new CommandManager();
-        DrivetrainAdapter *dt = new DrivetrainAdapter();
-        DriveDirectionCommand *df = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::forward);
-        DriveDirectionCommand *db = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::backward);
-        DriveDirectionCommand *tr = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::turnRight);
-        DriveDirectionCommand *tl = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::turnLeft);
-        DriveDirectionCommand *st = new DriveDirectionCommand(dt, DriveDirectionCommand::DriveDirections::stop);
-        cm->runCommand(df);
-        while (!df->isFinished()) {}
-        REQUIRE(df->isFinished());
-        cm->runCommand(db);
-        while (!db->isFinished()) {}
-        REQUIRE(db->isFinished());
-        cm->runCommand(tr);
-        while (!tr->isFinished()) {}
-        REQUIRE(tr->isFinished());
-        cm->runCommand(tl);
-        while (!tl->isFinished()) {}
-        REQUIRE(tl->isFinished());
-        cm->runCommand(st);
-        while (!st->isFinished()) {}
-        REQUIRE(st->isFinished());
-        REQUIRE(cm->inFlight() == 0);
-        cm->kill();
-        delete cm;
-        delete dt;
-        delete df;
-        delete db;
-        delete tr;
-        delete tl;
-        delete st;
-    }
-
 }
 
 TEST_CASE("ISensorManager tests", "[ISensorManager]") {

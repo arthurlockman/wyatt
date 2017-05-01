@@ -3,7 +3,7 @@
 int main (void) {
 
     Robot* robot = Robot::instance();
-    robot->run();
+//    robot->run();
 
     return 0 ;
 }
