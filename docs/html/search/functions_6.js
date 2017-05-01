@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kill',['kill',['../class_command_manager.html#a0fe1e05fd7b3849bf3f446adc29c6c7c',1,'CommandManager']]]
+  ['join',['join',['../class_command_manager.html#af2c3bdc911797f9445381abc15ddd3c6',1,'CommandManager']]]
 ];

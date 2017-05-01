@@ -74,9 +74,10 @@ Inheritance diagram for IHardwareInterface:</div>
  <div class="center">
   <img src="class_i_hardware_interface.png" usemap="#IHardwareInterface_map" alt=""/>
   <map id="IHardwareInterface_map" name="IHardwareInterface_map">
-<area href="class_chassis.html" alt="Chassis" shape="rect" coords="0,56,149,80"/>
-<area href="class_encoder_counter.html" alt="EncoderCounter" shape="rect" coords="159,56,308,80"/>
+<area href="class_drivetrain_adapter.html" alt="DrivetrainAdapter" shape="rect" coords="0,56,149,80"/>
+<area href="class_encoder_adapter.html" alt="EncoderAdapter" shape="rect" coords="159,56,308,80"/>
 <area href="class_mock_hardware_interface.html" alt="MockHardwareInterface" shape="rect" coords="318,56,467,80"/>
+<area href="class_motor_adapter.html" alt="MotorAdapter" shape="rect" coords="477,56,626,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -84,10 +85,10 @@ Inheritance diagram for IHardwareInterface:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af697808ee750ac86df77481c30e7aaef"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_hardware_interface.html#af697808ee750ac86df77481c30e7aaef">~IHardwareInterface</a> ()</td></tr>
 <tr class="separator:af697808ee750ac86df77481c30e7aaef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab31bc601aeb053f2a2b688dac648bb9c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_hardware_interface.html#ab31bc601aeb053f2a2b688dac648bb9c">write</a> (<a class="el" href="class_message.html">Message</a> *msg)=0</td></tr>
-<tr class="separator:ab31bc601aeb053f2a2b688dac648bb9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6d5548f4aedb14d4873412e75ec6832"><td class="memItemLeft" align="right" valign="top">virtual std::list&lt; <a class="el" href="class_message.html">Message</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_hardware_interface.html#ab6d5548f4aedb14d4873412e75ec6832">read</a> ()=0</td></tr>
-<tr class="separator:ab6d5548f4aedb14d4873412e75ec6832"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98f36adf53710170d838facff09ef4f8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_hardware_interface.html#a98f36adf53710170d838facff09ef4f8">write</a> (<a class="el" href="class_i_message.html">IMessage</a> *msg)=0</td></tr>
+<tr class="separator:a98f36adf53710170d838facff09ef4f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0246f29cd6b4dfbb5c243cef008f0f8"><td class="memItemLeft" align="right" valign="top">virtual std::list&lt; <a class="el" href="class_i_message.html">IMessage</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_hardware_interface.html#af0246f29cd6b4dfbb5c243cef008f0f8">read</a> ()=0</td></tr>
+<tr class="separator:af0246f29cd6b4dfbb5c243cef008f0f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for managing hardware interface between Raspi and a peripheral. Any implementing classes must expose read and write functions. Read must return a list of Messages and write must write a single message to the peripheral. </p>
@@ -119,8 +120,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab6d5548f4aedb14d4873412e75ec6832"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6d5548f4aedb14d4873412e75ec6832">&#9670;&nbsp;</a></span>read()</h2>
+<a id="af0246f29cd6b4dfbb5c243cef008f0f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0246f29cd6b4dfbb5c243cef008f0f8">&#9670;&nbsp;</a></span>read()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -129,7 +130,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::list&lt;<a class="el" href="class_message.html">Message</a>*&gt;* IHardwareInterface::read </td>
+          <td class="memname">virtual std::list&lt;<a class="el" href="class_i_message.html">IMessage</a>*&gt;* IHardwareInterface::read </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -143,12 +144,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Read data from the peripheral </p><dl class="section return"><dt>Returns</dt><dd>A list of Messages </dd></dl>
 
-<p>Implemented in <a class="el" href="class_encoder_counter.html#a19ae03e0b1753de7cef6b04ad401ef75">EncoderCounter</a>, <a class="el" href="class_chassis.html#a3ee3b8cb7c8af3d36b83ba68a8d3bcba">Chassis</a>, and <a class="el" href="class_mock_hardware_interface.html#a5263aa25a56bbe2e7d0d0871ce927a94">MockHardwareInterface</a>.</p>
+<p>Implemented in <a class="el" href="class_encoder_adapter.html#a5c1d3271556126a9ec64008bc50eddf1">EncoderAdapter</a>, <a class="el" href="class_motor_adapter.html#af1f2030b8c201b5e94a008af02990730">MotorAdapter</a>, <a class="el" href="class_drivetrain_adapter.html#afd8d2e5cb48d3eb33b0c6562e9085bf6">DrivetrainAdapter</a>, and <a class="el" href="class_mock_hardware_interface.html#a10e69d28b20fff2ffc90342896ddb190">MockHardwareInterface</a>.</p>
 
 </div>
 </div>
-<a id="ab31bc601aeb053f2a2b688dac648bb9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab31bc601aeb053f2a2b688dac648bb9c">&#9670;&nbsp;</a></span>write()</h2>
+<a id="a98f36adf53710170d838facff09ef4f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98f36adf53710170d838facff09ef4f8">&#9670;&nbsp;</a></span>write()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -159,7 +160,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void IHardwareInterface::write </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_message.html">Message</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_i_message.html">IMessage</a> *&#160;</td>
           <td class="paramname"><em>msg</em></td><td>)</td>
           <td></td>
         </tr>
@@ -172,17 +173,17 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Write a message to the peripheral. Deletes the message pointer. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">msg</td><td>A <a class="el" href="class_message.html">Message</a> to be sent </td></tr>
+    <tr><td class="paramname">msg</td><td>A Message to be sent </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_chassis.html#aad60a4734587b4bb2e5d5af39c83d652">Chassis</a>, and <a class="el" href="class_mock_hardware_interface.html#abb605592c07a01d38f16a5bd4ec55b53">MockHardwareInterface</a>.</p>
+<p>Implemented in <a class="el" href="class_encoder_adapter.html#a96884b37c89de4a1cd40da0bdf6b7cd8">EncoderAdapter</a>, <a class="el" href="class_motor_adapter.html#af4785d1a54aef9bfaa93738314b936c9">MotorAdapter</a>, <a class="el" href="class_drivetrain_adapter.html#a21aaa9fe3fb20d53847fb3f8fad25940">DrivetrainAdapter</a>, and <a class="el" href="class_mock_hardware_interface.html#a3a61896d3ef1930c05a2acaa334e3137">MockHardwareInterface</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/<a class="el" href="_i_hardware_interface_8h_source.html">IHardwareInterface.h</a></li>
+<li>include/hardwareinterface/<a class="el" href="_i_hardware_interface_8h_source.html">IHardwareInterface.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,10 +1,12 @@
 var searchData=
 [
   ['m_5flock',['m_lock',['../class_command.html#ac9c0f02c80795628d1cf204a86067f44',1,'Command']]],
-  ['message',['Message',['../class_message.html',1,'Message'],['../class_message.html#ab9b2ed03dcca16ce36d7a1195733de8d',1,'Message::Message()']]],
+  ['messagelengthexception',['MessageLengthException',['../class_message_length_exception.html',1,'']]],
+  ['mismatchedmessageexception',['MismatchedMessageException',['../class_mismatched_message_exception.html',1,'']]],
   ['mockhardwareinterface',['MockHardwareInterface',['../class_mock_hardware_interface.html',1,'']]],
   ['mockirrangefindersensor',['MockIRRangeFinderSensor',['../class_mock_i_r_range_finder_sensor.html',1,'']]],
+  ['mockirrangefindersensormessage',['MockIRRangeFinderSensorMessage',['../class_mock_i_r_range_finder_sensor_message.html',1,'']]],
   ['mocksensormanager',['MockSensorManager',['../class_mock_sensor_manager.html',1,'']]],
-  ['motor',['Motor',['../class_motor.html',1,'']]],
-  ['motorcontroller',['MotorController',['../class_motor_controller.html',1,'MotorController'],['../class_motor_controller.html#a1c32db157ba4b6dba1f2d6bc8891f16d',1,'MotorController::MotorController()']]]
+  ['motoradapter',['MotorAdapter',['../class_motor_adapter.html',1,'MotorAdapter'],['../class_motor_adapter.html#ac3b2607a95c3933264a46e2de226518f',1,'MotorAdapter::MotorAdapter()']]],
+  ['motormessage',['MotorMessage',['../class_motor_message.html',1,'MotorMessage'],['../class_motor_message.html#acac31fdf0e77b6ebeed9ca973d1e72eb',1,'MotorMessage::MotorMessage()']]]
 ];

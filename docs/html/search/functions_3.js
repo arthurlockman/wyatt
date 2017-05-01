@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['getcount',['getCount',['../class_encoder_counter.html#aa9bd7a178bd4fffbc27d0d385d3f0d52',1,'EncoderCounter']]],
-  ['getdata',['getData',['../class_raw_sensor_data.html#a499c4d096e8eaaf6394c13ab4a90c987',1,'RawSensorData']]],
-  ['getdistancecm',['getDistanceCM',['../class_i_range_finder_sensor.html#a0416d1da0250699df11fb01835721cec',1,'IRangeFinderSensor::getDistanceCM()'],['../class_mock_i_r_range_finder_sensor.html#a7bad1c96a533de563f9e34d3285f1e62',1,'MockIRRangeFinderSensor::getDistanceCM()']]],
-  ['gethardware',['getHardware',['../class_message.html#ae1804b198ba6c41d91d37122533782ce',1,'Message']]],
-  ['getmessage',['getMessage',['../class_message.html#a758a96f17e5f7e571a60778487bcf7a1',1,'Message']]],
-  ['getspeedrpm',['getSpeedRPM',['../class_encoder_counter.html#aafe1e6c8bb2061ca27185969d3fe11bd',1,'EncoderCounter']]]
+  ['encoderadapter',['EncoderAdapter',['../class_encoder_adapter.html#a1c31b6d914690134417960862d803a30',1,'EncoderAdapter']]],
+  ['encodermessage',['EncoderMessage',['../class_encoder_message.html#aebe4a25ba55dfba767812698a5aba4ec',1,'EncoderMessage']]],
+  ['encodersensor',['EncoderSensor',['../class_encoder_sensor.html#ad5e0aab0ccb29d23f32c377125e6cfcf',1,'EncoderSensor']]],
+  ['execute',['execute',['../class_command.html#a5d83cdea649a79d7b7253196a6deddeb',1,'Command::execute()'],['../class_drive_direction_command.html#a27335546a03a3d5d5addd1d2ebe16a1b',1,'DriveDirectionCommand::execute()'],['../class_drive_forward_seconds_command.html#a4c684be5fa251ca3710cecd88decf886',1,'DriveForwardSecondsCommand::execute()'],['../class_drive_motor_r_p_m.html#abff16d7f688981b9f53619bf1ea076f6',1,'DriveMotorRPM::execute()'],['../class_drive_robot_command.html#af83ec8bc1380408e3d732c478a202e36',1,'DriveRobotCommand::execute()'],['../class_simple_iterator_command.html#a88b8701cb99fa78e150747fe2983c157',1,'SimpleIteratorCommand::execute()']]]
 ];

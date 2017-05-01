@@ -1,5 +1,12 @@
 var searchData=
 [
-  ['updatesensor',['updateSensor',['../class_i_range_finder_sensor.html#a1e5f4bbd1d2119a6bcd89d525508a4bf',1,'IRangeFinderSensor::updateSensor()'],['../class_i_sensor.html#a43d41260fe4f5a046bcec5f7174c1f58',1,'ISensor::updateSensor()'],['../class_mock_i_r_range_finder_sensor.html#aaa3862a4cc93f3a6fd18a6dde88a6d08',1,'MockIRRangeFinderSensor::updateSensor()']]],
-  ['updatesensors',['updateSensors',['../class_i_sensor_manager.html#a97f805d2f84d4515da13ad5918a442b1',1,'ISensorManager::updateSensors()'],['../class_sensor_manager.html#acc83c07ecfdbbb6dd420eeab5d527df7',1,'SensorManager::updateSensors()'],['../class_mock_sensor_manager.html#a7d9672597fe2712f19729ddd1b79e6f7',1,'MockSensorManager::updateSensors()']]]
+  ['sensormanager',['SensorManager',['../class_sensor_manager.html#ac2bea3e22536f101970bd20fc72fa5d1',1,'SensorManager']]],
+  ['serialize',['serialize',['../class_encoder_message.html#a70e142b1ea91cb1a2a929bb192cfb087',1,'EncoderMessage::serialize()'],['../class_i_message.html#a1aeb2e70610075cacadb21105cf245f8',1,'IMessage::serialize()'],['../class_motor_message.html#a0b3ebb019d9e2df035e0360e22cef6b9',1,'MotorMessage::serialize()'],['../class_mock_i_r_range_finder_sensor_message.html#a729849799478e55cfba8fd784ad81cbe',1,'MockIRRangeFinderSensorMessage::serialize()']]],
+  ['setallpwm',['setAllPwm',['../class_adafruit_p_w_m_servo_hat.html#a4b63bb3f8b3bb548ca74f56f1226f0d2',1,'AdafruitPWMServoHat']]],
+  ['setisrunning',['setIsRunning',['../class_command.html#a4cf00fc870c5ad2815298b684808711a',1,'Command']]],
+  ['setmotor',['setMotor',['../class_adafruit_p_w_m_servo_hat.html#ac7fd356d4ce6bff6935a4b4243f61454',1,'AdafruitPWMServoHat']]],
+  ['setpwm',['setPwm',['../class_adafruit_p_w_m_servo_hat.html#af6a6eec0ebdbbcfa20fff314a053c89a',1,'AdafruitPWMServoHat']]],
+  ['stop',['stop',['../class_command.html#ac91308101424f447f80665244b554171',1,'Command']]],
+  ['stopallmotors',['stopAllMotors',['../class_adafruit_p_w_m_servo_hat.html#a721b19ae3ceccda3ad76c15d77e3dfe8',1,'AdafruitPWMServoHat']]],
+  ['stopmotor',['stopMotor',['../class_adafruit_p_w_m_servo_hat.html#a2dcf5e567ad0ae669b963377df570bdd',1,'AdafruitPWMServoHat']]]
 ];

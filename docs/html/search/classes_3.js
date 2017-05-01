@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['encodercounter',['EncoderCounter',['../class_encoder_counter.html',1,'']]]
+  ['encoderadapter',['EncoderAdapter',['../class_encoder_adapter.html',1,'']]],
+  ['encodermessage',['EncoderMessage',['../class_encoder_message.html',1,'']]],
+  ['encodersensor',['EncoderSensor',['../class_encoder_sensor.html',1,'']]]
 ];

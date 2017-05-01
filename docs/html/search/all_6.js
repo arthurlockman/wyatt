@@ -1,10 +1,11 @@
 var searchData=
 [
   ['ihardwareinterface',['IHardwareInterface',['../class_i_hardware_interface.html',1,'']]],
+  ['imessage',['IMessage',['../class_i_message.html',1,'IMessage'],['../class_i_message.html#a9dea5f997c07207386c16b6779ab7a48',1,'IMessage::IMessage()']]],
   ['inflight',['inFlight',['../class_command_manager.html#aab5efcb9d7d244ccbf60d5b1a9e03cfe',1,'CommandManager']]],
   ['init',['init',['../class_command.html#a4ce431c6aa489d67dc3a6f88c8d8c246',1,'Command']]],
+  ['instance',['instance',['../class_robot.html#a919d92676bee2608ad41cb5ef596d124',1,'Robot']]],
   ['irangefindersensor',['IRangeFinderSensor',['../class_i_range_finder_sensor.html',1,'']]],
-  ['irsensor',['IRSensor',['../class_i_r_sensor.html',1,'']]],
   ['isensor',['ISensor',['../class_i_sensor.html',1,'']]],
   ['isensormanager',['ISensorManager',['../class_i_sensor_manager.html',1,'']]],
   ['isfinished',['isFinished',['../class_command.html#ae5846b4332a262e055c7a96759fa18f2',1,'Command']]],

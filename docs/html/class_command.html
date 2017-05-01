@@ -73,8 +73,11 @@ Inheritance diagram for Command:</div>
  <div class="center">
   <img src="class_command.png" usemap="#Command_map" alt=""/>
   <map id="Command_map" name="Command_map">
-<area href="class_drive_forward_seconds_command.html" alt="DriveForwardSecondsCommand" shape="rect" coords="0,56,195,80"/>
-<area href="class_simple_iterator_command.html" alt="SimpleIteratorCommand" shape="rect" coords="205,56,400,80"/>
+<area href="class_drive_direction_command.html" alt="DriveDirectionCommand" shape="rect" coords="0,56,195,80"/>
+<area href="class_drive_forward_seconds_command.html" alt="DriveForwardSecondsCommand" shape="rect" coords="205,56,400,80"/>
+<area href="class_drive_motor_r_p_m.html" alt="DriveMotorRPM" shape="rect" coords="410,56,605,80"/>
+<area href="class_drive_robot_command.html" alt="DriveRobotCommand" shape="rect" coords="615,56,810,80"/>
+<area href="class_simple_iterator_command.html" alt="SimpleIteratorCommand" shape="rect" coords="820,56,1015,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -205,7 +208,7 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if successful. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_simple_iterator_command.html#ac2649f9c658c82286a496b211d5b6120">SimpleIteratorCommand</a>, and <a class="el" href="class_drive_forward_seconds_command.html#a481e69ddfee7a1ad60bab66f0b857a9b">DriveForwardSecondsCommand</a>.</p>
+<p>Implemented in <a class="el" href="class_drive_motor_r_p_m.html#a1fa3dd1a6e8c79291db4b64117d3746a">DriveMotorRPM</a>, <a class="el" href="class_drive_robot_command.html#a180ec9095f7c5545ffb1a308c831ac41">DriveRobotCommand</a>, <a class="el" href="class_simple_iterator_command.html#ac2649f9c658c82286a496b211d5b6120">SimpleIteratorCommand</a>, <a class="el" href="class_drive_direction_command.html#ad6c6822c83f529e9e61fa5b408231932">DriveDirectionCommand</a>, and <a class="el" href="class_drive_forward_seconds_command.html#a481e69ddfee7a1ad60bab66f0b857a9b">DriveForwardSecondsCommand</a>.</p>
 
 </div>
 </div>
@@ -231,9 +234,9 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method is called periodically during the command execution. Think of it like the Arduino's loop() function. While the command is executing this will be called repeatedly. Do not include while loops in here. </p><dl class="section return"><dt>Returns</dt><dd>true if the command is done, false if it needs to continue. </dd></dl>
+<p>This method is called periodically during the command execution. Think of it like the Arduino's loop() function. While the command is executing this will be called repeatedly. Do not include while loops in here. </p><dl class="section return"><dt>Returns</dt><dd>false if the command is done, true if it needs to continue. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_simple_iterator_command.html#a88b8701cb99fa78e150747fe2983c157">SimpleIteratorCommand</a>, and <a class="el" href="class_drive_forward_seconds_command.html#a4c684be5fa251ca3710cecd88decf886">DriveForwardSecondsCommand</a>.</p>
+<p>Implemented in <a class="el" href="class_drive_motor_r_p_m.html#abff16d7f688981b9f53619bf1ea076f6">DriveMotorRPM</a>, <a class="el" href="class_drive_robot_command.html#af83ec8bc1380408e3d732c478a202e36">DriveRobotCommand</a>, <a class="el" href="class_simple_iterator_command.html#a88b8701cb99fa78e150747fe2983c157">SimpleIteratorCommand</a>, <a class="el" href="class_drive_direction_command.html#a27335546a03a3d5d5addd1d2ebe16a1b">DriveDirectionCommand</a>, and <a class="el" href="class_drive_forward_seconds_command.html#a4c684be5fa251ca3710cecd88decf886">DriveForwardSecondsCommand</a>.</p>
 
 </div>
 </div>
@@ -352,8 +355,8 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/<a class="el" href="_command_8h_source.html">Command.h</a></li>
-<li>src/Command.cpp</li>
+<li>include/commands/<a class="el" href="_command_8h_source.html">Command.h</a></li>
+<li>src/commands/Command.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

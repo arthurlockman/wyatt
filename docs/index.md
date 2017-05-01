@@ -2,25 +2,21 @@
 layout: default
 ---
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+Wyatt is designed to be a modular and *testable* framework for developing robot code. It provides structures for unit testing your robot code, as well as a framework for abstracting hardware to make it easy to adapt your code to whichever system you are running on. 
 
-[Link to another page](another-page).
+# [](#header-1)Motivations
 
-There should be whitespace between paragraphs.
+The primary motivation behind this project was that there wasn't a decent framework for smaller robots that allowed for easy unit testing. There are projects like [WPILib](https://github.com/wpilibsuite/allwpilib) which is used in the FIRST robotics competition which provide similar communication and command structures to Wyatt's, however WPILib does not at its core provide a way of unit testing your code. 
 
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+# [](#header-1)Installation
 
-# [](#header-1)Header 1
+Wyatt will run on Linux or Mac (sorry, no Windows support yet). 
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+# [](#header-1)Getting Started
 
-## [](#header-2)Header 2
+Incoming!
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
-
-### [](#header-3)Header 3
+### [](#header-3)Building
 
 ```js
 // Javascript code with syntax highlighting.
@@ -37,87 +33,17 @@ GitHubPages::Dependencies.gems.each do |gem, version|
 end
 ```
 
-#### [](#header-4)Header 4
+### [](#header-3)Running
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
+...
 
-##### [](#header-5)Header 5
+### [](#header-3)Running Tests
 
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
+…
 
-###### [](#header-6)Header 6
+#### [](#header-4) Deploying to CI
 
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![](https://assets-cdn.github.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![](https://guides.github.com/activities/hello-world/branching.png)
+...
 
 
-### Definition lists can be used with HTML syntax.
 
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```

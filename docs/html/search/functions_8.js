@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['queuemessage',['queueMessage',['../class_communicator.html#a285e0a12c71e2d9e4b5feadb45244a70',1,'Communicator::queueMessage(Message *message)'],['../class_communicator.html#a534ed85d8589c216ad6e92b827e7981b',1,'Communicator::queueMessage(std::list&lt; Message *&gt; *messages)']]]
+  ['motoradapter',['MotorAdapter',['../class_motor_adapter.html#ac3b2607a95c3933264a46e2de226518f',1,'MotorAdapter']]],
+  ['motormessage',['MotorMessage',['../class_motor_message.html#acac31fdf0e77b6ebeed9ca973d1e72eb',1,'MotorMessage']]]
 ];

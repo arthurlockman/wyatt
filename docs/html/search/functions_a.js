@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['sensormanager',['SensorManager',['../class_sensor_manager.html#ac2bea3e22536f101970bd20fc72fa5d1',1,'SensorManager']]],
-  ['setallpwm',['setAllPwm',['../class_adafruit_p_w_m_servo_hat.html#a4b63bb3f8b3bb548ca74f56f1226f0d2',1,'AdafruitPWMServoHat']]],
-  ['setisrunning',['setIsRunning',['../class_command.html#a4cf00fc870c5ad2815298b684808711a',1,'Command']]],
-  ['setmotor',['setMotor',['../class_adafruit_p_w_m_servo_hat.html#ac7fd356d4ce6bff6935a4b4243f61454',1,'AdafruitPWMServoHat::setMotor()'],['../class_motor_controller.html#a072f68433b6531506f9635dbbc5ac88b',1,'MotorController::setMotor()']]],
-  ['setpwm',['setPwm',['../class_adafruit_p_w_m_servo_hat.html#af6a6eec0ebdbbcfa20fff314a053c89a',1,'AdafruitPWMServoHat']]],
-  ['stop',['stop',['../class_command.html#ac91308101424f447f80665244b554171',1,'Command']]],
-  ['stopallmotors',['stopAllMotors',['../class_adafruit_p_w_m_servo_hat.html#a721b19ae3ceccda3ad76c15d77e3dfe8',1,'AdafruitPWMServoHat::stopAllMotors()'],['../class_motor_controller.html#a540973a50734b7a8a981bfb560284377',1,'MotorController::stopAllMotors()']]],
-  ['stopmotor',['stopMotor',['../class_adafruit_p_w_m_servo_hat.html#a2dcf5e567ad0ae669b963377df570bdd',1,'AdafruitPWMServoHat::stopMotor()'],['../class_motor_controller.html#ae357c0868f18e99eb4964e760e57b1cb',1,'MotorController::stopMotor()']]]
+  ['read',['read',['../class_drivetrain_adapter.html#afd8d2e5cb48d3eb33b0c6562e9085bf6',1,'DrivetrainAdapter::read()'],['../class_encoder_adapter.html#a5c1d3271556126a9ec64008bc50eddf1',1,'EncoderAdapter::read()'],['../class_i_hardware_interface.html#af0246f29cd6b4dfbb5c243cef008f0f8',1,'IHardwareInterface::read()'],['../class_motor_adapter.html#af1f2030b8c201b5e94a008af02990730',1,'MotorAdapter::read()'],['../class_mock_hardware_interface.html#a10e69d28b20fff2ffc90342896ddb190',1,'MockHardwareInterface::read()']]],
+  ['registerhardware',['registerHardware',['../class_communicator.html#af1886f887a5cdfe7d914fa0adb22ff82',1,'Communicator']]],
+  ['resetcount',['resetCount',['../class_encoder_adapter.html#ad1e1043981d7f4b86b469a67af52b91c',1,'EncoderAdapter']]],
+  ['run',['run',['../class_command_manager.html#a57752e7e85f8c5c01796e66648cb78f4',1,'CommandManager::run()'],['../class_communicator.html#a17c142e8f5c1c620dce1bae2ef5b28af',1,'Communicator::run()'],['../class_encoder_adapter.html#adbc1d4600a38c2f0919e633d91ceddb9',1,'EncoderAdapter::run()'],['../class_robot.html#a00d8702f14f86ba41d2a8c0d466fab2b',1,'Robot::run()']]],
+  ['runcommand',['runCommand',['../class_command_manager.html#a2ea2fb4f477a83b4d17334de2af5360a',1,'CommandManager']]]
 ];

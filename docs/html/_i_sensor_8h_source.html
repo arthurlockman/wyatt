@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Wyatt: include/ISensor.h Source File</title>
+<title>Wyatt: include/sensors/ISensor.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,7 +59,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_ebe552be396c660935f2efa76e6989b7.html">sensors</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -67,10 +67,10 @@ $(function() {
 <div class="title">ISensor.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;RawSensorData.h&quot;</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_i_sensor.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_i_sensor.html">ISensor</a> {</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_i_sensor.html#a43d41260fe4f5a046bcec5f7174c1f58">updateSensor</a>(<a class="code" href="class_raw_sensor_data.html">RawSensorData</a>* data) = 0;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_i_sensor.html#a638047cc80e97814200be39478a9ee1d">   19</a></span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_i_sensor.html#a638047cc80e97814200be39478a9ee1d">~ISensor</a>() {};</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div><div class="ttc" id="class_i_sensor_html_a43d41260fe4f5a046bcec5f7174c1f58"><div class="ttname"><a href="class_i_sensor.html#a43d41260fe4f5a046bcec5f7174c1f58">ISensor::updateSensor</a></div><div class="ttdeci">virtual void updateSensor(RawSensorData *data)=0</div></div>
-<div class="ttc" id="class_i_sensor_html"><div class="ttname"><a href="class_i_sensor.html">ISensor</a></div><div class="ttdef"><b>Definition:</b> ISensor.h:7</div></div>
-<div class="ttc" id="class_raw_sensor_data_html"><div class="ttname"><a href="class_raw_sensor_data.html">RawSensorData</a></div><div class="ttdef"><b>Definition:</b> RawSensorData.h:7</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;messages/IMessage.h&quot;</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_i_sensor.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_i_sensor.html">ISensor</a> {</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_i_sensor.html#ab8d7cd18c7b5aeb533e32105dab65f65">updateSensor</a>(<a class="code" href="class_i_message.html">IMessage</a>* message) = 0;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_i_sensor.html#a638047cc80e97814200be39478a9ee1d">   19</a></span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_i_sensor.html#a638047cc80e97814200be39478a9ee1d">~ISensor</a>() {};</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div><div class="ttc" id="class_i_sensor_html"><div class="ttname"><a href="class_i_sensor.html">ISensor</a></div><div class="ttdef"><b>Definition:</b> ISensor.h:7</div></div>
+<div class="ttc" id="class_i_message_html"><div class="ttname"><a href="class_i_message.html">IMessage</a></div><div class="ttdef"><b>Definition:</b> IMessage.h:10</div></div>
 <div class="ttc" id="class_i_sensor_html_a638047cc80e97814200be39478a9ee1d"><div class="ttname"><a href="class_i_sensor.html#a638047cc80e97814200be39478a9ee1d">ISensor::~ISensor</a></div><div class="ttdeci">virtual ~ISensor()</div><div class="ttdef"><b>Definition:</b> ISensor.h:19</div></div>
+<div class="ttc" id="class_i_sensor_html_ab8d7cd18c7b5aeb533e32105dab65f65"><div class="ttname"><a href="class_i_sensor.html#ab8d7cd18c7b5aeb533e32105dab65f65">ISensor::updateSensor</a></div><div class="ttdeci">virtual void updateSensor(IMessage *message)=0</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

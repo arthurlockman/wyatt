@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['inflight',['inFlight',['../class_command_manager.html#aab5efcb9d7d244ccbf60d5b1a9e03cfe',1,'CommandManager']]],
-  ['init',['init',['../class_command.html#a4ce431c6aa489d67dc3a6f88c8d8c246',1,'Command']]],
-  ['isfinished',['isFinished',['../class_command.html#ae5846b4332a262e055c7a96759fa18f2',1,'Command']]],
-  ['isinitialized',['isInitialized',['../class_command.html#ab5053a1cd5dc383faa7e434a35e633cd',1,'Command']]],
-  ['isrunning',['isRunning',['../class_command.html#a0252c920dd7114c29ef04526cfd0f39a',1,'Command']]]
+  ['getcount',['getCount',['../class_encoder_adapter.html#a79a2efa7c6b85fcce062d9c143ac948d',1,'EncoderAdapter']]],
+  ['getdata',['getData',['../class_encoder_message.html#acb1114eb1ef66dd0203cb8dcce9fac7b',1,'EncoderMessage::getData()'],['../class_motor_message.html#a231708610dc0b7c727dac68572b671cc',1,'MotorMessage::getData()']]],
+  ['getdistancecm',['getDistanceCM',['../class_i_range_finder_sensor.html#a0416d1da0250699df11fb01835721cec',1,'IRangeFinderSensor::getDistanceCM()'],['../class_mock_i_r_range_finder_sensor.html#a7bad1c96a533de563f9e34d3285f1e62',1,'MockIRRangeFinderSensor::getDistanceCM()']]],
+  ['gethardware',['getHardware',['../class_i_message.html#a4f5bfb685b733a730b8b2df7edb538a6',1,'IMessage']]],
+  ['getrpm',['getRPM',['../class_encoder_sensor.html#a73e6a2eb048bbbec3c92113b486eb446',1,'EncoderSensor']]],
+  ['getspeedrpm',['getSpeedRPM',['../class_encoder_adapter.html#a843241a44f66f5829ba78782d5caa7c5',1,'EncoderAdapter']]]
 ];

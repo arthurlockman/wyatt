@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['updatesensor',['updateSensor',['../class_i_range_finder_sensor.html#a1e5f4bbd1d2119a6bcd89d525508a4bf',1,'IRangeFinderSensor::updateSensor()'],['../class_i_sensor.html#a43d41260fe4f5a046bcec5f7174c1f58',1,'ISensor::updateSensor()'],['../class_mock_i_r_range_finder_sensor.html#aaa3862a4cc93f3a6fd18a6dde88a6d08',1,'MockIRRangeFinderSensor::updateSensor()']]],
-  ['updatesensors',['updateSensors',['../class_i_sensor_manager.html#a97f805d2f84d4515da13ad5918a442b1',1,'ISensorManager::updateSensors()'],['../class_sensor_manager.html#acc83c07ecfdbbb6dd420eeab5d527df7',1,'SensorManager::updateSensors()'],['../class_mock_sensor_manager.html#a7d9672597fe2712f19729ddd1b79e6f7',1,'MockSensorManager::updateSensors()']]]
+  ['updatesensor',['updateSensor',['../class_encoder_sensor.html#a84a86a98f932a6acba4ddee763808b13',1,'EncoderSensor::updateSensor()'],['../class_i_range_finder_sensor.html#ac1d804ecebc35aa262cd3857fc7e2f58',1,'IRangeFinderSensor::updateSensor()'],['../class_i_sensor.html#ab8d7cd18c7b5aeb533e32105dab65f65',1,'ISensor::updateSensor()'],['../class_mock_i_r_range_finder_sensor.html#a402b88fce8566d44b0b8cdf4067ece03',1,'MockIRRangeFinderSensor::updateSensor()']]],
+  ['updatesensors',['updateSensors',['../class_i_sensor_manager.html#a1aee3f3648cb09ced24f268ace166b20',1,'ISensorManager::updateSensors()'],['../class_sensor_manager.html#ad1a7a9c0a909950eb2d6176879fe8918',1,'SensorManager::updateSensors()'],['../class_mock_sensor_manager.html#a74cf1ce554fcc2b6da31fc55c9004b6b',1,'MockSensorManager::updateSensors()']]]
 ];

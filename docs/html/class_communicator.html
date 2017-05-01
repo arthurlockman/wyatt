@@ -80,14 +80,16 @@ Inheritance diagram for Communicator:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7f5db1fc8334928992c71f0f546d150f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#a7f5db1fc8334928992c71f0f546d150f">Communicator</a> (<a class="el" href="class_i_sensor_manager.html">ISensorManager</a> *sensorManager, <a class="el" href="class_i_hardware_interface.html">IHardwareInterface</a> *hardwareInterface)</td></tr>
-<tr class="separator:a7f5db1fc8334928992c71f0f546d150f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaab4fc968d8c5f461db0d000a339bf7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#aaaab4fc968d8c5f461db0d000a339bf7">Communicator</a> (<a class="el" href="class_i_sensor_manager.html">ISensorManager</a> *sensorManager)</td></tr>
+<tr class="separator:aaaab4fc968d8c5f461db0d000a339bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ced5362bf7438924f8d7f1b0c5ec391"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#a4ced5362bf7438924f8d7f1b0c5ec391">~Communicator</a> ()</td></tr>
 <tr class="separator:a4ced5362bf7438924f8d7f1b0c5ec391"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a285e0a12c71e2d9e4b5feadb45244a70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#a285e0a12c71e2d9e4b5feadb45244a70">queueMessage</a> (<a class="el" href="class_message.html">Message</a> *message)</td></tr>
-<tr class="separator:a285e0a12c71e2d9e4b5feadb45244a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a534ed85d8589c216ad6e92b827e7981b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#a534ed85d8589c216ad6e92b827e7981b">queueMessage</a> (std::list&lt; <a class="el" href="class_message.html">Message</a> *&gt; *messages)</td></tr>
-<tr class="separator:a534ed85d8589c216ad6e92b827e7981b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1886f887a5cdfe7d914fa0adb22ff82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#af1886f887a5cdfe7d914fa0adb22ff82">registerHardware</a> (<a class="el" href="struct_hardware.html">Hardware</a> hardware, <a class="el" href="class_i_hardware_interface.html">IHardwareInterface</a> *interface)</td></tr>
+<tr class="separator:af1886f887a5cdfe7d914fa0adb22ff82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93e45fae88fe629eed3348a8d8d45f4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#a93e45fae88fe629eed3348a8d8d45f4f">queueMessage</a> (<a class="el" href="class_i_message.html">IMessage</a> *message)</td></tr>
+<tr class="separator:a93e45fae88fe629eed3348a8d8d45f4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa44bd803ebccea7d5a070de7f4ab69e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#aa44bd803ebccea7d5a070de7f4ab69e9">queueMessage</a> (std::list&lt; <a class="el" href="class_i_message.html">IMessage</a> *&gt; *messages)</td></tr>
+<tr class="separator:aa44bd803ebccea7d5a070de7f4ab69e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17c142e8f5c1c620dce1bae2ef5b28af"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_communicator.html#a17c142e8f5c1c620dce1bae2ef5b28af">run</a> () override</td></tr>
 <tr class="separator:a17c142e8f5c1c620dce1bae2ef5b28af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_thread"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_thread')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_thread.html">Thread</a></td></tr>
@@ -118,8 +120,8 @@ std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m
 <div class="textblock"><p>Class that oversees communication between the Raspberry pi and a single peripheral. Data that is read/written to/from a peripheral must pass through this class. This class runs on its own thread and exposes functions to queue messages.</p>
 <p>Data read from the peripheral is immediately passed to the <a class="el" href="class_i_sensor_manager.html">ISensorManager</a> object for handing. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a7f5db1fc8334928992c71f0f546d150f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f5db1fc8334928992c71f0f546d150f">&#9670;&nbsp;</a></span>Communicator()</h2>
+<a id="aaaab4fc968d8c5f461db0d000a339bf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaab4fc968d8c5f461db0d000a339bf7">&#9670;&nbsp;</a></span>Communicator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -128,25 +130,14 @@ std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m
           <td class="memname">Communicator::Communicator </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_i_sensor_manager.html">ISensorManager</a> *&#160;</td>
-          <td class="paramname"><em>sensorManager</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>sensorManager</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_i_hardware_interface.html">IHardwareInterface</a> *&#160;</td>
-          <td class="paramname"><em>hardwareInterface</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Constructor. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sensorManager</td><td>The <a class="el" href="class_i_sensor_manager.html">ISensorManager</a> object to pass data to. </td></tr>
-    <tr><td class="paramname">hardwareInterface</td><td>The <a class="el" href="class_i_hardware_interface.html">IHardwareInterface</a> object to read/write from. </td></tr>
   </table>
   </dd>
 </dl>
@@ -172,8 +163,8 @@ std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a285e0a12c71e2d9e4b5feadb45244a70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a285e0a12c71e2d9e4b5feadb45244a70">&#9670;&nbsp;</a></span>queueMessage() <span class="overload">[1/2]</span></h2>
+<a id="a93e45fae88fe629eed3348a8d8d45f4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93e45fae88fe629eed3348a8d8d45f4f">&#9670;&nbsp;</a></span>queueMessage() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,7 +172,7 @@ std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m
         <tr>
           <td class="memname">void Communicator::queueMessage </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_message.html">Message</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_i_message.html">IMessage</a> *&#160;</td>
           <td class="paramname"><em>message</em></td><td>)</td>
           <td></td>
         </tr>
@@ -189,15 +180,15 @@ std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m
 </div><div class="memdoc">
 <p>Add a message to a queue to be written to the peripheral </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">msg</td><td>A <a class="el" href="class_message.html">Message</a> object to be written </td></tr>
+    <tr><td class="paramname">msg</td><td>A Message object to be written </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a534ed85d8589c216ad6e92b827e7981b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a534ed85d8589c216ad6e92b827e7981b">&#9670;&nbsp;</a></span>queueMessage() <span class="overload">[2/2]</span></h2>
+<a id="aa44bd803ebccea7d5a070de7f4ab69e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa44bd803ebccea7d5a070de7f4ab69e9">&#9670;&nbsp;</a></span>queueMessage() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -205,7 +196,7 @@ std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m
         <tr>
           <td class="memname">void Communicator::queueMessage </td>
           <td>(</td>
-          <td class="paramtype">std::list&lt; <a class="el" href="class_message.html">Message</a> *&gt; *&#160;</td>
+          <td class="paramtype">std::list&lt; <a class="el" href="class_i_message.html">IMessage</a> *&gt; *&#160;</td>
           <td class="paramname"><em>messages</em></td><td>)</td>
           <td></td>
         </tr>
@@ -214,6 +205,47 @@ std::atomic&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m
 <p>Add a list of messages to a queue to be written to the peripheral </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">messages</td><td>An std::list of Messages to be written </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af1886f887a5cdfe7d914fa0adb22ff82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1886f887a5cdfe7d914fa0adb22ff82">&#9670;&nbsp;</a></span>registerHardware()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Communicator::registerHardware </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_hardware.html">Hardware</a>&#160;</td>
+          <td class="paramname"><em>hardware</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_i_hardware_interface.html">IHardwareInterface</a> *&#160;</td>
+          <td class="paramname"><em>interface</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Registers a piece of hardware with the communicator </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hardware</td><td>The hardware to register </td></tr>
+    <tr><td class="paramname">interface</td><td>The interface from which to read/write messages to the hardware </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_duplicate_hardware_exception.html">DuplicateHardwareException</a></td><td>Thrown when hardware is registered more than once. </td></tr>
   </table>
   </dd>
 </dl>

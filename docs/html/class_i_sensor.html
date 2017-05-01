@@ -74,15 +74,16 @@ Inheritance diagram for ISensor:</div>
  <div class="center">
   <img src="class_i_sensor.png" usemap="#ISensor_map" alt=""/>
   <map id="ISensor_map" name="ISensor_map">
-<area href="class_i_range_finder_sensor.html" alt="IRangeFinderSensor" shape="rect" coords="0,56,167,80"/>
-<area href="class_mock_i_r_range_finder_sensor.html" alt="MockIRRangeFinderSensor" shape="rect" coords="0,112,167,136"/>
+<area href="class_encoder_sensor.html" alt="EncoderSensor" shape="rect" coords="0,56,167,80"/>
+<area href="class_i_range_finder_sensor.html" alt="IRangeFinderSensor" shape="rect" coords="177,56,344,80"/>
+<area href="class_mock_i_r_range_finder_sensor.html" alt="MockIRRangeFinderSensor" shape="rect" coords="177,112,344,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a43d41260fe4f5a046bcec5f7174c1f58"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_sensor.html#a43d41260fe4f5a046bcec5f7174c1f58">updateSensor</a> (<a class="el" href="class_raw_sensor_data.html">RawSensorData</a> *data)=0</td></tr>
-<tr class="separator:a43d41260fe4f5a046bcec5f7174c1f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8d7cd18c7b5aeb533e32105dab65f65"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_sensor.html#ab8d7cd18c7b5aeb533e32105dab65f65">updateSensor</a> (<a class="el" href="class_i_message.html">IMessage</a> *message)=0</td></tr>
+<tr class="separator:ab8d7cd18c7b5aeb533e32105dab65f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a638047cc80e97814200be39478a9ee1d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_sensor.html#a638047cc80e97814200be39478a9ee1d">~ISensor</a> ()</td></tr>
 <tr class="separator:a638047cc80e97814200be39478a9ee1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -116,8 +117,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a43d41260fe4f5a046bcec5f7174c1f58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43d41260fe4f5a046bcec5f7174c1f58">&#9670;&nbsp;</a></span>updateSensor()</h2>
+<a id="ab8d7cd18c7b5aeb533e32105dab65f65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8d7cd18c7b5aeb533e32105dab65f65">&#9670;&nbsp;</a></span>updateSensor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -128,8 +129,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void ISensor::updateSensor </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_raw_sensor_data.html">RawSensorData</a> *&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_i_message.html">IMessage</a> *&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -141,17 +142,17 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Update sensor data from a new measurement </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td><a class="el" href="class_raw_sensor_data.html">RawSensorData</a> from a new measurement. Should delete pointer. </td></tr>
+    <tr><td class="paramname">data</td><td>RawSensorData from a new measurement. Should delete pointer. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_i_range_finder_sensor.html#a1e5f4bbd1d2119a6bcd89d525508a4bf">IRangeFinderSensor</a>, and <a class="el" href="class_mock_i_r_range_finder_sensor.html#aaa3862a4cc93f3a6fd18a6dde88a6d08">MockIRRangeFinderSensor</a>.</p>
+<p>Implemented in <a class="el" href="class_encoder_sensor.html#a84a86a98f932a6acba4ddee763808b13">EncoderSensor</a>, <a class="el" href="class_i_range_finder_sensor.html#ac1d804ecebc35aa262cd3857fc7e2f58">IRangeFinderSensor</a>, and <a class="el" href="class_mock_i_r_range_finder_sensor.html#a402b88fce8566d44b0b8cdf4067ece03">MockIRRangeFinderSensor</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/<a class="el" href="_i_sensor_8h_source.html">ISensor.h</a></li>
+<li>include/sensors/<a class="el" href="_i_sensor_8h_source.html">ISensor.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -78,9 +78,9 @@ Inheritance diagram for DriveForwardSecondsCommand:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5a9d3543ed84b06446318bb99a38a8d3"><td class="memItemLeft" align="right" valign="top"><a id="a5a9d3543ed84b06446318bb99a38a8d3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DriveForwardSecondsCommand</b> (<a class="el" href="class_chassis.html">Chassis</a> *chassis, double seconds)</td></tr>
-<tr class="separator:a5a9d3543ed84b06446318bb99a38a8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42503850dc1422532e99d2afdfa2eb0b"><td class="memItemLeft" align="right" valign="top"><a id="a42503850dc1422532e99d2afdfa2eb0b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DriveForwardSecondsCommand</b> (<a class="el" href="class_drivetrain_adapter.html">DrivetrainAdapter</a> *chassis, double seconds)</td></tr>
+<tr class="separator:a42503850dc1422532e99d2afdfa2eb0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c684be5fa251ca3710cecd88decf886"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_forward_seconds_command.html#a4c684be5fa251ca3710cecd88decf886">execute</a> ()</td></tr>
 <tr class="separator:a4c684be5fa251ca3710cecd88decf886"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a481e69ddfee7a1ad60bab66f0b857a9b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_forward_seconds_command.html#a481e69ddfee7a1ad60bab66f0b857a9b">cleanup</a> (bool canceled)</td></tr>
@@ -171,7 +171,7 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method is called periodically during the command execution. Think of it like the Arduino's loop() function. While the command is executing this will be called repeatedly. Do not include while loops in here. </p><dl class="section return"><dt>Returns</dt><dd>true if the command is done, false if it needs to continue. </dd></dl>
+<p>This method is called periodically during the command execution. Think of it like the Arduino's loop() function. While the command is executing this will be called repeatedly. Do not include while loops in here. </p><dl class="section return"><dt>Returns</dt><dd>false if the command is done, true if it needs to continue. </dd></dl>
 
 <p>Implements <a class="el" href="class_command.html#a5d83cdea649a79d7b7253196a6deddeb">Command</a>.</p>
 
