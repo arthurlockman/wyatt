@@ -10,6 +10,7 @@
 
 /**
  * Message class encapsulating data between the raspi and the pololu motor encoders. The Double data represents the RPM of the motor. It may need to be scaled depending on the gear ratio.
+ * TODO: to decouple the program from the hardware, the data should represent the speed of the motors in cm/s instead of rpm.
  */
 class EncoderMessage: public IMessage {
 public:

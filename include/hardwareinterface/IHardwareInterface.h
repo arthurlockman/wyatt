@@ -7,7 +7,7 @@
 #include <list>
 
 /**
- * Class for managing hardware interface between Raspi and a peripheral. Any implementing classes must expose read and write functions. Read must return a list of Messages and write must write a single message to the peripheral.
+ * Interface that describes what functions hardware adapters should expose to the rest of the program.
  */
 class IHardwareInterface {
 public:

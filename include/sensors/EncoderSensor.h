@@ -11,7 +11,8 @@
 #include "messages/EncoderMessage.h"
 
 /**
- * Model class used to encapsulate the current state of an encoder.
+ * Model class used to encapsulate the current speed of the motor as determined by the encoder
+ * TODO: change data from RPM to velocity in cm/s to decouple program from hardware
  */
 class EncoderSensor: public ISensor {
 

@@ -1,5 +1,4 @@
-#ifndef WYATT_COMMAND_H
-#define WYATT_COMMAND_H
+#pragma once
 
 #include <string>
 #include <mutex>
@@ -83,6 +82,3 @@ private:
     //! Completion state of this command.
     bool m_is_finished = false;
 };
-
-
-#endif //WYATT_COMMAND_H

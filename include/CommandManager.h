@@ -2,8 +2,7 @@
 // Created by Arthur Lockman on 4/5/17.
 //
 
-#ifndef WYATT_COMMANDMANAGER_H
-#define WYATT_COMMANDMANAGER_H
+#pragma once
 
 #include "Command.h"
 #include "Thread.h"
@@ -12,6 +11,9 @@
 #include <map>
 #include <mutex>
 
+/**
+ * Class to manange the various system commands. Commands injected into the CommandManager are run periodically until the command is done. Once the command is done, the command manager cleans up the command and removes it from the run queue.
+ */
 class CommandManager: public Thread {
 public:
     /**
@@ -70,5 +72,3 @@ private:
     //! Mutex to keep data safe.
     std::mutex mtx;
 };
-
-#endif //WYATT_COMMANDMANAGER_H

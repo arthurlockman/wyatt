@@ -5,6 +5,7 @@
 
 /**
  * Message class encapsulating data sent to the Pololu motors.
+ * TODO: Change the data type from an integer specifying motor power to a double specifying wheel speed in cm/s
  */
 class MotorMessage: public IMessage {
 

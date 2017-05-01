@@ -2,7 +2,7 @@
 #include "messages/IMessage.h"
 
 /**
- * Interface for all sensors
+ * Interface for all sensors. All sensors must expose a method to update them.
  */
 class ISensor {
 public:

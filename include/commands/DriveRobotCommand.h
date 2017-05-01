@@ -32,7 +32,7 @@ public:
     bool execute() override;
 
     /**
-     * Stop the respective motor commands
+     * Stop the respective motor commands. Will no longer perform PD control. Does not change the last motor write value.
      * @param canceled
      * @return True
      */

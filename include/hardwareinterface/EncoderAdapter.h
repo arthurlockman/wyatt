@@ -14,6 +14,10 @@
 #include "messages/EncoderMessage.h"
 #include <mutex>
 
+/**
+ * Hardware adapter for the Pololu encoders. This class polls pins on the RaspberryPi, counts the number of ticks, and translates this data into a specific RPM. Periodically, the communicator requests the current RPM of the encoders to inject it into the EncoderSensor object.
+ * TODO: This class should translate the data into a specific velocity in cm/s
+ */
 class EncoderAdapter : public Thread, public IHardwareInterface
 {
 public:

@@ -37,7 +37,7 @@
 #define DRIVETRAIN_DIAMETER (double) 20.32
 
 /**
- * Main class for the robot. Implemented as a signleton. All important pins are defined above.
+ * Main class for the robot. Implemented as a singleton. All important pins are defined above.
  */
 class Robot {
 

@@ -26,6 +26,9 @@
 #include <pthread.h>
 #include <atomic>
 
+/**
+ * Java-style implementation of p_threads. Implement this class and override the run() function to run an object on a separate thread. Must call the start() function to start the thread.
+ */
 class Thread
 {
   public:

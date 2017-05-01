@@ -6,7 +6,7 @@
 #include "messages/IMessage.h"
 
 /**
- * Class for managing sensor data. Receives sensor data from the updateSensors function and writes the data to the respective sensors.
+ * Distribution class for messages. Receives messages from the updateSensors function and distributes them to their respective sensors.
  */
 class ISensorManager{
 

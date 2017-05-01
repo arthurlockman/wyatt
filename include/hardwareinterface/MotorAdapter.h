@@ -12,7 +12,8 @@
 #include "exceptions/MismatchedMessageException.h"
 
 /**
- * Adapter class for communicating with Pololu motor hardware.
+ * Hardware adapter for communicating with the Pololu motors
+ * TODO: Change the MotorMessage type to send data in terms of velocity (cm/s) instead of motor power([-4095, 4095]). This will uncouple the rest of the program from the hardware specifics.
  */
 class MotorAdapter : public IHardwareInterface {
 public:
