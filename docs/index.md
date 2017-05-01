@@ -26,20 +26,7 @@ Incoming!
 
 ## [](#header-2)Building
 
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
-
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
+Talk about how to build the code and how the build differs on different platforms.
 
 ## [](#header-2)Running
 
@@ -49,7 +36,7 @@ This section will detail how to run your code.
 
 This section will detail how to run tests.
 
-### [](#header-3)Deploying to CI
+## [](#header-2)Deploying to CI
 
 This section will detail how to deploy your own code to Travis CI or something similar.
 
@@ -71,4 +58,21 @@ This section will detail how to write and run commands
 
 # [](#header-1)Testing
 
-This section will detail how to write your own unit tests in the framework (and how to deal with mock objects).
+This section will detail how to write your own unit tests in the framework (and how to deal with mock objects). Make sure to give some examples of unit tests.
+
+```c++
+SECTION("Test throws duplicate hardware exception when hardware with the same address is registered more than once.") {
+    Hardware mockHardware1 = {255, sizeof(int)};
+    Hardware mockHardware2 = {255, sizeof(int)};
+    MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+
+    /* Register hardware */
+    comm->registerHardware(mockHardware1, mockHardwareInterface);
+
+    REQUIRE_THROWS_AS(
+            comm->registerHardware(mockHardware2, mockHardwareInterface),
+            DuplicateHardwareException
+    );
+}
+```
+
