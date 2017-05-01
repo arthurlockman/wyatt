@@ -8,7 +8,9 @@
 #include "messages/IMessage.h"
 #include <list>
 
-
+/**
+ * Mock SensorManager class that logs what messages are sent to it through updateMessages()
+ */
 class MockSensorManager : public ISensorManager{
 
 public:

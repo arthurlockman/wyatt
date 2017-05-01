@@ -6,9 +6,9 @@
 #include "messages/IMessage.h"
 #include <string>
 
-
-
-
+/**
+ * Mock message for the MockIRRangeFinderSensor. Required to use the SensorManager with the MockIRRangeFinderSensor.
+ */
 class MockIRRangeFinderSensorMessage: public IMessage {
 public:
     MockIRRangeFinderSensorMessage(Hardware hardware, std::string data);

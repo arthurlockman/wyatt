@@ -1,5 +1,8 @@
 #include "sensors/IRangeFinderSensor.h"
 
+/**
+ * Mocks out an IRRangeFinderSensor to check the data injected into it.
+ */
 class MockIRRangeFinderSensor : public IRangeFinderSensor {
 
 public:

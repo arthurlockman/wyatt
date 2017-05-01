@@ -7,6 +7,9 @@
 #include <mutex>
 #include <atomic>
 
+/**
+ * Mock command to check the CommandManager class.
+ */
 class SimpleIteratorCommand: public Command {
 public:
     SimpleIteratorCommand(int goal);
