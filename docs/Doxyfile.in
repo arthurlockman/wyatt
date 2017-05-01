@@ -11,3 +11,5 @@ EXCLUDE_PATTERNS       = catch_main.cpp \
                          *catch*
 RECURSIVE              = YES
 USE_MDFILE_AS_MAINPAGE = @doxy_main_page@
+VERBATIM_HEADERS       = YES
+SOURCE_BROWSER         = YES
