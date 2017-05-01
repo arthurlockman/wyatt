@@ -4,6 +4,5 @@
 
 The maze wasn't meant for you.
 
-Dependencies:
-1) Lcov
+[Go to the project website for installation instructions, usage, and examples.](http://wyatt.rthr.me)
 
