@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['sensormanager',['SensorManager',['../class_sensor_manager.html',1,'']]],
-  ['simpleiteratorcommand',['SimpleIteratorCommand',['../class_simple_iterator_command.html',1,'']]]
+  ['sensormanager',['SensorManager',['../classSensorManager.html',1,'']]],
+  ['simpleiteratorcommand',['SimpleIteratorCommand',['../classSimpleIteratorCommand.html',1,'']]]
 ];

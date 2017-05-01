@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['write',['write',['../class_drivetrain_adapter.html#a21aaa9fe3fb20d53847fb3f8fad25940',1,'DrivetrainAdapter::write()'],['../class_encoder_adapter.html#a96884b37c89de4a1cd40da0bdf6b7cd8',1,'EncoderAdapter::write()'],['../class_i_hardware_interface.html#a98f36adf53710170d838facff09ef4f8',1,'IHardwareInterface::write()'],['../class_motor_adapter.html#af4785d1a54aef9bfaa93738314b936c9',1,'MotorAdapter::write()'],['../class_mock_hardware_interface.html#a3a61896d3ef1930c05a2acaa334e3137',1,'MockHardwareInterface::write()']]]
+  ['updatesensor',['updateSensor',['../classEncoderSensor.html#a84a86a98f932a6acba4ddee763808b13',1,'EncoderSensor::updateSensor()'],['../classIRangeFinderSensor.html#ac1d804ecebc35aa262cd3857fc7e2f58',1,'IRangeFinderSensor::updateSensor()'],['../classISensor.html#ab8d7cd18c7b5aeb533e32105dab65f65',1,'ISensor::updateSensor()'],['../classMockIRRangeFinderSensor.html#a402b88fce8566d44b0b8cdf4067ece03',1,'MockIRRangeFinderSensor::updateSensor()']]],
+  ['updatesensors',['updateSensors',['../classISensorManager.html#a58a9c54290533892d30dfb12d3737e39',1,'ISensorManager::updateSensors()'],['../classSensorManager.html#a20edfb2afd55b3a42a7290a023da452c',1,'SensorManager::updateSensors()'],['../classMockSensorManager.html#acc723f1360acc213a41fb7353bfd950d',1,'MockSensorManager::updateSensors()']]]
 ];

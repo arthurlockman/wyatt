@@ -1,21 +1,5 @@
 var searchData=
 [
-  ['_7eadafruitpwmservohat',['~AdafruitPWMServoHat',['../class_adafruit_p_w_m_servo_hat.html#aff71e5ffbdba9aa020addb2088d19517',1,'AdafruitPWMServoHat']]],
-  ['_7ecommand',['~Command',['../class_command.html#ab552bb3a07fdd1acbfd8ea76e69b2278',1,'Command']]],
-  ['_7ecommandmanager',['~CommandManager',['../class_command_manager.html#ae6a6acf03e200dfc65a7a26fbbfd207d',1,'CommandManager']]],
-  ['_7ecommunicator',['~Communicator',['../class_communicator.html#a4ced5362bf7438924f8d7f1b0c5ec391',1,'Communicator']]],
-  ['_7edrivemotorrpm',['~DriveMotorRPM',['../class_drive_motor_r_p_m.html#a3974209891f4ebbdf08592a7da6687d8',1,'DriveMotorRPM']]],
-  ['_7edrivetrainadapter',['~DrivetrainAdapter',['../class_drivetrain_adapter.html#a21f6b4fcba9693f762b4e03c0d938c1d',1,'DrivetrainAdapter']]],
-  ['_7eencoderadapter',['~EncoderAdapter',['../class_encoder_adapter.html#a610c8387b7e7be2f5d8c4ee59c4d1a76',1,'EncoderAdapter']]],
-  ['_7eencodermessage',['~EncoderMessage',['../class_encoder_message.html#a47c5437b1cb7677f714df9bd52b0793e',1,'EncoderMessage']]],
-  ['_7eencodersensor',['~EncoderSensor',['../class_encoder_sensor.html#a7985cf6a10efb014f92e35ff12f045d5',1,'EncoderSensor']]],
-  ['_7eihardwareinterface',['~IHardwareInterface',['../class_i_hardware_interface.html#af697808ee750ac86df77481c30e7aaef',1,'IHardwareInterface']]],
-  ['_7eimessage',['~IMessage',['../class_i_message.html#a87445f4a0c7cde21eb937163b0a2da05',1,'IMessage']]],
-  ['_7eirangefindersensor',['~IRangeFinderSensor',['../class_i_range_finder_sensor.html#adf2e8f0f0b2c25dbf2b492593469ee35',1,'IRangeFinderSensor']]],
-  ['_7eisensor',['~ISensor',['../class_i_sensor.html#a638047cc80e97814200be39478a9ee1d',1,'ISensor']]],
-  ['_7eisensormanager',['~ISensorManager',['../class_i_sensor_manager.html#a12a9b1808efe5a51a6770c0bad4e7a31',1,'ISensorManager']]],
-  ['_7emotoradapter',['~MotorAdapter',['../class_motor_adapter.html#a6037c53aab68d30a52ea53fffd9e3569',1,'MotorAdapter']]],
-  ['_7emotormessage',['~MotorMessage',['../class_motor_message.html#a710382924c9c61d8f0b188b5b6776dad',1,'MotorMessage']]],
-  ['_7erobot',['~Robot',['../class_robot.html#a924320124b09c2f2ac1621aa210d5f38',1,'Robot']]],
-  ['_7esensormanager',['~SensorManager',['../class_sensor_manager.html#adb134c2da2778f5f2d8e439905b791b5',1,'SensorManager']]]
+  ['what',['what',['../classDataSizeException.html#aa8f79860c6df1a9d082f54a217689ac3',1,'DataSizeException::what()'],['../classDuplicateHardwareException.html#a6a3bb97252e9979ffd30f53ea8dea0cf',1,'DuplicateHardwareException::what()'],['../classMessageLengthException.html#a8f1e83651a10c9ca2af34eec8e315756',1,'MessageLengthException::what()'],['../classMismatchedMessageException.html#a36e73083d984781efb9409361a769ba5',1,'MismatchedMessageException::what()'],['../classNonexistentHardwareException.html#a3dbd83cde031ca9f624f42c0aa2b367f',1,'NonexistentHardwareException::what()']]],
+  ['write',['write',['../classEncoderAdapter.html#a96884b37c89de4a1cd40da0bdf6b7cd8',1,'EncoderAdapter::write()'],['../classIHardwareInterface.html#a98f36adf53710170d838facff09ef4f8',1,'IHardwareInterface::write()'],['../classMotorAdapter.html#af4785d1a54aef9bfaa93738314b936c9',1,'MotorAdapter::write()'],['../classMockHardwareInterface.html#a3a61896d3ef1930c05a2acaa334e3137',1,'MockHardwareInterface::write()']]]
 ];

@@ -1,0 +1,5 @@
+<map id="ISensor" name="ISensor">
+<area shape="rect" id="node2" href="$classEncoderSensor.html" title="EncoderSensor" alt="" coords="5,80,124,107"/>
+<area shape="rect" id="node3" href="$classIRangeFinderSensor.html" title="IRangeFinderSensor" alt="" coords="148,80,296,107"/>
+<area shape="rect" id="node4" href="$classMockIRRangeFinderSensor.html" title="MockIRRangeFinderSensor" alt="" coords="127,155,317,181"/>
+</map>

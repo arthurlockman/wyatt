@@ -1,5 +1,12 @@
 var searchData=
 [
-  ['updatesensor',['updateSensor',['../class_encoder_sensor.html#a84a86a98f932a6acba4ddee763808b13',1,'EncoderSensor::updateSensor()'],['../class_i_range_finder_sensor.html#ac1d804ecebc35aa262cd3857fc7e2f58',1,'IRangeFinderSensor::updateSensor()'],['../class_i_sensor.html#ab8d7cd18c7b5aeb533e32105dab65f65',1,'ISensor::updateSensor()'],['../class_mock_i_r_range_finder_sensor.html#a402b88fce8566d44b0b8cdf4067ece03',1,'MockIRRangeFinderSensor::updateSensor()']]],
-  ['updatesensors',['updateSensors',['../class_i_sensor_manager.html#a1aee3f3648cb09ced24f268ace166b20',1,'ISensorManager::updateSensors()'],['../class_sensor_manager.html#ad1a7a9c0a909950eb2d6176879fe8918',1,'SensorManager::updateSensors()'],['../class_mock_sensor_manager.html#a74cf1ce554fcc2b6da31fc55c9004b6b',1,'MockSensorManager::updateSensors()']]]
+  ['sensormanager',['SensorManager',['../classSensorManager.html#ac2bea3e22536f101970bd20fc72fa5d1',1,'SensorManager']]],
+  ['serialize',['serialize',['../classEncoderMessage.html#a70e142b1ea91cb1a2a929bb192cfb087',1,'EncoderMessage::serialize()'],['../classIMessage.html#a1aeb2e70610075cacadb21105cf245f8',1,'IMessage::serialize()'],['../classMotorMessage.html#a0b3ebb019d9e2df035e0360e22cef6b9',1,'MotorMessage::serialize()'],['../classMockIRRangeFinderSensorMessage.html#a729849799478e55cfba8fd784ad81cbe',1,'MockIRRangeFinderSensorMessage::serialize()']]],
+  ['setallpwm',['setAllPwm',['../classAdafruitPWMServoHat.html#a4b63bb3f8b3bb548ca74f56f1226f0d2',1,'AdafruitPWMServoHat']]],
+  ['setisrunning',['setIsRunning',['../classCommand.html#a4cf00fc870c5ad2815298b684808711a',1,'Command']]],
+  ['setmotor',['setMotor',['../classAdafruitPWMServoHat.html#ac7fd356d4ce6bff6935a4b4243f61454',1,'AdafruitPWMServoHat']]],
+  ['setpwm',['setPwm',['../classAdafruitPWMServoHat.html#af6a6eec0ebdbbcfa20fff314a053c89a',1,'AdafruitPWMServoHat']]],
+  ['stop',['stop',['../classCommand.html#ac91308101424f447f80665244b554171',1,'Command']]],
+  ['stopallmotors',['stopAllMotors',['../classAdafruitPWMServoHat.html#a721b19ae3ceccda3ad76c15d77e3dfe8',1,'AdafruitPWMServoHat']]],
+  ['stopmotor',['stopMotor',['../classAdafruitPWMServoHat.html#a2dcf5e567ad0ae669b963377df570bdd',1,'AdafruitPWMServoHat']]]
 ];

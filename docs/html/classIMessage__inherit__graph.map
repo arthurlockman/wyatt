@@ -1,0 +1,5 @@
+<map id="IMessage" name="IMessage">
+<area shape="rect" id="node2" href="$classEncoderMessage.html" title="EncoderMessage" alt="" coords="5,80,136,107"/>
+<area shape="rect" id="node3" href="$classMockIRRangeFinderSensorMessage.html" title="MockIRRangeFinderSensorMessage" alt="" coords="159,80,406,107"/>
+<area shape="rect" id="node4" href="$classMotorMessage.html" title="MotorMessage" alt="" coords="430,80,546,107"/>
+</map>

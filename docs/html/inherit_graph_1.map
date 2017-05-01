@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classCommand.html" title="Command" alt="" coords="5,56,95,83"/>
+<area shape="rect" id="node2" href="$classDriveMotorRPM.html" title="DriveMotorRPM" alt="" coords="173,5,292,32"/>
+<area shape="rect" id="node3" href="$classDriveRobotCommand.html" title="DriveRobotCommand" alt="" coords="153,56,312,83"/>
+<area shape="rect" id="node4" href="$classSimpleIteratorCommand.html" title="SimpleIteratorCommand" alt="" coords="143,107,323,133"/>
+</map>

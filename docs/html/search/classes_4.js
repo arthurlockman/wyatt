@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hardware',['Hardware',['../struct_hardware.html',1,'']]]
+  ['hardware',['Hardware',['../structHardware.html',1,'']]]
 ];

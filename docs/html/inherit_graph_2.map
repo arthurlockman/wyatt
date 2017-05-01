@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classDataSizeException.html" title="DataSizeException" alt="" coords="177,5,320,32"/>
+<area shape="rect" id="node3" href="$classDuplicateHardwareException.html" title="DuplicateHardwareException" alt="" coords="146,56,351,83"/>
+<area shape="rect" id="node4" href="$classMessageLengthException.html" title="MessageLengthException" alt="" coords="156,107,341,133"/>
+<area shape="rect" id="node5" href="$classMismatchedMessageException.html" title="MismatchedMessageException" alt="" coords="139,157,358,184"/>
+<area shape="rect" id="node6" href="$classNonexistentHardwareException.html" title="NonexistentHardwareException" alt="" coords="137,208,360,235"/>
+</map>

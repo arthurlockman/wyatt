@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classIHardwareInterface.html" title="IHardwareInterface" alt="" coords="5,56,148,83"/>
+<area shape="rect" id="node2" href="$classEncoderAdapter.html" title="EncoderAdapter" alt="" coords="219,107,345,133"/>
+<area shape="rect" id="node3" href="$classMockHardwareInterface.html" title="MockHardwareInterface" alt="" coords="196,5,368,32"/>
+<area shape="rect" id="node4" href="$classMotorAdapter.html" title="MotorAdapter" alt="" coords="227,56,337,83"/>
+<area shape="rect" id="node5" href="$classThread.html" title="Thread" alt="" coords="43,157,110,184"/>
+<area shape="rect" id="node6" href="$classCommandManager.html" title="CommandManager" alt="" coords="209,157,355,184"/>
+<area shape="rect" id="node7" href="$classCommunicator.html" title="Communicator" alt="" coords="223,208,341,235"/>
+</map>

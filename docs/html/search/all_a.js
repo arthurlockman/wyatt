@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nonexistenthardwareexception',['NonexistentHardwareException',['../class_nonexistent_hardware_exception.html',1,'']]]
+  ['nonexistenthardwareexception',['NonexistentHardwareException',['../classNonexistentHardwareException.html',1,'NonexistentHardwareException'],['../classNonexistentHardwareException.html#a70754d42f968aeaa3eae9cd0e4cabf7a',1,'NonexistentHardwareException::NonexistentHardwareException()']]]
 ];
