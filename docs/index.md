@@ -154,21 +154,37 @@ This project is already successfully deployed to [Travis CI](https://travis-ci.o
 
 # [](#header-1)Creating Projects 
 
-This overall section will show you how to make your own projects.
-
-## [](#header-2)CMake
-
-This will detail how to add your own files and structures to CMake.
+This section details how to create your own projects, and how the example project included in the framework is laid out.
 
 ## [](#header-2)Robot Structure
 
-This will detail the Robot.h and Robot.cpp files, and how to set up a basic robot.
+All of the robot code for the example project is in the [Robot.cpp](https://github.com/arthurlockman/wyatt/blob/master/src/Robot.cpp) and [Robot.h](https://github.com/arthurlockman/wyatt/blob/master/include/Robot.h) files. The Robot.cpp file contains two methods: the constructor and the run method. The constructor is used to initialize all of the robot components, and the run method is called in the program `main()` loop. You can choose to either structure your code in here sequentially or as a state machine, the framework will support either. Note that the `main()` method *is not called in unit tests*. For tests, you need to specify your own methods (detailed in the [testing](#testing) section.
 
 ### [](#header-3)Command Framework
 
-This section will detail how to write and run commands
+Robots built using Wyatt should use the built-in command framework. This framework allows for different robot tasks to be run in parallel in a repeatable manner. To start using the command framework, you need to first initialize the CommandManager class, which handles running commands. Then, to run a command you need to initialize it and pass it off to the command manager. 
 
-# [](#header-1)Testing
+```c++
+CommandManager* commander = new CommandManager();
+double radius = 60;                                         // cm
+int duration_ms = 10000;                                    // ms
+double rotationRate = 2 * 3.14159 / (duration_ms / 1000.0); // 1 rotation in X seconds
+Command* driveArc = new DriveRobotCommand(
+        this->communicator,
+        this->leftEncoderSensor,
+        this->rightEncoderSensor,
+        radius,
+        rotationRate,
+        duration_ms,
+        WHEEL_DIAMETER,
+        DRIVETRAIN_DIAMETER);
+this->commander->runCommand(driveArc);
+while(!driveArc->isFinished()); //wait for command to finish
+```
+
+The snippet above creates a command manager and runs a DriveRobotCommand. Note that the command framework does not handle commands that need to run in sequence. To do that you need to use a spinlock like in the snippet above to wait for your first command to finish, and then queue another one to run. By default all commands are run in parallel.
+
+# [](#header-1)<a name="testing"></a>Testing
 
 One of the major goals of this project was to create a framework for a robot that was testable and verifiable. The majority of code written by WPI RBE students is spaghetti code: it works well enough to get the lab report done but is not extendable, maintainable, or even correct in some cases. Furthermore, students must always be the in RBE lab to test their code. The code is typically tied to the hardware in such a way that they can't build and execute it on their own machines. As a result, development bottlenecked by a single robot and by the time it takes to upload, setup, and deploy the robot.  
 
