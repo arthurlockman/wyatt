@@ -22,10 +22,9 @@ The major takeaway from this project was the concept of hardware abstraction. Ea
 
 To abstract away the hardware, we created a set of adapter classes that interface directly with the hardware and return a set of standardized messages. For example, the EncoderAdapter class reads the encoder and uses the robot's geometry to determine the speed of a wheel in cm/s. It then returns a message containing that data. The MotorAdapter class receives a messages with a specified speed in cm/s and converts it to the proper signal to send to the actual motor hardware.
 
-The purpose of this abstraction is to decouple the program's logic from the hardware specifics. Since standardized messages are sent and received 
+The purpose of this abstraction is to decouple the program's logic from the hardware specifics. Since standardized messages are sent and received the software does not have to know about the hardware. For instance, you set a specified wheel velocity and the adapters figure out how to command the motors to achieve that velocity.
 
 ![Code Structure](codeDiagram.png "Code Structure")
-
 
 # [](#header-1)<a name="install"></a>Installation
 
@@ -133,6 +132,17 @@ cd build
 cmake ..
 make
 ctest -V
+```
+
+## [](#header-2)Building Documentation
+
+Building documentation with Doxygen is handled through cmake. Simply run the following commands to build the Doxygen report and place it in the `/docs/html` folder.
+
+```bash
+cd build
+cmake ..
+make doc
+make doc install
 ```
 
 ## [](#header-2)Code Coverage Reporting
