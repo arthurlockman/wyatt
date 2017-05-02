@@ -270,8 +270,7 @@ TEST_CASE("DriveMotorSpeedCommand") {
 }
 ```
 
-Dependency injection is critical for creating testable code, even on a hardware-integrated system. Notice how the hardware is abstracted away in the unit test. **Now the code can be written and tested without a robot present!**
+Dependency injection is critical for creating testable code, even on a hardware-integrated system. Notice how the hardware is abstracted away in the unit test. 
 
-## [](#header-2)Test Driven Development
-
+**Now the code can be written and tested without a robot present!**
 
