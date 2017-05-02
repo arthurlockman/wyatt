@@ -1,5 +1,6 @@
 ---
 layout: default
+title: Wyatt - A Modular Robot Framework
 ---
 
 Wyatt is designed to be a modular and *testable* framework for developing robot code. It provides structures for unit testing your robot code, as well as a framework for abstracting hardware to make it easy to adapt your code to whichever system you are running on.
@@ -8,7 +9,9 @@ You can check out all of the generated [project documentation here](html/index.h
 
 # [](#header-1)Motivations
 
-The primary motivation behind this project was that there wasn't a decent framework for smaller robots that allowed for easy unit testing. There are projects like [WPILib](https://github.com/wpilibsuite/allwpilib) (used in the FIRST robotics competition) which provide similar communication and command structures to Wyatt's, however WPILib does not at its core provide a way of unit testing your code. 
+The primary motivation behind this project was to create a framework for small robotic systems that allowed for easy unit testing and proper test-driven development. We also wanted to provide a command-based framework similar to the one in [WPILib](https://github.com/wpilibsuite/allwpilib) (used in the FIRST robotics competition), but in a lighter-weight fashion. The framework needed to be able to run on a small computer like the Raspberry Pi, and provide excellent performance so that it can be used in a robot to solve a challenge that requires pseudo-realtime response to sensors.
+
+We were so driven to make robots testable due in part to [WPI's Robotics Engineering](https://www.wpi.edu/academics/departments/robotics-engineering) core courses. Students in the robotics program are required to take a software engineering course as part of their studies, but due to the limited time afforded to them in the robotics courses and the lack of a good framework, robot code is often not functionally tested except for on the field. Students have no guarantee or even a good idea of whether or not their robot will reliably perform on the field, because they have no way of testing portions of their robot at a time. They can only test the whole thing together. We wanted to help with that by building this framework that allows students to build their robot code using the test-driven development techniques that they learn in software engineering. Our hope is that students will use this framework to build more reliable robots and put their software engineering skills to good use.
 
 # [](#header-1)Takeaways
 
