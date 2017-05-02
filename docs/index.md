@@ -3,6 +3,8 @@ layout: default
 title: Wyatt - A Modular Robot Framework
 ---
 
+[![Build Status](https://travis-ci.org/arthurlockman/wyatt.svg?branch=master)](https://travis-ci.org/arthurlockman/wyatt) [![codecov](https://codecov.io/gh/arthurlockman/wyatt/branch/master/graph/badge.svg)](https://codecov.io/gh/arthurlockman/wyatt)
+
 Wyatt is designed to be a modular and *testable* framework for developing robot code. It provides structures for unit testing your robot code, as well as a framework for abstracting hardware to make it easy to adapt your code to whichever system you are running on.
 
 You can check out all of the generated [project documentation here](html/index.html). If you're only interested in learning how to set up and use this framework for your own projects, you can jump to the [installation section](#installation).
@@ -90,27 +92,57 @@ Assuming you have no errors in any of the install steps above, you are now ready
 
 # [](#header-1)<a name="gettingstarted"></a>Getting Started
 
-Incoming!
+This section details how to build, run, and deploy your project to continuous integration services.
 
 ## [](#header-2)Building
 
-Talk about how to build the code and how the build differs on different platforms.
+The project is built through cmake. We have provided an easy script to allow you to build and run your code. In the project root, simply run the `./deploy.sh` script to build and run your code. If you need to clean the build directory and do a complete rebuild, run `./deploy.sh -c`. This will delete the build directory, rebuild complete, and run your project.
 
 ## [](#header-2)Running
 
-This section will detail how to run your code.
+If you wish to simply run your code without building you need to run the build wyatt executable in the build directory. If you are using the standard `build` folder for building, you can run your project with this command:
+
+```bash
+./build/src/wyatt
+```
 
 ## [](#header-2)Running Tests
 
-This section will detail how to run tests.
+To run your suite of unit tests built with Catch, you need to build your project and then run the testing executable in the project build directory.
+
+```bash
+cd build
+cmake ..
+make
+cd ..
+./build/test/wyatt_test
+```
+
+Alternatively, you can run tests with ctest (cmake's built-in testing library):
+
+```bash
+cd build
+cmake ..
+make
+ctest -V
+```
 
 ## [](#header-2)Code Coverage Reporting
 
-This section will detail how to run code coverage and generate reports.
+Code coverage reporting is handled with ctest and lcov. Lcov handles generating the coverage report, and compiles the report in a format that can be understood by online code coverage reporting systems. We used [codecov.io](https://codecov.io/) for this project, but you can use any service that can accept output from lcov. To build your own HTML version of the code coverage report:
+
+```bash
+cd build
+cmake ..
+make
+make Wyatt_coverage
+```
+
+Assuming no errors, your code coverage report can be found by opening `./build/coverage/index.html` in your project root.
 
 ## [](#header-2)Deploying to CI
 
-This section will detail how to deploy your own code to Travis CI or something similar.
+This project is already successfully deployed to [Travis CI](https://travis-ci.org/arthurlockman/wyatt) for continuous integration testing and deployment. To deploy your own copy of this project to Travis or a similar CI provider, you will need to modify the [.travis.yml](https://github.com/arthurlockman/wyatt/blob/master/.travis.yml) file in the project root to suit your own project. This file handles building the project on Travis, and pushing the code coverage reports to Codecov. If you use Travis and Codecov to build your project, then you likely do not need to make any modifications to the [.travis.yml](https://github.com/arthurlockman/wyatt/blob/master/.travis.yml) file at all, and can use it as-is for your CI builds. There is also a [config file for codecov.io](https://github.com/arthurlockman/wyatt/blob/master/codecov.yml) in the project root, but if you don't need any modifications past what we've already customized then you can likely leave that file alone.
 
 # [](#header-1)Creating Projects 
 
