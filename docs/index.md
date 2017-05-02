@@ -130,21 +130,116 @@ This section will detail how to write and run commands
 
 # [](#header-1)Testing
 
-This section will detail how to write your own unit tests in the framework (and how to deal with mock objects). Make sure to give some examples of unit tests.
+One of the major goals of this project was to create a framework for a robot that was testable and verifiable. The majority of code written by WPI RBE students is spaghetti code: it works well enough to get the lab report done but is not extendable, maintainable, or even correct in some cases. Furthermore, students must always be the in RBE lab to test their code. The code is typically tied to the hardware in such a way that they can't build and execute it on their own machines. As a result, development bottlenecked by a single robot and by the time it takes to upload, setup, and deploy the robot.  
 
-```c++
-SECTION("Test throws duplicate hardware exception when hardware with the same address is registered more than once.") {
-    Hardware mockHardware1 = {255, sizeof(int)};
-    Hardware mockHardware2 = {255, sizeof(int)};
-    MockHardwareInterface* mockHardwareInterface = new MockHardwareInterface();
+## [](#header-2)Unit Test
+In software engineering, unit tests are used to verify 'units' of code, prove that they work the first time, and check that a 'unit' of code still works after changes to the system. Moreover, good unit tests should check standard behavior as well as corner cases and exceptions.
+ 
+A unit is a scoped section of code that has a defined input and output. In object-oriented programming, a unit is typically a class. 
 
-    /* Register hardware */
-    comm->registerHardware(mockHardware1, mockHardwareInterface);
+To unit test a piece of code, one creates and gives as input some mock data to a unit and requires that a specific output is created.
 
-    REQUIRE_THROWS_AS(
-            comm->registerHardware(mockHardware2, mockHardwareInterface),
-            DuplicateHardwareException
-    );
+### [](#header-3)Examples
+Consider a java class that performs various algebraic functions.
+
+```Java
+class Algebra {
+    int add(int a, int b);
+    int subtract(int a, int b);
+    int multiply(int a, int b);
+    double divide(int num, int den);
 }
 ```
+
+Unit tests check expected behavior but should also check corner cases and exceptions.
+
+```Java
+// Check standard division
+@Test
+public void testSumLargeNumbers() {
+    Algebra alg = new Algebra();
+    assert(alg.divide(1, 2) == 0.5);
+}
+```
+
+```Java
+// Check dividing zero by an integer results in zero
+@Test
+public void testSumLargeNumbers() {
+    Algebra alg = new Algebra();
+    assert(alg.divide(0, 2) == 0.0);
+}
+```
+
+```Java
+// Check dividing by zero results in DivideByZeroException
+@Test
+public void testSumLargeNumbers() {
+    Algebra alg = new Algebra();
+    try{
+        alg.divide(1, 0);
+        fail(); // Fail if no exception thrown
+    } catch(DivideByZeroException) {
+        pass(); // Pass if expected exception
+    } catch(Exception) {
+        fail(); // Fail otherwise
+    }
+    
+}
+```
+
+```Java
+// Check dividing zero by zero results in DivideByZeroException
+@Test
+public void testSumLargeNumbers() {
+    Algebra alg = new Algebra();
+    try{
+        alg.divide(0, 0);
+        fail(); // Fail if no exception thrown
+    } catch(DivideByZeroException) {
+        pass(); // Pass if expected exception
+    } catch(Exception) {
+        fail(); // Fail otherwise
+    }
+    
+}
+```
+
+## [](#header-2)Dependency Injection
+Dependency injection is a software engineering principle used to create loosely-coupled and easily testable code. Dependency injection is the process of injecting dependencies into units of code through their constructors. This is best demonstrated with an example. Consider this command class below.
+
+```C++
+class DriveMotorSpeedCommand: public Command {
+
+public:
+    DriveMotorSpeedCommand(Motor* motor, Encoder* encoder, int speed);
+}
+```
+
+The dependencies for this class are the encoder and the motor objects. The command is dependent on the encoder to get the most current speed reading and dependent on the motor object to control the motor.
+
+With dependency injection, unit testing becomes a breeze. In the unit test, one can create mock objects for the motor and encoder that have specific behaviors. One can use this specific behavior to generate a specified set of input (in this case the current motor speed from the encoder) and check that a specific output is generated (the motor is driven in a particular direction).
+
+```C++
+TEST_CASE("DriveMotorSpeedCommand") {
+
+    Motor* mockMotor = new MockMotor();     // MockMotor extends Motor
+    Encoder* encoder = new MockEncoder();   // MockEncoder extends Encoder
+    
+    // Have the encoder read a speed of zero
+    encoder.setValue(0);
+    
+    // Drive the wheel at 1 cm/s
+    DriveMotorSpeedCommand(mockMotor, mockEncoder, 1);
+    
+    // Check that the motor is now being driven forwards
+    REQUIRE(mockMotor.power() > 0);
+    
+}
+```
+
+Dependency injection is critical for creating testable code, even on a hardware-integrated system. Notice how the hardware is abstracted away in the unit test. **Now the code can be written and tested without a robot present!**
+
+## [](#header-2)Test Driven Development
+
 
