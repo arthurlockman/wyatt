@@ -5,6 +5,8 @@ title: Wyatt - A Modular Robot Framework
 
 [![Build Status](https://travis-ci.org/arthurlockman/wyatt.svg?branch=master)](https://travis-ci.org/arthurlockman/wyatt) [![codecov](https://codecov.io/gh/arthurlockman/wyatt/branch/master/graph/badge.svg)](https://codecov.io/gh/arthurlockman/wyatt)
 
+![Wyatt Reference Robot](robot_profile.jpeg "Wyatt Reference Robot")
+
 Wyatt is designed to be a modular and *testable* framework for developing robot code. It provides structures for unit testing your robot code, as well as a framework for abstracting hardware to make it easy to adapt your code to whichever system you are running on.
 
 You can check out all of the generated [project documentation here](html/index.html). If you're only interested in learning how to set up and use this framework for your own projects, you can jump to the [installation section](#installation).
