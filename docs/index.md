@@ -18,8 +18,14 @@ The primary motivation behind this project was to create a framework for small r
 We were so driven to make robots testable due in part to [WPI's Robotics Engineering](https://www.wpi.edu/academics/departments/robotics-engineering) core courses. Students in the robotics program are required to take a software engineering course as part of their studies, but due to the limited time afforded to them in the robotics courses and the lack of a good framework, robot code is often not functionally tested except for on the field. Students have no guarantee or even a good idea of whether or not their robot will reliably perform on the field, because they have no way of testing portions of their robot at a time. They can only test the whole thing together. We wanted to help with that by building this framework that allows students to build their robot code using the test-driven development techniques that they learn in software engineering. Our hope is that students will use this framework to build more reliable robots and put their software engineering skills to good use.
 
 # [](#header-1)Takeaways
+The major takeaway from this project was the concept of hardware abstraction. Early on in the project we identified hardware dependencies as a major blocker to testable code. To work through this, the code structure we designed abstracted away all of the hardware. A picture of this diagram is included below.
 
-What we learned from the project
+To abstract away the hardware, we created a set of adapter classes that interface directly with the hardware and return a set of standardized messages. For example, the EncoderAdapter class reads the encoder and uses the robot's geometry to determine the speed of a wheel in cm/s. It then returns a message containing that data. The MotorAdapter class receives a messages with a specified speed in cm/s and converts it to the proper signal to send to the actual motor hardware.
+
+The purpose of this abstraction is to decouple the program's logic from the hardware specifics. Since standardized messages are sent and received 
+
+![Code Structure](codeDiagram.png "Code Structure")
+
 
 # [](#header-1)<a name="install"></a>Installation
 

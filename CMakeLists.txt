@@ -10,7 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
 
 # The project version number.
-set(VERSION_MAJOR   0   CACHE STRING "Project major version number.")
+set(VERSION_MAJOR   1   CACHE STRING "Project major version number.")
 set(VERSION_MINOR   0   CACHE STRING "Project minor version number.")
 set(VERSION_PATCH   1   CACHE STRING "Project patch version number.")
 mark_as_advanced(VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
