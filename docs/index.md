@@ -92,7 +92,7 @@ Assuming you have no errors in any of the install steps above, you are now ready
 
 # [](#header-1)<a name="gettingstarted"></a>Getting Started
 
-Incoming!
+This section details how to build, run, and deploy your project to continuous integration services.
 
 ## [](#header-2)Building
 
